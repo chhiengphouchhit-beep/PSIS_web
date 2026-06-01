@@ -1,0 +1,31 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "cms.psis.edu.kh"
+        }
+      ],
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cms.psis.edu.kh"
+        }
+      ],
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/((?!assets/|images/|robots.txt|sitemap.xml|favicon.ico).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

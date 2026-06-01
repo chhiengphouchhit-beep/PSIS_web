@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@500;600;700;800&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", "Kantumruy Pro", serif;
+  --font-sans: "Inter", "Kantumruy Pro", sans-serif;
+  --font-nav: "Montserrat", "Kantumruy Pro", sans-serif;
+  
+  --color-brand-blue: #071B5C;
+  --color-brand-dark: #051445;
+  --color-brand-gold: #C5A059; /* More elegant, antique collegiate gold */
+  --color-brand-red: #8B1E1E;  /* Elegant Oxbridge Crimson */
+  --color-brand-white: #FFFFFF;
+}
+
+html {
+  scroll-behavior: smooth;
+  letter-spacing: -0.011em;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #fbfbf9; /* Soft academic warm-white/cream canvas */
+  color: #1e2530;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Premium Typography Helper Classes */
+.font-serif-display {
+  font-family: var(--font-serif);
+}
+
+.font-sans-body {
+  font-family: var(--font-sans);
+}
+
+.font-nav-menu {
+  font-family: var(--font-nav);
+}
+
+/* Elegant, Oxford-style text contrast and ornament styling */
+.editorial-title::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 2px;
+  background-color: var(--color-brand-gold);
+  margin-top: 1.25rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.editorial-title-left::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background-color: var(--color-brand-gold);
+  margin-top: 1rem;
+}
+

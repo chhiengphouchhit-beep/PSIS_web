@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.psis.edu.kh/sitemap.xml
