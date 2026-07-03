@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <rect x="30" y="30" width="60" height="60" rx="12" fill="#0066cc"/>
+  <text x="60" y="68" dominant-baseline="middle" text-anchor="middle" font-family="'Google Sans Flex Variable', 'Google Sans', sans-serif" font-size="24" font-weight="900" fill="#ffffff">K</text>
+  <text x="115" y="68" font-family="'Google Sans Flex Variable', 'Google Sans', sans-serif" font-size="30" font-weight="900" fill="#0066cc" letter-spacing="1">KUBO</text>
+</svg>

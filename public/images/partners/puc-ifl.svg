@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <circle cx="60" cy="60" r="40" fill="#071B5C"/>
+  <text x="60" y="66" dominant-baseline="middle" text-anchor="middle" font-family="'Google Sans Flex Variable', 'Google Sans', sans-serif" font-size="22" font-weight="900" fill="#C5A059">IFL</text>
+  <text x="125" y="56" font-family="'Google Sans Flex Variable', 'Google Sans', sans-serif" font-size="24" font-weight="800" fill="#071B5C">PUC - IFL</text>
+  <text x="125" y="78" font-family="'Google Sans Flex Variable', 'Google Sans', sans-serif" font-size="11" font-weight="700" fill="#C5A059" letter-spacing="2">INSTITUTE OF FOREIGN LANGUAGES</text>
+</svg>

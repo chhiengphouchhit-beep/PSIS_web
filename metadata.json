@@ -1,0 +1,6 @@
+{
+  "name": "Paññāsāstra International School Portal",
+  "description": "Premium school platform, Academic CMS, multi-campus manager, and Admissions Funnel with Lead Management System for Paññāsāstra International School (PSIS).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
