@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { convertGoogleDriveUrl } from '../utils/images';
+import { supabase, isSupabaseConfigured, CmsAsset, AssetType } from '../lib/supabase';
 
 export { convertGoogleDriveUrl };
 
@@ -15,145 +16,69 @@ export interface ImageLibraryItem {
   createdAt: string;
 }
 
-const GOOGLE_SHEET_API_URL =
-  import.meta.env.VITE_GOOGLE_SHEET_CMS_API_URL ||
-  'https://script.google.com/macros/s/AKfycbzWVrVwcXPe7oOA0BIWac2VuzjO1RmGesqUDQ2oxiC3Wo1ucEn1QBfy-fwrCxDgNZzA/exec';
-
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
-type RawImageLibraryItem = Partial<Record<string, unknown>>;
+function mapCmsAssetToImageLibraryItem(asset: CmsAsset, index: number): ImageLibraryItem {
+  const categoryMap: Record<string, string> = {
+    hero: 'Hero Banner',
+    campus: 'Campus Gallery',
+    gallery: 'Campus Gallery',
+    partner: 'Partner Logo',
+    logo: 'AYLA Logo',
+    news: 'News',
+    'student-life': 'Student Life',
+  };
 
-function isConfiguredApiUrl() {
-  return Boolean(GOOGLE_SHEET_API_URL);
-}
-
-function valueAsString(value: unknown): string {
-  return typeof value === 'string' || typeof value === 'number' ? String(value).trim() : '';
-}
-
-function normalizeCategory(category: string): string {
-  return category.trim().toLowerCase().replace(/\s+/g, ' ');
-}
-
-function isActiveStatus(status: string): boolean {
-  const normalized = status.trim().toLowerCase();
-  return !normalized || normalized === 'active';
-}
-
-function normalizeItem(item: RawImageLibraryItem, index: number): ImageLibraryItem {
-  const imageUrl =
-    valueAsString(item.imageUrl) ||
-    valueAsString(item.image_url) ||
-    valueAsString(item.url) ||
-    valueAsString(item.ImageURL) ||
-    valueAsString(item['Image URL']);
-
-  const directImageUrl =
-    valueAsString(item.directImageUrl) ||
-    valueAsString(item.direct_image_url) ||
-    valueAsString(item.DirectImageUrl) ||
-    valueAsString(item.DirectImageURL) ||
-    valueAsString(item['Direct Image URL']) ||
-    convertGoogleDriveUrl(imageUrl);
-
-  const priority = Number(
-    valueAsString(item.priority) ||
-    valueAsString(item.Priority) ||
-    valueAsString(item.PRIORITY) ||
-    index + 1
-  );
+  const category = categoryMap[(asset.type as string) || 'gallery'] || 'Campus Gallery';
 
   return {
-    id: Number(valueAsString(item.id) || valueAsString(item.ID) || index + 1),
-    title: valueAsString(item.title) || valueAsString(item.Title),
-    category: valueAsString(item.category) || valueAsString(item.Category),
-    campus: valueAsString(item.campus) || valueAsString(item.Campus),
-    imageUrl,
-    directImageUrl: convertGoogleDriveUrl(directImageUrl),
-    priority: Number.isFinite(priority) ? priority : index + 1,
-    status: valueAsString(item.status) || valueAsString(item.Status),
-    createdAt: valueAsString(item.createdAt) || valueAsString(item.CreatedAt) || valueAsString(item['Created At']),
+    id: index + 1,
+    title: asset.title || '',
+    category,
+    campus: asset.campus || '',
+    imageUrl: asset.url || '',
+    directImageUrl: asset.url || '',
+    priority: asset.section ? Number(asset.section) || index + 1 : index + 1,
+    status: 'Active',
+    createdAt: asset.created_at || new Date().toISOString(),
   };
 }
 
-function unwrapItems(payload: unknown): RawImageLibraryItem[] {
-  if (Array.isArray(payload)) return payload as RawImageLibraryItem[];
-  if (!payload || typeof payload !== 'object') return [];
+async function fetchImageLibraryFromSupabase(): Promise<ImageLibraryItem[]> {
+  if (!isSupabaseConfigured || !supabase) return [];
 
-  const wrapped = payload as Partial<Record<'data' | 'items' | 'records' | 'images', unknown>>;
-  const source = wrapped.data || wrapped.items || wrapped.records || wrapped.images;
-  return Array.isArray(source) ? (source as RawImageLibraryItem[]) : [];
-}
-
-function sortByPriority(items: ImageLibraryItem[]): ImageLibraryItem[] {
-  return [...items].sort((a, b) => {
-    const priorityDiff = (a.priority || 9999) - (b.priority || 9999);
-    if (priorityDiff !== 0) return priorityDiff;
-    return a.id - b.id;
-  });
-}
-
-async function readJsonResponse(response: Response) {
-  const text = await response.text();
-
-  if (!response.ok) {
-    throw new Error(`Google Sheet CMS request failed: ${response.status}`);
-  }
-
-  try {
-    return text ? JSON.parse(text) : null;
-  } catch {
-    throw new Error('Google Sheet CMS returned a non-JSON response. Redeploy the Apps Script web app and check access permissions.');
-  }
-}
-
-async function postToGoogleSheet(body: Record<string, unknown>) {
-  const response = await fetch(GOOGLE_SHEET_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'text/plain;charset=utf-8',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-
-  return readJsonResponse(response);
-}
-
-async function fetchImageLibrary(): Promise<ImageLibraryItem[]> {
-  if (!isConfiguredApiUrl()) return [];
-
-  const response = await fetch(GOOGLE_SHEET_API_URL, {
-    headers: { Accept: 'application/json' },
-  });
-
-  const payload = await readJsonResponse(response);
-  return unwrapItems(payload)
-    .map(normalizeItem)
-    .filter((item) => isActiveStatus(item.status) && item.directImageUrl);
+  const { data, error } = await supabase.from('cms_assets').select('*').order('created_at', { ascending: false });
+  if (error) throw error;
+  const assets = (data || []) as CmsAsset[];
+  return assets.map(mapCmsAssetToImageLibraryItem);
 }
 
 function filterByCategories(items: ImageLibraryItem[], categories: string[]) {
-  const accepted = new Set(categories.map(normalizeCategory));
-  return sortByPriority(items.filter((item) => accepted.has(normalizeCategory(item.category))));
-}
-
-function byCategories(categories: string[]) {
-  return async () => {
-    const items = await fetchImageLibrary();
-    return filterByCategories(items, categories);
-  };
+  const accepted = new Set(categories.map((c) => c.trim().toLowerCase()));
+  return items.filter((item) => accepted.has(item.category.trim().toLowerCase()));
 }
 
 export const getHeroBanners = async () => {
-  const items = await fetchImageLibrary();
+  const items = await fetchImageLibraryFromSupabase();
   return filterByCategories(items, ['Hero Banner']);
 };
-export const getCampusGallery = byCategories(['Campus Gallery']);
-export const getPartnerLogos = byCategories(['Partner Logo', 'Partner Logos', 'AYLA Logo', 'AYLA Logos']);
-export const getNews = byCategories(['News']);
-export const getStudentLife = byCategories(['Student Life']);
-export const getAllImageLibraryItems = fetchImageLibrary;
+export const getCampusGallery = async () => {
+  const items = await fetchImageLibraryFromSupabase();
+  return filterByCategories(items, ['Campus Gallery']);
+};
+export const getPartnerLogos = async () => {
+  const items = await fetchImageLibraryFromSupabase();
+  return filterByCategories(items, ['Partner Logo', 'AYLA Logo']);
+};
+export const getNews = async () => {
+  const items = await fetchImageLibraryFromSupabase();
+  return filterByCategories(items, ['News']);
+};
+export const getStudentLife = async () => {
+  const items = await fetchImageLibraryFromSupabase();
+  return filterByCategories(items, ['Student Life']);
+};
+export const getAllImageLibraryItems = fetchImageLibraryFromSupabase;
 
 export async function updateImageLibraryItemImage(params: {
   id?: number;
@@ -166,33 +91,93 @@ export async function updateImageLibraryItemImage(params: {
   status?: string;
   createdAt?: string;
 }) {
-  if (!isConfiguredApiUrl()) return;
+  if (!isSupabaseConfigured || !supabase) return;
 
-  await postToGoogleSheet({
-    action: 'updateImage',
-    ...params,
-    CreatedAt: params.createdAt,
+  const typeMap: Record<string, AssetType> = {
+    'Hero Banner': 'hero',
+    'Campus Gallery': 'gallery',
+    'Campus Image': 'campus',
+    'Partner Logo': 'partner',
+    'AYLA Logo': 'logo',
+    News: 'news',
+    'Student Life': 'student-life',
+  };
+
+  const type = typeMap[params.category] || 'gallery';
+
+  // Try to find an existing asset by URL
+  const { data: existing, error: findErr } = await supabase.from('cms_assets').select('*').eq('url', params.directImageUrl).limit(1).single();
+  if (findErr && (findErr as any).code !== 'PGRST116') {
+    // ignore not found
+  }
+
+  if (existing && (existing as any).id) {
+    await supabase.from('cms_assets').update({
+      title: params.title,
+      type,
+      url: params.directImageUrl,
+      path: params.directImageUrl || '',
+      campus: params.campus || null,
+      section: params.priority ? String(params.priority) : null,
+      created_at: params.createdAt || undefined,
+    }).eq('id', (existing as any).id);
+    return;
+  }
+
+  await supabase.from('cms_assets').insert({
+    title: params.title,
+    type,
+    url: params.directImageUrl,
+    path: params.directImageUrl || '',
+    campus: params.campus || null,
+    section: params.priority ? String(params.priority) : null,
+    created_at: params.createdAt || undefined,
   });
 }
 
 export async function saveImageLibraryItem(params: ImageLibraryItem) {
-  if (!isConfiguredApiUrl()) return;
+  if (!isSupabaseConfigured || !supabase) return;
 
-  await postToGoogleSheet({
-    action: 'saveImage',
-    ID: params.id,
-    Title: params.title,
-    Category: params.category,
-    Campus: params.campus,
-    ImageURL: params.imageUrl,
-    DirectImageURL: params.directImageUrl,
-    Priority: params.priority,
-    Status: params.status,
-    CreatedAt: params.createdAt,
+  const typeMap: Record<string, AssetType> = {
+    'Hero Banner': 'hero',
+    'Campus Gallery': 'gallery',
+    'Campus Image': 'campus',
+    'Partner Logo': 'partner',
+    'AYLA Logo': 'logo',
+    News: 'news',
+    'Student Life': 'student-life',
+  };
+
+  const type = typeMap[params.category] || 'gallery';
+
+  // If an asset with the same direct URL exists, update it, otherwise insert
+  const { data: existing } = await supabase.from('cms_assets').select('*').eq('url', params.directImageUrl).limit(1).single();
+
+  if (existing && (existing as any).id) {
+    await supabase.from('cms_assets').update({
+      title: params.title,
+      type,
+      url: params.directImageUrl,
+      path: params.directImageUrl || '',
+      campus: params.campus || null,
+      section: params.priority ? String(params.priority) : null,
+      created_at: params.createdAt || undefined,
+    }).eq('id', (existing as any).id);
+    return;
+  }
+
+  await supabase.from('cms_assets').insert({
+    title: params.title,
+    type,
+    url: params.directImageUrl,
+    path: params.directImageUrl || '',
+    campus: params.campus || null,
+    section: params.priority ? String(params.priority) : null,
+    created_at: params.createdAt || undefined,
   });
 }
 
-export async function uploadImageToGoogleDrive(params: {
+export async function uploadImageToGoogleDrive(_params: {
   fileName: string;
   mimeType: string;
   base64: string;
@@ -203,15 +188,8 @@ export async function uploadImageToGoogleDrive(params: {
   status: string;
   createdAt?: string;
 }): Promise<ImageLibraryItem | null> {
-  if (!isConfiguredApiUrl()) return null;
-
-  const payload = await postToGoogleSheet({
-    action: 'uploadImage',
-    ...params,
-  });
-
-  const saved = Array.isArray(payload) ? payload[0] : payload.data || payload.item || payload;
-  return saved ? normalizeItem(saved, 0) : null;
+  // Google Drive upload is removed. Use Supabase storage via `uploadCmsImage` in `src/lib/supabase.ts` instead.
+  return null;
 }
 
 export async function saveAdmissionAssistantLead(params: {
@@ -221,17 +199,21 @@ export async function saveAdmissionAssistantLead(params: {
   language: 'en' | 'kh';
   createdAt: string;
 }) {
-  if (!isConfiguredApiUrl()) return;
+  if (!isSupabaseConfigured || !supabase) return;
 
-  await postToGoogleSheet({
-    action: 'saveLead',
-    Name: params.name,
-    Phone: params.phone,
-    Question: params.question,
-    Language: params.language,
-    Source: 'AI Admission Assistant',
-    Status: 'New',
-    CreatedAt: params.createdAt,
+  // Store assistant leads into the `inquiries` table as a lightweight fallback
+  await supabase.from('inquiries').insert({
+    parent_name: params.name,
+    student_name: params.name,
+    student_age: 0,
+    phone: params.phone,
+    email: null,
+    campus: 'AI Assistant',
+    program: params.language === 'en' ? 'AI Assistant' : 'AI Assistant (KH)',
+    notes: params.question,
+    status: 'New',
+    assigned_admin: null,
+    created_at: params.createdAt,
   });
 }
 
@@ -242,11 +224,11 @@ export function useGoogleSheetCMS() {
   const [news, setNews] = useState<ImageLibraryItem[]>([]);
   const [studentLife, setStudentLife] = useState<ImageLibraryItem[]>([]);
   const [allImages, setAllImages] = useState<ImageLibraryItem[]>([]);
-  const [loading, setLoading] = useState(isConfiguredApiUrl());
+  const [loading, setLoading] = useState(isSupabaseConfigured);
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    if (!isConfiguredApiUrl()) {
+    if (!isSupabaseConfigured) {
       setLoading(false);
       return;
     }
@@ -254,20 +236,15 @@ export function useGoogleSheetCMS() {
     setLoading(true);
     try {
       const allItems = await getAllImageLibraryItems();
-      const hero = filterByCategories(allItems, ['Hero Banner']);
-      const gallery = filterByCategories(allItems, ['Campus Gallery']);
-      const partners = filterByCategories(allItems, ['Partner Logo', 'Partner Logos', 'AYLA Logo', 'AYLA Logos']);
-      const newsItems = filterByCategories(allItems, ['News']);
-      const life = filterByCategories(allItems, ['Student Life']);
-      setHeroBanners(hero);
-      setCampusGallery(gallery);
-      setPartnerLogos(partners);
-      setNews(newsItems);
-      setStudentLife(life);
+      setHeroBanners(filterByCategories(allItems, ['Hero Banner']));
+      setCampusGallery(filterByCategories(allItems, ['Campus Gallery']));
+      setPartnerLogos(filterByCategories(allItems, ['Partner Logo', 'AYLA Logo']));
+      setNews(filterByCategories(allItems, ['News']));
+      setStudentLife(filterByCategories(allItems, ['Student Life']));
       setAllImages(allItems);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Google Sheet CMS request failed');
+      setError(err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
     }

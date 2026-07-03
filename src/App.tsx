@@ -100,6 +100,45 @@ function itemToImageAsset(item: ImageLibraryItem): ImageAsset {
   };
 }
 
+function normalizeCampusIdentifier(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+function campusAssetMatchesCampus(asset: ImageAsset, campus: Campus): boolean {
+  const assetCampus = normalizeCampusIdentifier(asset.campus || '');
+  const campusName = normalizeCampusIdentifier(campus.name);
+  const campusCode = normalizeCampusIdentifier(campus.code);
+  const campusId = normalizeCampusIdentifier(campus.id);
+  if (!assetCampus) return false;
+
+  return (
+    assetCampus === campusCode ||
+    assetCampus === campusId ||
+    assetCampus === campusName ||
+    campusName.includes(assetCampus) ||
+    assetCampus.includes(campusName)
+  );
+}
+
+function campusTitleMatchesCampus(asset: ImageAsset, campus: Campus): boolean {
+  const assetTitle = normalizeCampusIdentifier(asset.title || '');
+  const campusName = normalizeCampusIdentifier(campus.name);
+  const campusCode = normalizeCampusIdentifier(campus.code);
+  const campusId = normalizeCampusIdentifier(campus.id);
+  if (!assetTitle) return false;
+
+  return (
+    assetTitle === campusCode ||
+    assetTitle === campusId ||
+    assetTitle.includes(campusCode) ||
+    assetTitle.includes(campusId) ||
+    assetTitle.includes(campusName)
+  );
+}
+
 function sortImageAssetsByPriority(items: ImageAsset[]): ImageAsset[] {
   return [...items].sort((a, b) => {
     const priorityDiff = (a.priority || 9999) - (b.priority || 9999);
@@ -608,24 +647,13 @@ export default function App() {
   const campusesWithCmsImages = allCampuses.map((campus, index) => ({
     ...campus,
     image: findCmsImage('Campus Image', (asset) => {
-      // If the asset specifies a campus, check if it matches this campus
-      if (asset.campus) {
-        const assetCampusLower = asset.campus.toLowerCase();
-        const campusNameLower = campus.name.toLowerCase();
-        const campusCodeLower = campus.code.toLowerCase();
-        const campusIdLower = campus.id.toLowerCase();
-        
-        return (
-          assetCampusLower.includes(campusCodeLower) ||
-          campusCodeLower.includes(assetCampusLower) ||
-          assetCampusLower.includes(campusIdLower) ||
-          campusNameLower.includes(assetCampusLower) ||
-          assetCampusLower.includes(campusNameLower)
-        );
+      // Only match assets that clearly belong to this campus by campus metadata or title
+      if (campusAssetMatchesCampus(asset, campus) || campusTitleMatchesCampus(asset, campus)) {
+        return true;
       }
       
-      // If no campus is specified on the asset, fall back to priority/section matching
-      return asset.priority === index + 1;
+      // If no campus metadata exists, fall back to priority/section matching only when asset is not clearly assigned elsewhere
+      return asset.campus === '' && asset.priority === index + 1;
     }) || campus.image,
   }));
   const academicProgramImages = Object.fromEntries(
@@ -791,12 +819,8 @@ export default function App() {
                   <div id="home-view" className="space-y-0 animate-fade-in">
                     {/* HERO SECTION */}
                     <section id="home" className="relative min-h-screen flex items-start justify-center overflow-hidden bg-[#071B5C] bg-[radial-gradient(ellipse_at_top,_#1a3cad_0%,_#071B5C_75%)] pt-24 pb-20 sm:pt-28 sm:pb-24 lg:pt-32 lg:pb-28">
-                      <HeroCarousel
-                        slides={heroSlides}
-                        fallbackImage={fallbackHeroImage}
-                        isLoading={googleSheetCMS.loading && googleSheetCMS.heroBanners.length === 0}
-                      />
-
+                      <div className="absolute inset-0 bg-[#071B5C]" />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.06),transparent_45%)] opacity-90" />
                       <div className="absolute top-1/4 left-10 w-96 h-96 bg-[#1a3cad]/30 rounded-full blur-3xl animate-pulse"></div>
                       <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-brand-gold/10 rounded-full blur-3xl"></div>
 

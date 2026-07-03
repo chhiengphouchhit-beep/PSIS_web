@@ -49,7 +49,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     name: 'Russey Keo Campus (RSK)',
     code: 'RSK',
     principal: 'Dr. Heng Vireak',
-    message: 'RSK represents our newest educational center of excellence. Built to inspire high school excellence and direct University pathways, it is Phnom Penhs premier north gate campus.',
+    message: 'RSK represents our newest educational center of excellence. Built to inspire high school excellence and direct university pathways, it is Phnom Penh\'s premier north-gate campus.',
     facilities: ['International Debate Chamber', 'Virtual Reality Learning Zone', 'Engineering & CAD Studio', 'Pre-university Resource Center', 'Indoors Basketball arena'],
     contact: 'rsk.info@psis.edu.kh | +855 23 998 012',
     image: 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80',
