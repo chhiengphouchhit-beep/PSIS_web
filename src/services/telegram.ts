@@ -1,4 +1,13 @@
-import { Inquiry } from '../lib/supabase';
+export interface Inquiry {
+  parent_name: string;
+  student_name: string;
+  student_age: string | number;
+  phone: string;
+  email?: string;
+  campus: string;
+  program: string;
+  notes?: string;
+}
 
 export async function sendTelegramLeadNotification(inquiry: Inquiry): Promise<boolean> {
   const token = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
