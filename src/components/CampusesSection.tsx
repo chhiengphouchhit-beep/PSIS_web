@@ -31,21 +31,46 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
     <section id="campuses" className="py-28 bg-[#fafbfc] scroll-mt-12 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
-          <span className="inline-block bg-brand-blue/5 text-brand-blue font-sans font-medium text-[10px] tracking-widest uppercase px-3.5 py-1.5 rounded-full border border-brand-blue/10">
+        {/* Section Header - Enhanced with Jitter animations */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-20 space-y-4"
+        >
+          <motion.span 
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="inline-block bg-brand-blue/5 text-brand-blue font-sans font-medium text-[10px] tracking-widest uppercase px-3.5 py-1.5 rounded-full border border-brand-blue/10"
+          >
             {lang === 'en' ? 'Exclusive Academic Footprint' : 'បណ្តាញសាខាទូទាំងប្រទេសរបស់យើង'}
-          </span>
-          <h2 className="font-serif font-bold text-3xl md:text-[45px] text-brand-dark tracking-tight leading-tight">
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="font-serif font-bold text-3xl md:text-[45px] text-brand-dark tracking-tight leading-tight"
+          >
             {lang === 'en' ? '6 Campus Operations. One Standard.' : 'សាខាទាំង៦ តម្រង់ទិសដៅស្តង់ដារតែមួយ'}
-          </h2>
-          <div className="w-16 h-0.5 bg-brand-gold mx-auto rounded"></div>
-          <p className="text-xs md:text-sm text-slate-500 font-sans leading-relaxed">
+          </motion.h2>
+          <motion.div 
+            initial={{ width: 0 }}
+            whileInView={{ width: 64 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="w-16 h-0.5 bg-brand-gold mx-auto rounded"
+          />
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="text-xs md:text-sm text-slate-500 font-sans leading-relaxed"
+          >
             {lang === 'en'
               ? 'Paññāsāstra International School group deploys world-class high-speed digital arrays, certified native teachers, and highly functional engineering research labs seamlessly across Phnom Penh and provinces.'
               : 'សហគមន៍សាលាអន្តរជាតិ បញ្ញាសាស្ត្រ ចែករំលែកនូវហេដ្ឋារចនាសម្ព័ន្ធបច្ចេកវិទ្យាលំដាប់ពិភពលោក គ្រូជនជាតិដើម និងប្រព័ន្ធពិសោធន៍រ៉ូបូតគ្រប់សាខាទាំងអស់។'}
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Master Interactive Core Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -57,48 +82,67 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
             </h3>
             
             <div className="space-y-3">
-              {campuses.map((c) => {
+              {campuses.map((c, index) => {
                 const isSelected = selectedCampusId === c.id;
                 return (
-                  <div key={c.id} className="space-y-2">
-                    <button
+                  <motion.div 
+                    key={c.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.08 }}
+                    className="space-y-2"
+                  >
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => setSelectedCampusId(c.id)}
                       className={`w-full text-left p-4 rounded-2xl transition-all duration-300 cursor-pointer border relative outline-none ${
                         isSelected
                           ? 'bg-gradient-to-r from-brand-blue to-brand-dark text-white border-brand-blue shadow-lg scale-[1.02]'
-                          : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-slate-105 shadow-sm'
+                          : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-slate-105 shadow-sm hover:shadow-md'
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <div className={`p-2.5 rounded-xl transition-colors duration-300 ${isSelected ? 'bg-white/10 text-brand-gold shadow-inner' : 'bg-slate-50 text-brand-blue'}`}>
+                        <motion.div 
+                          animate={isSelected ? { scale: 1.1 } : { scale: 1 }}
+                          className={`p-2.5 rounded-xl transition-colors duration-300 ${isSelected ? 'bg-white/10 text-brand-gold shadow-inner' : 'bg-slate-50 text-brand-blue'}`}
+                        >
                           <Building2 size={16} />
-                        </div>
+                        </motion.div>
                         <div className="flex-1">
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <h4 className="font-nav font-bold text-xs tracking-wide">{c.name}</h4>
-                            <span className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded font-nav tracking-widest transition-colors duration-300 ${
-                              isSelected ? 'text-brand-dark bg-brand-gold' : 'text-slate-500 bg-slate-100'
-                            }`}>
+                            <motion.span 
+                              animate={isSelected ? { scale: 1.05 } : { scale: 1 }}
+                              className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded font-nav tracking-widest transition-colors duration-300 ${
+                                isSelected ? 'text-brand-dark bg-brand-gold' : 'text-slate-500 bg-slate-100'
+                              }`}
+                            >
                               {c.code}
-                            </span>
+                            </motion.span>
                           </div>
                           <p className={`text-[10px] tracking-normal mt-1 font-sans ${isSelected ? 'text-slate-200' : 'text-slate-500'}`}>
                             {c.location.split(',')[1] || c.location}
                           </p>
                         </div>
                       </div>
-                    </button>
+                    </motion.button>
 
-                    <div className="flex justify-end">
-                      <button
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="flex justify-end"
+                    >
+                      <motion.button
+                        whileHover={{ y: -2 }}
                         onClick={() => setMapCampus(c)}
                         className="text-[10px] px-3 py-2 rounded-xl bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm transition duration-150"
                         aria-label={lang === 'en' ? `Show ${c.name} on map` : `បង្ហាញ ${c.name} លើផែនទី`}
                       >
                         {lang === 'en' ? 'Show on Map' : 'បង្ហាញផែនទី'}
-                      </button>
-                    </div>
-                  </div>
+                      </motion.button>
+                    </motion.div>
+                  </motion.div>
                 );
               })}
             </div>

@@ -8,11 +8,11 @@ interface Props {
 }
 
 const moments = [
-  { title: 'Robotics Lab', kh: 'ថ្នាក់រ៉ូបូត', icon: Microscope, image: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=900&q=80', span: 'lg:col-span-2' },
-  { title: 'Student Leadership', kh: 'ភាពជាអ្នកដឹកនាំ', icon: Users, image: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=900&q=80', span: '' },
-  { title: 'Arts & Music', kh: 'សិល្បៈ និងតន្ត្រី', icon: Music, image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=900&q=80', span: '' },
-  { title: 'Sports & Teamwork', kh: 'កីឡា និងក្រុមការងារ', icon: Trophy, image: 'https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=900&q=80', span: 'lg:col-span-2' },
-  { title: 'Field Trips', kh: 'ដំណើរទស្សនកិច្ច', icon: Plane, image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80', span: '' },
+  { title: 'Robotics Lab', kh: 'ថ្នាក់រ៉ូបូត', icon: Microscope, image: '/images/student-life/robotics.jpg', span: 'lg:col-span-2' },
+  { title: 'Student Leadership', kh: 'ភាពជាអ្នកដឹកនាំ', icon: Users, image: '/images/student-life/leadership.jpg', span: '' },
+  { title: 'Arts & Music', kh: 'សិល្បៈ និងតន្ត្រី', icon: Music, image: '/images/student-life/arts.jpg', span: '' },
+  { title: 'Sports & Teamwork', kh: 'កីឡា និងក្រុមការងារ', icon: Trophy, image: '/images/student-life/sports.jpg', span: 'lg:col-span-2' },
+  { title: 'Field Trips', kh: 'ដំណើរទស្សនកិច្ច', icon: Plane, image: '/images/student-life/field-trip.jpg', span: '' },
 ];
 
 export default function StudentLifeSection({ lang, assets = [], isLoading = false }: Props) {

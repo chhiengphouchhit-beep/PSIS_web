@@ -15,6 +15,7 @@ import { Campus, ImageAsset, NewsItem } from './types';
 
 // Import modular UI elements
 import Header from './components/Header';
+import HeroMotion from './components/HeroMotion';
 import Footer from './components/Footer';
 import FooterSlider from './components/FooterSlider';
 import CampusesSection from './components/CampusesSection';
@@ -396,6 +397,13 @@ export default function App() {
                 {/* 1. HOME VIEW */}
                 {(currentSection === 'home' || currentSection === 'about') && (
                   <div id="home-view" className="space-y-0 animate-fade-in">
+                    {/* ENHANCED HERO SECTION WITH MOTION GRAPHICS */}
+                    <HeroMotion
+                      title={locale[lang].heroTitle}
+                      subtitle={locale[lang].heroSub}
+                      lang={lang}
+                    />
+
                     {/* HERO SECTION */}
                     <section id="home" className="relative min-h-screen flex items-start justify-center overflow-hidden bg-[#071B5C] bg-[radial-gradient(ellipse_at_top,_#1a3cad_0%,_#071B5C_75%)] pt-24 pb-20 sm:pt-28 sm:pb-24 lg:pt-32 lg:pb-28">
                       <HeroCarousel

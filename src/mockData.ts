@@ -16,7 +16,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Welcome to the TK campus where technology and language merge to cultivate the global citizens of tomorrow. Our curriculum places a high focus on creative inquiry and analytical mastery from preschool onwards.',
     facilities: ['Advanced Robotic Lab', 'Olympic-size Indoor Swimming Pool', 'Science Lab with 3D Printers', 'Digital Apple-certified Mac Suite', 'Spacious Library with 50K+ volumes'],
     contact: 'tk.info@psis.edu.kh | +855 23 884 991',
-    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/campuses/tk.jpg',
     location: 'Street 315, Sangkat Boeung Kak I, Khan Toul Kork, Phnom Penh',
     studentsCount: 1450
   },
@@ -28,7 +28,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Our TTP Campus thrives on high community engagement and premium academic support. We deliver exceptional primary and secondary classes paired with the esteemed PUC-IFL language system.',
     facilities: ['Fully Equipped Science Laboratory', 'Multi-purpose Athletics court', 'Digital Learning Pods', 'Smart Interactive Displays in all classrooms', 'Art & Music Studios'],
     contact: 'ttp.info@psis.edu.kh | +855 23 221 688',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/campuses/ttp.jpg',
     location: 'Street 432, Sangkat Toul Tom Poung, Khan Chamkarmon, Phnom Penh',
     studentsCount: 980
   },
@@ -40,7 +40,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'At CAP, children enjoy a green, serene learning eco-reserve. Our digital transformation is embedded into the environment, offering nature-inspired learning and advanced drone technology courses.',
     facilities: ['Outdoor Ecological Greenhouse', 'Drone Education Testing Field', 'Creative Play Hub', 'Tech Sandbox Lab', 'Modern Amphitheater'],
     contact: 'cap.info@psis.edu.kh | +855 23 555 125',
-    image: 'https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/campuses/cap.jpg',
     location: 'National Road 1, Sangkat Chbar Ampov, Khan Chbar Ampov, Phnom Penh',
     studentsCount: 720
   },
@@ -52,7 +52,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'RSK represents our newest educational center of excellence. Built to inspire high school excellence and direct University pathways, it is Phnom Penhs premier north gate campus.',
     facilities: ['International Debate Chamber', 'Virtual Reality Learning Zone', 'Engineering & CAD Studio', 'Pre-university Resource Center', 'Indoors Basketball arena'],
     contact: 'rsk.info@psis.edu.kh | +855 23 998 012',
-    image: 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/campuses/rsk.jpg',
     location: 'National Road 5, Sangkat Russey Keo, Khan Russey Keo, Phnom Penh',
     studentsCount: 810
   },
@@ -64,7 +64,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Industrial progression and automation are the core disciplines here at NR3. We provide robust secondary educational structures focused heavily on practical engineering, mathematics, and science.',
     facilities: ['Robotics Testing Arena', 'Modern physics & chemistry blocks', 'Tech Sandbox Lab', 'Generous outdoor fields', 'Digital AV Broadcasting Studio'],
     contact: 'nr3.info@psis.edu.kh | +855 23 777 004',
-    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/campuses/nr3.jpg',
     location: 'National Road 3 (Km 12), Sangkat Chom Chao, Khan Por Senchey, Phnom Penh',
     studentsCount: 640
   },
@@ -76,7 +76,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Bringing global education standard to Cambodias second city. Battambang campus fuses rich local heritage with cutting-edge international standards in digital learning models.',
     facilities: ['Agricultural Science Hub', 'Digital Kids Library', 'Modern Smart Classrooms', 'Sports Complex & Athletic Track', 'Advanced IT Training Center'],
     contact: 'btb.info@psis.edu.kh | +855 53 952 111',
-    image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/campuses/battambang.jpg',
     location: 'Street 3, Sangkat Svay Por, Krong Battambang, Battambang Province',
     studentsCount: 570
   }
@@ -177,7 +177,7 @@ export const INITIAL_NEWS: NewsItem[] = [
     category: 'STEM',
     content: 'Students from TK and RSK Campuses teamed up to construct a smart sorting system using KUBO structures and custom code scripts. The innovative design won first place in state efficiency, confirming the elite status of PSIS technology education.',
     date: 'May 28, 2026',
-    image: 'https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?auto=format&fit=crop&w=800&q=80',
+    image: '/images/news/stem-robotics.jpg',
     views: 450,
     featured: true
   },
@@ -188,7 +188,7 @@ export const INITIAL_NEWS: NewsItem[] = [
     category: 'PUC-IFL',
     content: 'Paññāsāstra International School is proud to expand its integration with pre-vetted educational tools, ensuring children acquire top tier mock assessments and native accent trainings during our weekend schedules.',
     date: 'May 25, 2026',
-    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80',
+    image: '/images/news/mou-cambridge.jpg',
     views: 310,
     featured: false
   },
@@ -199,7 +199,7 @@ export const INITIAL_NEWS: NewsItem[] = [
     category: 'Admission',
     content: 'Explore secure enrollment packages now. Discover discounts of up to 15% on tuition, free digital learning application subscriptions (ELIF, Koobits, Raz Kids), and complimentary campus uniforms.',
     date: 'May 18, 2026',
-    image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=800&q=80',
+    image: '/images/news/admissions-2026.jpg',
     views: 580,
     featured: true
   },
@@ -210,7 +210,7 @@ export const INITIAL_NEWS: NewsItem[] = [
     category: 'Campus News',
     content: 'A dazzling showcase of food stalls, national costume pageantry, and traditional Cambodian art dances. Parents gathered to celebrate deep diverse education and global-mindset environments that thrive inside PSIS.',
     date: 'May 10, 2026',
-    image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
+    image: '/images/news/cultural-fair.jpg',
     views: 290,
     featured: false
   }
@@ -225,7 +225,7 @@ export const ACADEMIC_PROGRAMS: AcademicProgram[] = [
     curriculum: ['Phonetics & Storytelling', 'ELIF English system', 'KUBO Tangible Robots', 'Creative Art and Sensory Play', 'Khmer Heritage Basics'],
     features: ['Low student-to-teacher ratio (5:1)', 'Dedicated child-safe sensory zones', 'Daily pediatric health monitoring', 'Interactive floor projection games'],
     ageGroup: '2.5 to 5 Years Old',
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80'
+    image: '/images/programs/preschool.jpg'
   },
   {
     id: 'primary',
@@ -235,7 +235,7 @@ export const ACADEMIC_PROGRAMS: AcademicProgram[] = [
     curriculum: ['Singapore Mathematics Method', 'Comprehensive Lab Science', 'Bilingual English/Khmer', 'Chinese Introductory Language', 'Raz-Kids digital reading'],
     features: ['Robotics curriculum integrated weekly', 'Personalised math paths via Koobits AI', 'Creative writing & public drama', 'Inter-campus science tournaments'],
     ageGroup: '6 to 11 Years Old',
-    image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80'
+    image: '/images/programs/primary.jpg'
   },
   {
     id: 'secondary',
@@ -245,7 +245,7 @@ export const ACADEMIC_PROGRAMS: AcademicProgram[] = [
     curriculum: ['Computer Science & CodeMonkey code paths', 'Advanced Physics & Chemistry', 'International History & Geography', 'Comprehensive Khmer literature', 'Advanced English Writing'],
     features: ['Weekly scientific laboratory evaluations', 'Guided drone flight and coding tests', 'Public speech training & parliamentary debate', 'Digital literacy and anti-plagiarism checks on Turnitin'],
     ageGroup: '12 to 15 Years Old',
-    image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80'
+    image: '/images/programs/secondary.jpg'
   },
   {
     id: 'highschool',
@@ -255,7 +255,7 @@ export const ACADEMIC_PROGRAMS: AcademicProgram[] = [
     curriculum: ['Mathematical Calculus & Stats', 'University-prep ESL & Academic writing', 'Advanced Chemical and Robotic Systems', 'Business Economics and Khmer Civics', 'IELTS/TOEFL simulated masterclasses'],
     features: ['Dedicated college application counselors', 'Elite research projects aligned with local industries', 'Internship opportunities at PSIS Corporate Network', 'Official Cambridge secondary equivalents'],
     ageGroup: '16 to 18 Years Old',
-    image: 'https://images.unsplash.com/photo-1517256064527-09c53b2d0bc6?auto=format&fit=crop&w=800&q=80'
+    image: '/images/programs/highschool.jpg'
   }
 ];
 
