@@ -28,7 +28,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Our TTP Campus thrives on high community engagement and premium academic support. We deliver exceptional primary and secondary classes paired with the esteemed PUC-IFL language system.',
     facilities: ['Fully Equipped Science Laboratory', 'Multi-purpose Athletics court', 'Digital Learning Pods', 'Smart Interactive Displays in all classrooms', 'Art & Music Studios'],
     contact: 'ttp.info@psis.edu.kh | +855 23 221 688',
-    image: 'https://drive.google.com/thumbnail?id=1eKwPAeC5s_4IsH6M_O7akEQIfOIT6hMC&sz=w2000',
+    image: '/images/campuses/ttp.jpg',
     location: 'Street 432, Sangkat Toul Tom Poung, Khan Chamkarmon, Phnom Penh',
     studentsCount: 980
   },
@@ -40,7 +40,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'At CAP, children enjoy a green, serene learning eco-reserve. Our digital transformation is embedded into the environment, offering nature-inspired learning and advanced drone technology courses.',
     facilities: ['Outdoor Ecological Greenhouse', 'Drone Education Testing Field', 'Creative Play Hub', 'Tech Sandbox Lab', 'Modern Amphitheater'],
     contact: 'cap.info@psis.edu.kh | +855 23 555 125',
-    image: 'https://drive.google.com/thumbnail?id=1e59xLiMNO0ippwnyTiuYsecWPwYa2BCA&sz=w2000',
+    image: '/images/campuses/cap.jpg',
     location: 'National Road 1, Sangkat Chbar Ampov, Khan Chbar Ampov, Phnom Penh',
     studentsCount: 720
   },
@@ -52,7 +52,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'RSK represents our newest educational center of excellence. Built to inspire high school excellence and direct University pathways, it is Phnom Penhs premier north gate campus.',
     facilities: ['International Debate Chamber', 'Virtual Reality Learning Zone', 'Engineering & CAD Studio', 'Pre-university Resource Center', 'Indoors Basketball arena'],
     contact: 'rsk.info@psis.edu.kh | +855 23 998 012',
-    image: 'https://drive.google.com/thumbnail?id=1XClCDd427xOkzLigxZd7e3YmJoK_JwoN&sz=w2000',
+    image: '/images/campuses/rsk.jpg',
     location: 'National Road 5, Sangkat Russey Keo, Khan Russey Keo, Phnom Penh',
     studentsCount: 810
   },
@@ -64,7 +64,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Industrial progression and automation are the core disciplines here at NR3. We provide robust secondary educational structures focused heavily on practical engineering, mathematics, and science.',
     facilities: ['Robotics Testing Arena', 'Modern physics & chemistry blocks', 'Tech Sandbox Lab', 'Generous outdoor fields', 'Digital AV Broadcasting Studio'],
     contact: 'nr3.info@psis.edu.kh | +855 23 777 004',
-    image: 'https://drive.google.com/thumbnail?id=1-0MIa_Pl6jugPZiOTJjNj64IzxUfZu2l&sz=w2000',
+    image: '/images/campuses/nr3.jpg',
     location: 'National Road 3 (Km 12), Sangkat Chom Chao, Khan Por Senchey, Phnom Penh',
     studentsCount: 640
   },
@@ -76,7 +76,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Bringing global education standard to Cambodias second city. Battambang campus fuses rich local heritage with cutting-edge international standards in digital learning models.',
     facilities: ['Agricultural Science Hub', 'Digital Kids Library', 'Modern Smart Classrooms', 'Sports Complex & Athletic Track', 'Advanced IT Training Center'],
     contact: 'btb.info@psis.edu.kh | +855 53 952 111',
-    image: 'https://drive.google.com/thumbnail?id=1vvPBU5dZVeGbFDsVMMqS-AuBJ6x0wqDl&sz=w2000',
+    image: '/images/campuses/battambang.jpg',
     location: 'Street 3, Sangkat Svay Por, Krong Battambang, Battambang Province',
     studentsCount: 570
   },
