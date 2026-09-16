@@ -20,28 +20,16 @@ const partners = [
   { key: 'smart-world', base: 'smart-world', alt: 'Smart World Robotics' }
 ];
 
-function srcCandidates(base: string) {
-  // prefer modern formats if available on the server; fall back to svg
-  return [
-    `/images/partners/${base}.webp`,
-    `/images/partners/${base}.png`,
-    `/images/partners/${base}.jpg`,
-    `/images/partners/${base}.svg`
-  ];
-}
-
 export default function PartnerLogoSection({ assets = [], isLoading = false }: Props) {
   const libraryPartners = assets.map((asset) => ({
     key: asset.id,
     alt: asset.title,
     url: asset.url,
-    asset,
   }));
   const displayPartners = libraryPartners.length > 0 ? libraryPartners : partners.map((partner) => ({
     key: partner.key,
     alt: partner.alt,
-    url: srcCandidates(partner.base)[3],
-    sources: srcCandidates(partner.base),
+    url: `/images/partners/${partner.base}.svg`,
   }));
 
   return (
@@ -60,19 +48,15 @@ export default function PartnerLogoSection({ assets = [], isLoading = false }: P
                 <div key={index} className="h-24 w-44 flex-shrink-0 animate-pulse rounded-xl border border-slate-100 bg-slate-100" />
               )) : displayPartners.map((p) => (
                 <div key={p.key} className="relative flex-shrink-0 w-44 p-4 bg-white rounded-xl border border-slate-100 shadow-sm flex items-center justify-center">
-                  <picture className="w-full h-full flex items-center justify-center">
-                    {'sources' in p && <source srcSet={p.sources[0]} type="image/webp" />}
-                    {'sources' in p && <source srcSet={p.sources[1]} type="image/png" />}
-                    <img
-                      src={p.url}
-                      alt={p.alt}
-                      className="max-h-14 object-contain opacity-100 transition-all duration-200 hover:scale-105"
-                      referrerPolicy="no-referrer"
-                      onError={(event) => {
-                        event.currentTarget.src = '/images/partners/ayla.svg';
-                      }}
-                    />
-                  </picture>
+                  <img
+                    src={p.url}
+                    alt={p.alt}
+                    className="max-h-14 object-contain opacity-100 transition-all duration-200 hover:scale-105"
+                    referrerPolicy="no-referrer"
+                    onError={(event) => {
+                      event.currentTarget.src = '/images/partners/ayla.svg';
+                    }}
+                  />
                 </div>
               ))}
             </div>
@@ -86,19 +70,15 @@ export default function PartnerLogoSection({ assets = [], isLoading = false }: P
               <div key={index} className="h-28 animate-pulse rounded-xl border border-slate-100 bg-slate-100" />
             )) : displayPartners.map((p) => (
               <div key={p.key} className="relative p-6 bg-white rounded-xl border border-slate-100 shadow-sm flex items-center justify-center h-28 hover:shadow-md transition-shadow duration-200">
-                <picture className="w-full h-full flex items-center justify-center">
-                  {'sources' in p && <source srcSet={p.sources[0]} type="image/webp" />}
-                  {'sources' in p && <source srcSet={p.sources[1]} type="image/png" />}
-                  <img
-                    src={p.url}
-                    alt={p.alt}
-                    className="max-h-16 object-contain opacity-100 transition-all duration-200 hover:scale-105"
-                    referrerPolicy="no-referrer"
-                    onError={(event) => {
-                      event.currentTarget.src = '/images/partners/ayla.svg';
-                    }}
-                  />
-                </picture>
+                <img
+                  src={p.url}
+                  alt={p.alt}
+                  className="max-h-16 object-contain opacity-100 transition-all duration-200 hover:scale-105"
+                  referrerPolicy="no-referrer"
+                  onError={(event) => {
+                    event.currentTarget.src = '/images/partners/ayla.svg';
+                  }}
+                />
               </div>
             ))}
           </div>

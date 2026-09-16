@@ -120,17 +120,34 @@ async function postToGoogleSheet(body: Record<string, unknown>) {
   return readJsonResponse(response);
 }
 
+function isValidImageUrl(url: string): boolean {
+  if (!url || typeof url !== 'string') return false;
+  const lower = url.trim().toLowerCase();
+  if (lower.includes('supabase.co')) return false;
+  if (lower.includes('drive.google.com')) return false;
+  if (lower.includes('unsplash.com')) return false;
+  return true;
+}
+
 async function fetchImageLibrary(): Promise<ImageLibraryItem[]> {
   if (!isConfiguredApiUrl()) return [];
 
-  const response = await fetch(GOOGLE_SHEET_API_URL, {
-    headers: { Accept: 'application/json' },
-  });
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3500);
+    const response = await fetch(GOOGLE_SHEET_API_URL, {
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
 
-  const payload = await readJsonResponse(response);
-  return unwrapItems(payload)
-    .map(normalizeItem)
-    .filter((item) => isActiveStatus(item.status) && item.directImageUrl);
+    const payload = await readJsonResponse(response);
+    return unwrapItems(payload)
+      .map(normalizeItem)
+      .filter((item) => isActiveStatus(item.status) && isValidImageUrl(item.directImageUrl));
+  } catch {
+    return [];
+  }
 }
 
 function filterByCategories(items: ImageLibraryItem[], categories: string[]) {

@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   getPersistedNews, getPersistedCampuses,
   getPersistedImageAssets,
+  INITIAL_CAMPUSES,
   ACADEMIC_PROGRAMS,
   STEM_RESOURCES,
 } from './mockData';
@@ -641,34 +642,58 @@ export default function App() {
   const combinedImageAssets = cmsImageAssets.length > 0
     ? sortImageAssetsByPriority(cleanMergedAssets([...cmsImageAssets, ...imageAssets]))
     : sortImageAssetsByPriority(cleanMergedAssets(imageAssets));
+  const isHealthyImageUrl = (url?: string | null): boolean => {
+    if (!url || typeof url !== 'string') return false;
+    const trimmed = url.trim();
+    if (!trimmed) return false;
+    if (trimmed.includes('supabase.co') || trimmed.includes('drive.google.com') || trimmed.includes('unsplash.com')) {
+      return false;
+    }
+    return true;
+  };
+
   const findCmsImage = (category: ImageAsset['category'], matcher?: (asset: ImageAsset) => boolean) =>
-    combinedImageAssets.find((asset) => asset.category === category && (!matcher || matcher(asset)))?.url;
+    combinedImageAssets.find((asset) => asset.category === category && isHealthyImageUrl(asset.url) && (!matcher || matcher(asset)))?.url;
+
   const headerLogoUrl = findCmsImage('Header Logo');
-  const campusesWithCmsImages = allCampuses.map((campus, index) => ({
-    ...campus,
-    image: findCmsImage('Campus Image', (asset) => {
-      // Only match assets that clearly belong to this campus by campus metadata or title
+
+  const campusesWithCmsImages = allCampuses.map((campus, index) => {
+    const defaultCampus = INITIAL_CAMPUSES.find((c) => c.id === campus.id);
+    const defaultImage = defaultCampus?.image || `/images/campuses/${campus.id}.jpg`;
+    const cmsImage = findCmsImage('Campus Image', (asset) => {
       if (campusAssetMatchesCampus(asset, campus) || campusTitleMatchesCampus(asset, campus)) {
         return true;
       }
-      
-      // If no campus metadata exists, fall back to priority/section matching only when asset is not clearly assigned elsewhere
       return asset.campus === '' && asset.priority === index + 1;
-    }) || campus.image,
-  }));
+    });
+    return {
+      ...campus,
+      image: isHealthyImageUrl(cmsImage) ? cmsImage! : (isHealthyImageUrl(campus.image) ? campus.image : defaultImage),
+    };
+  });
+
   const academicProgramImages = Object.fromEntries(
-    ACADEMIC_PROGRAMS.map((program, index) => [
-      program.id,
-      findCmsImage('Academic Program', (asset) => asset.campus === program.id || asset.title.includes(program.name) || asset.priority === index + 1) || program.image,
-    ])
+    ACADEMIC_PROGRAMS.map((program, index) => {
+      const cmsImage = findCmsImage('Academic Program', (asset) => asset.campus === program.id || asset.title.includes(program.name) || asset.priority === index + 1);
+      return [
+        program.id,
+        isHealthyImageUrl(cmsImage) ? cmsImage! : program.image,
+      ];
+    })
   );
+
   const stemResourceImages = Object.fromEntries(
-    STEM_RESOURCES.map((kit, index) => [
-      kit.id,
-      findCmsImage('STEM Resource', (asset) => asset.campus === kit.id || asset.title.includes(kit.name) || asset.priority === index + 1) || kit.image,
-    ])
+    STEM_RESOURCES.map((kit, index) => {
+      const cmsImage = findCmsImage('STEM Resource', (asset) => asset.campus === kit.id || asset.title.includes(kit.name) || asset.priority === index + 1);
+      return [
+        kit.id,
+        isHealthyImageUrl(cmsImage) ? cmsImage! : kit.image,
+      ];
+    })
   );
-  const heroSlides: HeroSlide[] = googleSheetCMS.heroBanners;
+
+  const heroSlides: HeroSlide[] = googleSheetCMS.heroBanners.filter((banner) => isHealthyImageUrl(banner.directImageUrl));
+
   const fallbackGalleryImages = [
     { url: '/images/student-life/robotics.jpg', tag: 'Robotic Class' },
     { url: '/images/campuses/tk.jpg', tag: 'TK Science Lab' },
@@ -677,17 +702,22 @@ export default function App() {
     { url: '/images/student-life/sports.jpg', tag: 'International Sports Meet' },
     { url: '/images/campuses/ttp.jpg', tag: 'TTP Interactive Board Study' }
   ];
-  const libraryGalleryImages = sortImageAssetsByPriority(combinedImageAssets.filter((asset) => asset.category === 'Campus Gallery'))
+
+  const libraryGalleryImages = sortImageAssetsByPriority(combinedImageAssets.filter((asset) => asset.category === 'Campus Gallery' && isHealthyImageUrl(asset.url)))
     .map((asset) => ({ url: asset.url, tag: asset.campus ? `${asset.title} - ${asset.campus}` : asset.title }));
-  const sheetGalleryImages: EditableGalleryImage[] = googleSheetCMS.campusGallery.map((item) => ({
-    id: `sheet-gallery-${item.id}`,
-    title: item.title,
-    url: item.directImageUrl,
-    tag: item.campus ? `${item.title} - ${item.campus}` : item.title,
-    category: 'Campus Gallery',
-    campus: item.campus,
-    sheetId: item.id,
-  }));
+
+  const sheetGalleryImages: EditableGalleryImage[] = googleSheetCMS.campusGallery
+    .filter((item) => isHealthyImageUrl(item.directImageUrl))
+    .map((item) => ({
+      id: `sheet-gallery-${item.id}`,
+      title: item.title,
+      url: item.directImageUrl,
+      tag: item.campus ? `${item.title} - ${item.campus}` : item.title,
+      category: 'Campus Gallery',
+      campus: item.campus,
+      sheetId: item.id,
+    }));
+
   const editableFallbackGalleryImages: EditableGalleryImage[] = fallbackGalleryImages.map((item, index) => ({
     id: `fallback-gallery-${index}`,
     title: item.tag,
@@ -696,6 +726,7 @@ export default function App() {
     category: 'Campus Gallery',
     campus: '',
   }));
+
   const editableLibraryGalleryImages: EditableGalleryImage[] = libraryGalleryImages.map((item, index) => ({
     id: `library-gallery-${index}`,
     title: item.tag,
@@ -704,13 +735,16 @@ export default function App() {
     category: 'Campus Gallery',
     campus: '',
   }));
+
   const galleryImages = sheetGalleryImages.length > 0
     ? sheetGalleryImages
     : editableLibraryGalleryImages.length > 0
       ? editableLibraryGalleryImages
       : editableFallbackGalleryImages;
-  const partnerLogoAssets = googleSheetCMS.partnerLogos.length > 0
-    ? googleSheetCMS.partnerLogos.map((item) => ({
+
+  const validPartnerSheet = googleSheetCMS.partnerLogos
+    .filter((item) => isHealthyImageUrl(item.directImageUrl))
+    .map((item) => ({
       id: String(item.id),
       title: item.title,
       url: item.directImageUrl,
@@ -721,29 +755,41 @@ export default function App() {
       status: item.status,
       createdAt: '',
       storageProvider: 'external-url' as const,
-    }))
-    : sortImageAssetsByPriority(combinedImageAssets.filter((asset) => asset.category === 'Partner Logo' || asset.category === 'Partner Logos' || asset.category === 'AYLA Logo' || asset.category === 'AYLA Logos'));
-  const studentLifeAssets = googleSheetCMS.studentLife.length > 0
-    ? googleSheetCMS.studentLife.map((item) => ({
-    id: String(item.id),
-    title: item.title,
-    url: item.directImageUrl,
-  }))
-    : sortImageAssetsByPriority(combinedImageAssets.filter((asset) => asset.category === 'Student Life')).map((asset) => ({
+    }));
+
+  const partnerLogoAssets = validPartnerSheet.length > 0
+    ? validPartnerSheet
+    : sortImageAssetsByPriority(combinedImageAssets.filter((asset) => isHealthyImageUrl(asset.url) && (asset.category === 'Partner Logo' || asset.category === 'Partner Logos' || asset.category === 'AYLA Logo' || asset.category === 'AYLA Logos')));
+
+  const validStudentLifeSheet = googleSheetCMS.studentLife
+    .filter((item) => isHealthyImageUrl(item.directImageUrl))
+    .map((item) => ({
+      id: String(item.id),
+      title: item.title,
+      url: item.directImageUrl,
+    }));
+
+  const studentLifeAssets = validStudentLifeSheet.length > 0
+    ? validStudentLifeSheet
+    : sortImageAssetsByPriority(combinedImageAssets.filter((asset) => isHealthyImageUrl(asset.url) && asset.category === 'Student Life')).map((asset) => ({
       id: asset.id,
       title: asset.title,
       url: asset.url,
     }));
-  const sheetNews = googleSheetCMS.news.map((item) => ({
-    id: `sheet-${item.id}`,
-    sheetId: item.id,
-    title: item.title,
-    category: 'News',
-    campus: item.campus,
-    date: item.campus || 'Google Sheet CMS',
-    content: item.campus ? `Latest update from ${item.campus}.` : 'Latest update from PSIS.',
-    image: item.directImageUrl,
-  }));
+
+  const sheetNews = googleSheetCMS.news
+    .filter((item) => isHealthyImageUrl(item.directImageUrl))
+    .map((item) => ({
+      id: `sheet-${item.id}`,
+      sheetId: item.id,
+      title: item.title,
+      category: 'News',
+      campus: item.campus,
+      date: item.campus || 'Google Sheet CMS',
+      content: item.campus ? `Latest update from ${item.campus}.` : 'Latest update from PSIS.',
+      image: item.directImageUrl,
+    }));
+
   const publicNews = sheetNews.length > 0 ? sheetNews : allNews.slice(0, 3);
 
   return (

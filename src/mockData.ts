@@ -474,13 +474,29 @@ export function savePersistedNews(news: NewsItem[]): void {
 }
 
 export function getPersistedCampuses(): Campus[] {
+  const initialMap = new Map(INITIAL_CAMPUSES.map((c) => [c.id, c]));
   const stored = localStorage.getItem(STORAGE_KEYS.CAMPUSES);
   if (!stored) {
     localStorage.setItem(STORAGE_KEYS.CAMPUSES, JSON.stringify(INITIAL_CAMPUSES));
     return INITIAL_CAMPUSES;
   }
   try {
-    return JSON.parse(stored);
+    const parsed = JSON.parse(stored) as Campus[];
+    const sanitized = parsed.map((c) => {
+      const defaultCampus = initialMap.get(c.id);
+      const isDeadUrl =
+        !c.image ||
+        c.image.includes('supabase.co') ||
+        c.image.includes('drive.google.com') ||
+        c.image.includes('unsplash.com') ||
+        !c.image.startsWith('/images/campuses/');
+      return {
+        ...c,
+        image: isDeadUrl && defaultCampus ? defaultCampus.image : (c.image || defaultCampus?.image || ''),
+      };
+    });
+    localStorage.setItem(STORAGE_KEYS.CAMPUSES, JSON.stringify(sanitized));
+    return sanitized;
   } catch (e) {
     return INITIAL_CAMPUSES;
   }

@@ -64,6 +64,12 @@ export default function FooterSlider({ campuses, lang, onCampusClick }: FooterSl
                   alt={campus.name}
                   className="h-56 w-full object-cover md:h-48"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const fallback = `/images/campuses/${campus.id}.jpg`;
+                    if (e.currentTarget.src !== fallback) {
+                      e.currentTarget.src = fallback;
+                    }
+                  }}
                 />
                 <div className="flex min-w-0 flex-col justify-center p-5 md:p-7">
                   <div className="flex items-center gap-2">

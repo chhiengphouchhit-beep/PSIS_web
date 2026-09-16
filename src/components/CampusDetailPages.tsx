@@ -40,7 +40,18 @@ export default function CampusDetailPages({ campuses, lang }: Props) {
             >
               <div className="grid grid-cols-1 sm:grid-cols-5 min-h-[260px]">
                 <div className="sm:col-span-2 relative overflow-hidden bg-brand-blue">
-                  <img src={campus.image} alt={campus.name} className="w-full h-full min-h-[220px] object-cover opacity-80 hover:scale-105 transition duration-500" />
+                  <img
+                    src={campus.image}
+                    alt={campus.name}
+                    className="w-full h-full min-h-[220px] object-cover opacity-80 hover:scale-105 transition duration-500"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const fallback = `/images/campuses/${campus.id}.jpg`;
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
+                    }}
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent" />
                   <div className="absolute bottom-4 left-4 text-white">
                     <div className="text-[10px] uppercase tracking-widest font-bold text-brand-gold">{campus.code}</div>

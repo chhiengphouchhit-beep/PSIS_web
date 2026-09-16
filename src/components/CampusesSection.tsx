@@ -144,6 +144,12 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
                   alt={activeCampus.name}
                   className="w-full h-full object-cover select-none absolute inset-0"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const fallback = `/images/campuses/${activeCampus.id}.jpg`;
+                    if (e.currentTarget.src !== fallback) {
+                      e.currentTarget.src = fallback;
+                    }
+                  }}
                 />
               </AnimatePresence>
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/45 to-transparent"></div>
