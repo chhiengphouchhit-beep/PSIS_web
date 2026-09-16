@@ -317,7 +317,7 @@ export const STEM_RESOURCES: StemKit[] = [
     type: 'Tangible Robotic Tiles',
     description: 'Tag-tile physical puzzle systems that teach preschoolers the foundational principles of loop, sequence, and simple functions without screen exhaustion.',
     skillsAcquired: ['Aesthetic logic', 'Sequence tracking', 'Basic loop programming'],
-    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80'
+    image: '/images/student-life/robotics.jpg'
   },
   {
     id: 'smartworld',
@@ -325,7 +325,7 @@ export const STEM_RESOURCES: StemKit[] = [
     type: 'Embedded Microcontroller Set',
     description: 'Advanced Arduino and Raspberry Pi integration sensors. High schoolers use these to develop ecological sensors and smart house hardware models.',
     skillsAcquired: ['Electrical blueprints', 'C++ syntax code structures', 'Hardware manipulation'],
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80'
+    image: '/images/news/stem-robotics.jpg'
   },
   {
     id: 'drone',
@@ -333,7 +333,7 @@ export const STEM_RESOURCES: StemKit[] = [
     type: 'Programmed Aero-dynamics',
     description: 'Students learn drone flight parameters, programmatic coordinate control, and sensor telemetry analysis using simple Python script modules.',
     skillsAcquired: ['spatial calculus', 'Python coordinates', 'Flight mechanics'],
-    image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=800&q=80'
+    image: '/images/student-life/leadership.jpg'
   },
   {
     id: 'interactive',
@@ -341,7 +341,7 @@ export const STEM_RESOURCES: StemKit[] = [
     type: 'Collaborative Technology',
     description: 'Multi-touch displays inside every classroom allowing instant team collaborations, classroom screencasts, and quick cloud study note distributions.',
     skillsAcquired: ['Realtime peer collaboration', 'Digital AV layouts', 'Group presenting skills'],
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80'
+    image: '/images/student-life/arts.jpg'
   }
 ];
 

@@ -31,46 +31,21 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
     <section id="campuses" className="py-28 bg-[#fafbfc] scroll-mt-12 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         
-        {/* Section Header - Enhanced with Jitter animations */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-20 space-y-4"
-        >
-          <motion.span 
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-block bg-brand-blue/5 text-brand-blue font-sans font-medium text-[10px] tracking-widest uppercase px-3.5 py-1.5 rounded-full border border-brand-blue/10"
-          >
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
+          <span className="inline-block bg-brand-blue/5 text-brand-blue font-sans font-medium text-[10px] tracking-widest uppercase px-3.5 py-1.5 rounded-full border border-brand-blue/10">
             {lang === 'en' ? 'Exclusive Academic Footprint' : 'បណ្តាញសាខាទូទាំងប្រទេសរបស់យើង'}
-          </motion.span>
-          <motion.h2 
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="font-serif font-bold text-3xl md:text-[45px] text-brand-dark tracking-tight leading-tight"
-          >
+          </span>
+          <h2 className="font-serif font-bold text-3xl md:text-[45px] text-brand-dark tracking-tight leading-tight">
             {lang === 'en' ? '6 Campus Operations. One Standard.' : 'សាខាទាំង៦ តម្រង់ទិសដៅស្តង់ដារតែមួយ'}
-          </motion.h2>
-          <motion.div 
-            initial={{ width: 0 }}
-            whileInView={{ width: 64 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="w-16 h-0.5 bg-brand-gold mx-auto rounded"
-          />
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-xs md:text-sm text-slate-500 font-sans leading-relaxed"
-          >
+          </h2>
+          <div className="w-16 h-0.5 bg-brand-gold mx-auto rounded"></div>
+          <p className="text-xs md:text-sm text-slate-500 font-sans leading-relaxed">
             {lang === 'en'
               ? 'Paññāsāstra International School group deploys world-class high-speed digital arrays, certified native teachers, and highly functional engineering research labs seamlessly across Phnom Penh and provinces.'
               : 'សហគមន៍សាលាអន្តរជាតិ បញ្ញាសាស្ត្រ ចែករំលែកនូវហេដ្ឋារចនាសម្ព័ន្ធបច្ចេកវិទ្យាលំដាប់ពិភពលោក គ្រូជនជាតិដើម និងប្រព័ន្ធពិសោធន៍រ៉ូបូតគ្រប់សាខាទាំងអស់។'}
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
         {/* Master Interactive Core Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -82,67 +57,48 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
             </h3>
             
             <div className="space-y-3">
-              {campuses.map((c, index) => {
+              {campuses.map((c) => {
                 const isSelected = selectedCampusId === c.id;
                 return (
-                  <motion.div 
-                    key={c.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.08 }}
-                    className="space-y-2"
-                  >
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                  <div key={c.id} className="space-y-2">
+                    <button
                       onClick={() => setSelectedCampusId(c.id)}
                       className={`w-full text-left p-4 rounded-2xl transition-all duration-300 cursor-pointer border relative outline-none ${
                         isSelected
                           ? 'bg-gradient-to-r from-brand-blue to-brand-dark text-white border-brand-blue shadow-lg scale-[1.02]'
-                          : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-slate-105 shadow-sm hover:shadow-md'
+                          : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-slate-200/60 shadow-sm'
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <motion.div 
-                          animate={isSelected ? { scale: 1.1 } : { scale: 1 }}
-                          className={`p-2.5 rounded-xl transition-colors duration-300 ${isSelected ? 'bg-white/10 text-brand-gold shadow-inner' : 'bg-slate-50 text-brand-blue'}`}
-                        >
+                        <div className={`p-2.5 rounded-xl transition-colors duration-300 ${isSelected ? 'bg-white/10 text-brand-gold shadow-inner' : 'bg-slate-50 text-brand-blue'}`}>
                           <Building2 size={16} />
-                        </motion.div>
+                        </div>
                         <div className="flex-1">
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <h4 className="font-nav font-bold text-xs tracking-wide">{c.name}</h4>
-                            <motion.span 
-                              animate={isSelected ? { scale: 1.05 } : { scale: 1 }}
-                              className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded font-nav tracking-widest transition-colors duration-300 ${
-                                isSelected ? 'text-brand-dark bg-brand-gold' : 'text-slate-500 bg-slate-100'
-                              }`}
-                            >
+                            <span className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded font-nav tracking-widest transition-colors duration-300 ${
+                              isSelected ? 'text-brand-dark bg-brand-gold' : 'text-slate-500 bg-slate-100'
+                            }`}>
                               {c.code}
-                            </motion.span>
+                            </span>
                           </div>
                           <p className={`text-[10px] tracking-normal mt-1 font-sans ${isSelected ? 'text-slate-200' : 'text-slate-500'}`}>
                             {c.location.split(',')[1] || c.location}
                           </p>
                         </div>
                       </div>
-                    </motion.button>
+                    </button>
 
-                    <motion.div 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="flex justify-end"
-                    >
-                      <motion.button
-                        whileHover={{ y: -2 }}
+                    <div className="flex justify-end">
+                      <button
                         onClick={() => setMapCampus(c)}
                         className="text-[10px] px-3 py-2 rounded-xl bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm transition duration-150"
                         aria-label={lang === 'en' ? `Show ${c.name} on map` : `បង្ហាញ ${c.name} លើផែនទី`}
                       >
                         {lang === 'en' ? 'Show on Map' : 'បង្ហាញផែនទី'}
-                      </motion.button>
-                    </motion.div>
-                  </motion.div>
+                      </button>
+                    </div>
+                  </div>
                 );
               })}
             </div>
@@ -204,7 +160,7 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
                 
                 <div className="flex items-center text-xs text-slate-200 font-sans font-light">
                   <MapPin size={13} className="mr-1.5 text-brand-gold shrink-0" />
-                  <span>{activeCampus.location}</span>
+                  <span>{activeCampus.location || ''}</span>
                 </div>
               </div>
             </div>
@@ -216,14 +172,14 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
               <div className="bg-amber-50/40 border border-amber-200/45 rounded-2xl p-6 relative">
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="w-11 h-11 rounded-full bg-brand-dark text-brand-gold flex items-center justify-center font-black text-sm shadow-md ring-2 ring-amber-100">
-                    {activeCampus.principal.split(' ').slice(-1)[0]?.[0] || 'P'}
+                    {(activeCampus.principal || 'Principal').split(' ').slice(-1)[0]?.[0] || 'P'}
                   </div>
                   <div>
                     <h5 className="text-[10px] font-extrabold text-[#071B5C] uppercase tracking-wider font-sans">
                       {lang === 'en' ? 'Campus Principal Message' : 'សារលិខិតពីនាយកសាលា'}
                     </h5>
                     <p className="text-xs text-slate-800 font-extrabold font-sans mt-0.5">
-                      {activeCampus.principal}
+                      {activeCampus.principal || ''}
                     </p>
                     <p className="text-[10px] text-slate-400 font-sans tracking-wide">
                       {lang === 'en' ? 'Campus Director & Academic Head' : 'នាយកគ្រប់គ្រងប្រចាំសាខា'}
@@ -232,7 +188,7 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
                 </div>
                 
                 <p className="text-xs text-slate-600 italic leading-relaxed font-sans font-light relative z-10 pl-1">
-                  "{activeCampus.message}"
+                  "{activeCampus.message || ''}"
                 </p>
               </div>
 
@@ -244,7 +200,7 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
                 </h4>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans">
-                  {activeCampus.facilities.map((fac, i) => (
+                  {(activeCampus.facilities || []).map((fac, i) => (
                     <motion.div 
                       key={i}
                       initial={{ opacity: 0, x: -10 }}
@@ -263,7 +219,7 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
               <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div className="text-xs text-slate-500 font-sans flex flex-col sm:flex-row sm:items-center gap-1">
                   <span className="font-bold text-slate-800">{lang === 'en' ? 'Central Contact Line:' : 'ទំនាក់ទំនងព័ត៌មាន៖'}</span>
-                  <span className="text-brand-blue font-mono font-semibold tracking-wide bg-brand-blue/5 border border-brand-blue/10 px-2 py-0.5 rounded text-[11px]">{activeCampus.contact}</span>
+                  <span className="text-brand-blue font-mono font-semibold tracking-wide bg-brand-blue/5 border border-brand-blue/10 px-2 py-0.5 rounded text-[11px]">{activeCampus.contact || ''}</span>
                 </div>
                 
                 <button

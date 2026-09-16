@@ -1,20 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@500;600;700;800&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource-variable/google-sans-flex@latest/index.css');
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Playfair Display", "Kantumruy Pro", serif;
-  --font-sans: "Inter", "Kantumruy Pro", sans-serif;
-  --font-nav: "Montserrat", "Kantumruy Pro", sans-serif;
+  --font-serif: "Google Sans Flex Variable", "Google Sans", "Kantumruy Pro", sans-serif;
+  --font-sans: "Google Sans Flex Variable", "Google Sans", "Kantumruy Pro", sans-serif;
+  --font-nav: "Google Sans Flex Variable", "Google Sans", "Kantumruy Pro", sans-serif;
   
-  /* Jitter-style color palette */
-  --color-brand-blue: #9D7FF0;  /* Purple accent - Jitter primary */
-  --color-brand-dark: #1A1A1A;  /* Dark text - Jitter style */
-  --color-brand-gold: #9D7FF0;  /* Purple accent */
-  --color-brand-red: #8B1E1E;
+  --color-brand-blue: #071B5C;
+  --color-brand-dark: #051445;
+  --color-brand-gold: #C5A059; /* More elegant, antique collegiate gold */
+  --color-brand-red: #8B1E1E;  /* Elegant Oxbridge Crimson */
   --color-brand-white: #FFFFFF;
-  --color-jitter-purple: #9D7FF0;
-  --color-jitter-light: #F8F8F8;
-  --color-jitter-gray: #E8E8E8;
 }
 
 html {
@@ -24,8 +21,8 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: #FFFFFF; /* Clean white like Jitter */
-  color: #1A1A1A;
+  background-color: #fbfbf9; /* Soft academic warm-white/cream canvas */
+  color: #1e2530;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -63,172 +60,17 @@ body {
   margin-top: 1rem;
 }
 
-/* Jitter-style Animations - Smooth and refined */
-@keyframes blob {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(20px, -30px) scale(1.05);
-  }
-  66% {
-    transform: translate(-15px, 15px) scale(0.95);
-  }
+/* Premium Marquee Animation Ticker */
+@keyframes marquee {
+  0% { transform: translateX(3%); }
+  100% { transform: translateX(-100%); }
 }
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+  display: inline-block;
+  padding-left: 20px;
 }
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(157, 127, 240, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(157, 127, 240, 0.4);
-  }
-}
-
-@keyframes subtleShine {
-  0%, 100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-/* Animation utility classes */
-.animate-blob {
-  animation: blob 7s infinite ease-in-out;
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.animate-slide-in-down {
-  animation: slideInDown 0.5s ease-out;
-}
-
-.animate-slide-in-up {
-  animation: slideInUp 0.5s ease-out;
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.8s ease-out;
-}
-
-.animate-glow {
-  animation: glow 3s ease-in-out infinite;
-}
-
-.animate-subtle-shine {
-  animation: subtleShine 2s ease-in-out infinite;
-}
-
-/* Jitter-style smooth transitions */
-button, a, input, [role="button"] {
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Card and component styling */
-.jitter-card {
-  background: #FFFFFF;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.jitter-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-}
-
-/* Enhanced hover effects */
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-}
-
-/* Button styling - Jitter purple gradient */
-.btn-jitter {
-  background: linear-gradient(135deg, #9D7FF0 0%, #7C5FD0 100%);
-  color: white;
-  border: none;
-  border-radius: 24px;
-  padding: 12px 32px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 4px 16px rgba(157, 127, 240, 0.3);
-}
-
-.btn-jitter:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(157, 127, 240, 0.4);
-}
-
-.btn-jitter:active {
-  transform: translateY(0);
-}
-
-/* Gradient text effect */
-.gradient-text {
-  background: linear-gradient(135deg, #9D7FF0, #7C5FD0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
