@@ -16,7 +16,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Welcome to the TK campus where technology and language merge to cultivate the global citizens of tomorrow. Our curriculum places a high focus on creative inquiry and analytical mastery from preschool onwards.',
     facilities: ['Advanced Robotic Lab', 'Olympic-size Indoor Swimming Pool', 'Science Lab with 3D Printers', 'Digital Apple-certified Mac Suite', 'Spacious Library with 50K+ volumes'],
     contact: 'tk.info@psis.edu.kh | +855 23 884 991',
-    image: 'https://drive.google.com/thumbnail?id=1mwH1yBOuzDuHE3dwN-739XUZUw2SO41m&sz=w2000',
+    image: '/images/campuses/tk.jpg',
     location: 'Street 315, Sangkat Boeung Kak I, Khan Toul Kork, Phnom Penh',
     studentsCount: 1450
   },
