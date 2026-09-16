@@ -412,7 +412,7 @@ function FacebookPost({ item, lang }: { key?: string; item: NewsItem; lang: 'en'
             className="w-full h-full object-cover transition duration-300 group-hover:scale-[1.01]"
             referrerPolicy="no-referrer"
             onError={(e) => {
-              e.currentTarget.src = "/images/campuses/tk.jpg";
+              e.currentTarget.src = "/images/news/stem-robotics.jpg";
             }}
           />
         </div>
@@ -778,19 +778,29 @@ export default function App() {
     }));
 
   const sheetNews = googleSheetCMS.news
-    .filter((item) => isHealthyImageUrl(item.directImageUrl))
+    .filter((item) => {
+      if (!isHealthyImageUrl(item.directImageUrl)) return false;
+      // Filter out dummy/test rows and inaccessible Google Drive private links
+      if (item.title === 'News Cover 1' || item.directImageUrl?.includes('1O103rUio86PJkvdUtVsNBCRokVMTayv0')) {
+        return false;
+      }
+      return true;
+    })
     .map((item) => ({
       id: `sheet-${item.id}`,
       sheetId: item.id,
       title: item.title,
-      category: 'News',
+      khmerTitle: item.title,
+      category: item.campus ? `${item.campus} News` : 'PSIS News',
       campus: item.campus,
-      date: item.campus || 'Google Sheet CMS',
-      content: item.campus ? `Latest update from ${item.campus}.` : 'Latest update from PSIS.',
+      date: item.campus ? `Campus ${item.campus}` : 'PSIS Official Broadcast',
+      content: item.campus ? `Latest update from ${item.campus} campus.` : 'Latest update and announcements from Paññāsāstra International School.',
       image: item.directImageUrl,
     }));
 
-  const publicNews = sheetNews.length > 0 ? sheetNews : allNews.slice(0, 3);
+  const publicNews = sheetNews.length > 0
+    ? [...sheetNews, ...allNews.filter((n) => !sheetNews.some((s) => s.title === n.title))]
+    : allNews;
 
   return (
     <div className="min-h-screen flex flex-col font-sans select-none bg-[#fafbfc]">
@@ -1566,11 +1576,7 @@ export default function App() {
                   </div>
 
                   <div className="max-w-2xl mx-auto space-y-6">
-                    {googleSheetCMS.loading && googleSheetCMS.news.length === 0 ? (
-                      Array.from({ length: 2 }).map((_, idx) => (
-                        <div key={idx} className="h-96 animate-pulse rounded-2xl border border-slate-200 bg-slate-100" />
-                      ))
-                    ) : publicNews.map((item) => (
+                    {publicNews.map((item) => (
                       <FacebookPost key={item.id} item={item} lang={lang} />
                     ))}
                   </div>

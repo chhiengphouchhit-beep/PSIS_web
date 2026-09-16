@@ -470,13 +470,34 @@ export function savePersistedLeads(leads: Lead[]): void {
 }
 
 export function getPersistedNews(): NewsItem[] {
+  const initialMap = new Map(INITIAL_NEWS.map((n) => [n.id, n]));
   const stored = localStorage.getItem(STORAGE_KEYS.NEWS);
   if (!stored) {
     localStorage.setItem(STORAGE_KEYS.NEWS, JSON.stringify(INITIAL_NEWS));
     return INITIAL_NEWS;
   }
   try {
-    return JSON.parse(stored);
+    const parsed = JSON.parse(stored) as NewsItem[];
+    const sanitized = parsed.map((n) => {
+      const defaultNews = initialMap.get(n.id);
+      return {
+        ...n,
+        title: defaultNews ? defaultNews.title : n.title,
+        khmerTitle: defaultNews ? defaultNews.khmerTitle : n.khmerTitle,
+        image: defaultNews ? defaultNews.image : n.image,
+        content: defaultNews ? defaultNews.content : n.content,
+        category: defaultNews ? defaultNews.category : n.category,
+      };
+    });
+    // Ensure any new items in INITIAL_NEWS are added
+    const parsedIds = new Set(parsed.map((n) => n.id));
+    for (const initNews of INITIAL_NEWS) {
+      if (!parsedIds.has(initNews.id)) {
+        sanitized.push(initNews);
+      }
+    }
+    localStorage.setItem(STORAGE_KEYS.NEWS, JSON.stringify(sanitized));
+    return sanitized;
   } catch (e) {
     return INITIAL_NEWS;
   }
