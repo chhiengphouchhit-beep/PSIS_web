@@ -646,7 +646,7 @@ export default function App() {
     if (!url || typeof url !== 'string') return false;
     const trimmed = url.trim();
     if (!trimmed) return false;
-    if (trimmed.includes('supabase.co') || trimmed.includes('drive.google.com') || trimmed.includes('unsplash.com')) {
+    if (trimmed.includes('supabase.co') || trimmed.includes('unsplash.com')) {
       return false;
     }
     return true;

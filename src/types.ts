@@ -14,6 +14,7 @@ export interface Campus {
   image: string;
   location: string;
   studentsCount: number;
+  isComingSoon?: boolean;
 }
 
 export type LeadStatus = 'New' | 'Contacted' | 'Tour Booked' | 'Assessment' | 'Enrolled' | 'Closed';

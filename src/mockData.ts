@@ -16,7 +16,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Welcome to the TK campus where technology and language merge to cultivate the global citizens of tomorrow. Our curriculum places a high focus on creative inquiry and analytical mastery from preschool onwards.',
     facilities: ['Advanced Robotic Lab', 'Olympic-size Indoor Swimming Pool', 'Science Lab with 3D Printers', 'Digital Apple-certified Mac Suite', 'Spacious Library with 50K+ volumes'],
     contact: 'tk.info@psis.edu.kh | +855 23 884 991',
-    image: '/images/campuses/tk.jpg',
+    image: 'https://drive.google.com/thumbnail?id=1mwH1yBOuzDuHE3dwN-739XUZUw2SO41m&sz=w2000',
     location: 'Street 315, Sangkat Boeung Kak I, Khan Toul Kork, Phnom Penh',
     studentsCount: 1450
   },
@@ -28,7 +28,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Our TTP Campus thrives on high community engagement and premium academic support. We deliver exceptional primary and secondary classes paired with the esteemed PUC-IFL language system.',
     facilities: ['Fully Equipped Science Laboratory', 'Multi-purpose Athletics court', 'Digital Learning Pods', 'Smart Interactive Displays in all classrooms', 'Art & Music Studios'],
     contact: 'ttp.info@psis.edu.kh | +855 23 221 688',
-    image: '/images/campuses/ttp.jpg',
+    image: 'https://drive.google.com/thumbnail?id=1eKwPAeC5s_4IsH6M_O7akEQIfOIT6hMC&sz=w2000',
     location: 'Street 432, Sangkat Toul Tom Poung, Khan Chamkarmon, Phnom Penh',
     studentsCount: 980
   },
@@ -40,7 +40,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'At CAP, children enjoy a green, serene learning eco-reserve. Our digital transformation is embedded into the environment, offering nature-inspired learning and advanced drone technology courses.',
     facilities: ['Outdoor Ecological Greenhouse', 'Drone Education Testing Field', 'Creative Play Hub', 'Tech Sandbox Lab', 'Modern Amphitheater'],
     contact: 'cap.info@psis.edu.kh | +855 23 555 125',
-    image: '/images/campuses/cap.jpg',
+    image: 'https://drive.google.com/thumbnail?id=1e59xLiMNO0ippwnyTiuYsecWPwYa2BCA&sz=w2000',
     location: 'National Road 1, Sangkat Chbar Ampov, Khan Chbar Ampov, Phnom Penh',
     studentsCount: 720
   },
@@ -52,7 +52,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'RSK represents our newest educational center of excellence. Built to inspire high school excellence and direct University pathways, it is Phnom Penhs premier north gate campus.',
     facilities: ['International Debate Chamber', 'Virtual Reality Learning Zone', 'Engineering & CAD Studio', 'Pre-university Resource Center', 'Indoors Basketball arena'],
     contact: 'rsk.info@psis.edu.kh | +855 23 998 012',
-    image: '/images/campuses/rsk.jpg',
+    image: 'https://drive.google.com/thumbnail?id=1XClCDd427xOkzLigxZd7e3YmJoK_JwoN&sz=w2000',
     location: 'National Road 5, Sangkat Russey Keo, Khan Russey Keo, Phnom Penh',
     studentsCount: 810
   },
@@ -64,7 +64,7 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Industrial progression and automation are the core disciplines here at NR3. We provide robust secondary educational structures focused heavily on practical engineering, mathematics, and science.',
     facilities: ['Robotics Testing Arena', 'Modern physics & chemistry blocks', 'Tech Sandbox Lab', 'Generous outdoor fields', 'Digital AV Broadcasting Studio'],
     contact: 'nr3.info@psis.edu.kh | +855 23 777 004',
-    image: '/images/campuses/nr3.jpg',
+    image: 'https://drive.google.com/thumbnail?id=1-0MIa_Pl6jugPZiOTJjNj64IzxUfZu2l&sz=w2000',
     location: 'National Road 3 (Km 12), Sangkat Chom Chao, Khan Por Senchey, Phnom Penh',
     studentsCount: 640
   },
@@ -76,9 +76,22 @@ export const INITIAL_CAMPUSES: Campus[] = [
     message: 'Bringing global education standard to Cambodias second city. Battambang campus fuses rich local heritage with cutting-edge international standards in digital learning models.',
     facilities: ['Agricultural Science Hub', 'Digital Kids Library', 'Modern Smart Classrooms', 'Sports Complex & Athletic Track', 'Advanced IT Training Center'],
     contact: 'btb.info@psis.edu.kh | +855 53 952 111',
-    image: '/images/campuses/battambang.jpg',
+    image: 'https://drive.google.com/thumbnail?id=1vvPBU5dZVeGbFDsVMMqS-AuBJ6x0wqDl&sz=w2000',
     location: 'Street 3, Sangkat Svay Por, Krong Battambang, Battambang Province',
     studentsCount: 570
+  },
+  {
+    id: 'kpt',
+    name: 'Kampong Thom Campus (KPT)',
+    code: 'KPT',
+    principal: 'Academic Directorate',
+    message: 'Paññāsāstra International School expands to Kampong Thom Province. Delivering 21st-century bilingual education, Singapore mathematics, and robotics engineering directly to the heart of Cambodia.',
+    facilities: ['Robotics & STEM Innovation Lab', 'Smart Interactive Displays in all classrooms', 'Digital Resource Library', 'Eco-friendly Sports Grounds & Athletics', 'PUC-IFL Language Center'],
+    contact: 'kpt.info@psis.edu.kh | +855 23 884 991',
+    image: '/images/campuses/kpt.jpg',
+    location: 'National Road 6, Krong Stueng Saen, Kampong Thom Province',
+    studentsCount: 0,
+    isComingSoon: true
   }
 ];
 
@@ -482,19 +495,20 @@ export function getPersistedCampuses(): Campus[] {
   }
   try {
     const parsed = JSON.parse(stored) as Campus[];
-    const sanitized = parsed.map((c) => {
+    const parsedIds = new Set(parsed.map((c) => c.id));
+    const sanitized: Campus[] = parsed.map((c) => {
       const defaultCampus = initialMap.get(c.id);
-      const isDeadUrl =
-        !c.image ||
-        c.image.includes('supabase.co') ||
-        c.image.includes('drive.google.com') ||
-        c.image.includes('unsplash.com') ||
-        !c.image.startsWith('/images/campuses/');
       return {
         ...c,
-        image: isDeadUrl && defaultCampus ? defaultCampus.image : (c.image || defaultCampus?.image || ''),
+        isComingSoon: defaultCampus?.isComingSoon ?? c.isComingSoon,
+        image: defaultCampus ? defaultCampus.image : c.image,
       };
     });
+    for (const initCampus of INITIAL_CAMPUSES) {
+      if (!parsedIds.has(initCampus.id)) {
+        sanitized.push(initCampus);
+      }
+    }
     localStorage.setItem(STORAGE_KEYS.CAMPUSES, JSON.stringify(sanitized));
     return sanitized;
   } catch (e) {

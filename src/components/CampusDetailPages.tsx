@@ -54,7 +54,14 @@ export default function CampusDetailPages({ campuses, lang }: Props) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent" />
                   <div className="absolute bottom-4 left-4 text-white">
-                    <div className="text-[10px] uppercase tracking-widest font-bold text-brand-gold">{campus.code}</div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] uppercase tracking-widest font-bold text-brand-gold">{campus.code}</span>
+                      {campus.isComingSoon && (
+                        <span className="text-[8px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-amber-400 text-slate-950">
+                          {lang === 'en' ? 'Coming Soon' : 'ឆាប់ៗនេះ'}
+                        </span>
+                      )}
+                    </div>
                     <div className="font-serif text-2xl font-bold">{campus.name}</div>
                   </div>
                 </div>

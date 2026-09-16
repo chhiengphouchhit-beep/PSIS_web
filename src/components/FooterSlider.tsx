@@ -76,8 +76,12 @@ export default function FooterSlider({ campuses, lang, onCampusClick }: FooterSl
                     <span className="rounded bg-brand-gold px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-[#061342]">
                       {campus.code}
                     </span>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
-                      {lang === 'en' ? 'Official Campus' : 'សាខាផ្លូវការ'}
+                    <span className={`text-[10px] font-bold uppercase tracking-wider ${
+                      campus.isComingSoon ? 'text-amber-400' : 'text-slate-300'
+                    }`}>
+                      {campus.isComingSoon 
+                        ? (lang === 'en' ? 'Coming Soon' : 'បើកដំណើរការឆាប់ៗនេះ')
+                        : (lang === 'en' ? 'Official Campus' : 'សាខាផ្លូវការ')}
                     </span>
                   </div>
                   <h4 className="mt-3 truncate font-serif text-2xl font-bold text-white md:text-3xl">{campus.name}</h4>

@@ -76,11 +76,18 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
                         <div className="flex-1">
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <h4 className="font-nav font-bold text-xs tracking-wide">{c.name}</h4>
-                            <span className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded font-nav tracking-widest transition-colors duration-300 ${
-                              isSelected ? 'text-brand-dark bg-brand-gold' : 'text-slate-500 bg-slate-100'
-                            }`}>
-                              {c.code}
-                            </span>
+                            <div className="flex items-center gap-1">
+                              {c.isComingSoon && (
+                                <span className="text-[8px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-600 border border-amber-400/30">
+                                  {lang === 'en' ? 'Coming Soon' : 'ឆាប់ៗនេះ'}
+                                </span>
+                              )}
+                              <span className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded font-nav tracking-widest transition-colors duration-300 ${
+                                isSelected ? 'text-brand-dark bg-brand-gold' : 'text-slate-500 bg-slate-100'
+                              }`}>
+                                {c.code}
+                              </span>
+                            </div>
                           </div>
                           <p className={`text-[10px] tracking-normal mt-1 font-sans ${isSelected ? 'text-slate-200' : 'text-slate-500'}`}>
                             {c.location.split(',')[1] || c.location}
@@ -156,8 +163,14 @@ export default function CampusesSection({ campuses, lang }: CampusesSectionProps
               
               {/* Overlay Campus Identity Details */}
               <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
-                <span className="bg-brand-gold text-[#07133C] text-[9px] font-bold uppercase px-2.5 py-1 rounded font-nav tracking-widest shadow-md">
-                  {lang === 'en' ? 'Official Campus Site' : 'មជ្ឈមណ្ឌលសិក្សាផ្លូវការ'}
+                <span className={`text-[9px] font-bold uppercase px-2.5 py-1 rounded font-nav tracking-widest shadow-md ${
+                  activeCampus.isComingSoon 
+                    ? 'bg-amber-400 text-slate-950 font-extrabold animate-pulse' 
+                    : 'bg-brand-gold text-[#07133C]'
+                }`}>
+                  {activeCampus.isComingSoon
+                    ? (lang === 'en' ? 'New Campus Launch • Coming Soon' : 'គម្រោងសាខាថ្មី • បើកដំណើរការឆាប់ៗនេះ')
+                    : (lang === 'en' ? 'Official Campus Site' : 'មជ្ឈមណ្ឌលសិក្សាផ្លូវការ')}
                 </span>
                 
                 <h3 className="font-serif font-bold text-2xl md:text-3.5xl text-white tracking-wide leading-tight">
