@@ -8,23 +8,69 @@ interface Props {
 }
 
 const moments = [
-  { title: 'Robotics Lab', kh: 'ថ្នាក់រ៉ូបូត', icon: Microscope, image: '/images/student-life/robotics.jpg', span: 'lg:col-span-2' },
-  { title: 'Student Leadership', kh: 'ភាពជាអ្នកដឹកនាំ', icon: Users, image: '/images/student-life/leadership.jpg', span: '' },
-  { title: 'Arts & Music', kh: 'សិល្បៈ និងតន្ត្រី', icon: Music, image: '/images/student-life/arts.jpg', span: '' },
-  { title: 'Sports & Teamwork', kh: 'កីឡា និងក្រុមការងារ', icon: Trophy, image: '/images/student-life/sports.jpg', span: 'lg:col-span-2' },
-  { title: 'Field Trips', kh: 'ដំណើរទស្សនកិច្ច', icon: Plane, image: '/images/student-life/field-trip.jpg', span: '' },
+  {
+    id: 'robotics',
+    title: 'Robotics Lab',
+    kh: 'ថ្នាក់រ៉ូបូត & STEM',
+    descEn: 'Interactive KUBO coding and smart robotics fostering algorithmic thinking and hands-on innovation.',
+    descKh: 'ការបណ្ដុះបណ្ដាលសរសេរកូដមនុស្សយន្ត KUBO បង្កើនការគិតបែបស៊ីជម្រៅ និងភាពច្នៃប្រឌិត។',
+    icon: Microscope,
+    image: '/images/student-life/robotics.jpg',
+    span: 'lg:col-span-2'
+  },
+  {
+    id: 'leadership',
+    title: 'Student Leadership',
+    kh: 'ភាពជាអ្នកដឹកនាំ',
+    descEn: 'Public speaking, debate competitions, and confidence building for tomorrow’s leaders.',
+    descKh: 'ការនិយាយជាសាធារណៈ ការប្រកួតជជែកដេញដោល និងការកសាងទំនុកចិត្តជាអ្នកដឹកនាំ។',
+    icon: Users,
+    image: '/images/student-life/leadership.jpg',
+    span: ''
+  },
+  {
+    id: 'arts',
+    title: 'Arts & Culture',
+    kh: 'សិល្បៈ និងវប្បធម៌',
+    descEn: 'Cultural heritage celebrations, traditional music, and creative artistic expression.',
+    descKh: 'ការអបអរសាទរវប្បធម៌ប្រពៃណី និងការបញ្ចេញទេពកោសល្យសិល្បៈច្នៃប្រឌិត។',
+    icon: Music,
+    image: '/images/student-life/arts.jpg',
+    span: ''
+  },
+  {
+    id: 'sports',
+    title: 'Sports & Teamwork',
+    kh: 'កីឡា និងក្រុមការងារ',
+    descEn: 'Martial arts discipline, Taekwondo mastery, physical agility, and sportsmanship.',
+    descKh: 'វិន័យក្បាច់គុនតេក្វាន់ដូ សុខភាពរាងកាយរឹងមាំ និងស្មារតីសាមគ្គីភាពជាក្រុម។',
+    icon: Trophy,
+    image: '/images/student-life/sports.jpg',
+    span: 'lg:col-span-2'
+  },
+  {
+    id: 'field-trips',
+    title: 'Field Trips',
+    kh: 'ដំណើរទស្សនកិច្ច',
+    descEn: 'Experiential learning excursions, nature discovery, and memorable outdoor exploration.',
+    descKh: 'ការសិក្សាស្វែងយល់ជាក់ស្តែង ការទស្សនកិច្ចកម្សាន្ត និងអនុស្សាវរីយ៍ល្អៗក្រៅថ្នាក់រៀន។',
+    icon: Plane,
+    image: '/images/student-life/field-trip.jpg',
+    span: 'md:col-span-2 lg:col-span-3'
+  },
 ];
 
 export default function StudentLifeSection({ lang, assets = [], isLoading = false }: Props) {
-  const displayMoments = assets.length > 0
-    ? assets.map((asset, index) => ({
-      title: asset.title,
-      kh: asset.title,
-      icon: moments[index % moments.length].icon,
-      image: asset.url,
-      span: moments[index % moments.length].span,
-    }))
-    : moments;
+  // Use curated moments, with optional image override if matching asset is healthy
+  const displayMoments = moments.map((moment) => {
+    const matchingAsset = assets.find(
+      (a) => a.title && (a.title.toLowerCase().includes(moment.id) || a.title.toLowerCase().includes(moment.title.toLowerCase()))
+    );
+    return {
+      ...moment,
+      image: matchingAsset?.url || moment.image,
+    };
+  });
 
   return (
     <section className="py-24 bg-white border-t border-slate-100 overflow-hidden">
@@ -40,12 +86,12 @@ export default function StudentLifeSection({ lang, assets = [], isLoading = fals
           </div>
           <p className="lg:col-span-5 text-sm md:text-base leading-relaxed text-slate-600 font-sans">
             {lang === 'en'
-              ? 'Use this section to replace generic template visuals with real PSIS photography: classrooms, student activities, science, robotics, field trips, graduation and sports.'
-              : 'ផ្នែកនេះសម្រាប់ដាក់រូបភាពពិតរបស់ PSIS ដូចជា ថ្នាក់រៀន សកម្មភាពសិស្ស វិទ្យាសាស្ត្រ រ៉ូបូត ទស្សនកិច្ច បញ្ចប់ការសិក្សា និងកីឡា។'}
+              ? 'Real PSIS photography showcasing classrooms, STEM robotics, student leadership, cultural arts, sports discipline, and outdoor excursions.'
+              : 'រូបភាពសកម្មភាពពិតរបស់សិស្ស PSIS ដូចជា ថ្នាក់រ៉ូបូត STEM ភាពជាអ្នកដឹកនាំ សិល្បៈវប្បធម៌ កីឡាតេក្វាន់ដូ និងដំណើរទស្សនកិច្ចសិក្សា។'}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-[260px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 auto-rows-[270px]">
           {isLoading ? Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="animate-pulse rounded-[2rem] bg-slate-100" />
           )) : displayMoments.map((item, index) => {
@@ -65,17 +111,17 @@ export default function StudentLifeSection({ lang, assets = [], isLoading = fals
                   className="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110"
                   referrerPolicy="no-referrer"
                   onError={(event) => {
-                    event.currentTarget.src = moments[index % moments.length].image;
+                    event.currentTarget.src = moments[index].image;
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/25 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/95 via-brand-dark/35 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                   <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-brand-gold">
                     <Icon size={20} />
                   </div>
                   <h3 className="font-serif font-bold text-2xl tracking-tight">{lang === 'en' ? item.title : item.kh}</h3>
-                  <p className="mt-2 text-xs text-[#E8EEFF] font-sans leading-relaxed max-w-sm">
-                    {lang === 'en' ? 'Real campus moments help parents feel the school culture before they visit.' : 'រូបភាពសកម្មភាពពិតជួយឱ្យមាតាបិតាស្គាល់វប្បធម៌សាលាមុនពេលមកទស្សនា។'}
+                  <p className="mt-2 text-xs text-[#E8EEFF] font-sans leading-relaxed max-w-lg">
+                    {lang === 'en' ? item.descEn : item.descKh}
                   </p>
                 </div>
               </motion.div>
