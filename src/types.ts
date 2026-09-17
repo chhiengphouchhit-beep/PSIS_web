@@ -15,6 +15,7 @@ export interface Campus {
   location: string;
   studentsCount: number;
   isComingSoon?: boolean;
+  facebookUrl?: string;
 }
 
 export type LeadStatus = 'New' | 'Contacted' | 'Tour Booked' | 'Assessment' | 'Enrolled' | 'Closed';

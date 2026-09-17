@@ -307,6 +307,93 @@ const psisVideos = [
   }
 ];
 
+const FACEBOOK_CAMPUS_CHANNELS = [
+  {
+    id: 'all',
+    code: 'ALL',
+    name: 'All Campuses (Main Page)',
+    khmerName: 'គ្រប់សាខា (ទំព័រធំរួម)',
+    url: 'https://www.facebook.com/psisTKTTPNR3Campus/',
+    followers: '41,750+ Followers',
+    handle: '@psisTKTTPNR3Campus',
+    tag: 'Main Official Page',
+    badge: 'Official Main',
+    studentsCount: '5,000+',
+  },
+  {
+    id: 'tk',
+    code: 'TK',
+    name: 'TK Campus',
+    khmerName: 'សាខាទួលគោក (TK)',
+    url: 'https://www.facebook.com/psistk/',
+    followers: 'Official TK Campus',
+    handle: '@psistk',
+    tag: 'Toul Kork',
+    badge: 'TK Branch',
+    studentsCount: '1,450+',
+  },
+  {
+    id: 'ttp',
+    code: 'TTP',
+    name: 'TTP Campus',
+    khmerName: 'សាខាទួលទំពូង (TTP)',
+    url: 'https://www.facebook.com/profile.php?id=61573198651766',
+    followers: 'Official TTP Campus',
+    handle: 'PSIS TTP Campus',
+    tag: 'Toul Tom Poung',
+    badge: 'TTP Branch',
+    studentsCount: '980+',
+  },
+  {
+    id: 'cap',
+    code: 'CAP',
+    name: 'CAP Campus',
+    khmerName: 'សាខាច្បារអំពៅ (CAP)',
+    url: 'https://www.facebook.com/psiscaplekmuy/',
+    followers: 'Official CAP Campus',
+    handle: '@psiscaplekmuy',
+    tag: 'Chbar Ampov',
+    badge: 'CAP Branch',
+    studentsCount: '720+',
+  },
+  {
+    id: 'rsk',
+    code: 'RSK',
+    name: 'RSK Campus',
+    khmerName: 'សាខាឫស្សីកែវ (RSK)',
+    url: 'https://www.facebook.com/psisrusseykeo/',
+    followers: 'Official RSK Campus',
+    handle: '@psisrusseykeo',
+    tag: 'Russey Keo',
+    badge: 'RSK Branch',
+    studentsCount: '810+',
+  },
+  {
+    id: 'nr3',
+    code: 'NR3',
+    name: 'NR3 Campus',
+    khmerName: 'សាខាផ្លូវជាតិលេខ ៣ (NR3)',
+    url: 'https://www.facebook.com/PSISNR3Campus/',
+    followers: 'Official NR3 Campus',
+    handle: '@PSISNR3Campus',
+    tag: 'National Road 3',
+    badge: 'NR3 Branch',
+    studentsCount: '640+',
+  },
+  {
+    id: 'kpt',
+    code: 'KPT',
+    name: 'KPT Campus',
+    khmerName: 'សាខាកំពង់ធំ (KPT)',
+    url: 'https://www.facebook.com/profile.php?id=61593504373140',
+    followers: 'Official KPT Campus',
+    handle: 'PSIS Kampong Thom',
+    tag: 'Kampong Thom',
+    badge: 'Coming Soon',
+    studentsCount: 'New',
+  },
+];
+
 function getEmbedVideoInfo(url: string) {
   if (!url) return null;
   const lower = url.toLowerCase();
@@ -723,7 +810,10 @@ export default function App() {
   const [videoImageErrors, setVideoImageErrors] = useState<Record<string, boolean>>({});
   const [activeAboutSlide, setActiveAboutSlide] = useState(0);
   const [newsFeedTab, setNewsFeedTab] = useState<'facebook-live' | 'announcements'>('facebook-live');
+  const [selectedFacebookCampus, setSelectedFacebookCampus] = useState('all');
   const googleSheetCMS = useGoogleSheetCMS();
+
+  const activeFacebookChannel = FACEBOOK_CAMPUS_CHANNELS.find((c) => c.id === selectedFacebookCampus) || FACEBOOK_CAMPUS_CHANNELS[0];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -1812,7 +1902,47 @@ export default function App() {
 
                   {/* TAB 1: 100% REAL LIVE FACEBOOK FEED DIRECT FROM META */}
                   {newsFeedTab === 'facebook-live' && (
-                    <div className="max-w-6xl mx-auto">
+                    <div className="max-w-6xl mx-auto space-y-6">
+                      {/* CAMPUS SELECTOR PILLS */}
+                      <div className="flex flex-col items-center gap-2.5">
+                        <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                          <span>{lang === 'en' ? 'Select Campus Facebook Stream:' : 'ជ្រើសរើសទំព័រ Facebook តាមសាខា៖'}</span>
+                        </div>
+
+                        <div className="flex flex-wrap items-center justify-center gap-2 max-w-3xl">
+                          {FACEBOOK_CAMPUS_CHANNELS.map((channel) => {
+                            const isActive = selectedFacebookCampus === channel.id;
+                            return (
+                              <button
+                                key={channel.id}
+                                type="button"
+                                onClick={() => setSelectedFacebookCampus(channel.id)}
+                                className={`px-3.5 py-2 rounded-2xl text-xs md:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer shadow-sm ${
+                                  isActive
+                                    ? 'bg-[#051445] text-white shadow-md scale-105 ring-2 ring-[#C5A059]'
+                                    : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/90'
+                                }`}
+                              >
+                                <span
+                                  className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-black ${
+                                    isActive ? 'bg-[#C5A059] text-[#051445]' : 'bg-slate-100 text-slate-600'
+                                  }`}
+                                >
+                                  {channel.code}
+                                </span>
+                                <span>{lang === 'kh' ? channel.khmerName : channel.name}</span>
+                                {channel.id === 'all' && (
+                                  <span className="text-[10px] bg-blue-500/20 text-blue-600 px-1.5 py-0.5 rounded-full font-sans font-medium">
+                                    ★ {lang === 'en' ? 'Main' : 'ទំព័រធំ'}
+                                  </span>
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                         
                         {/* LEFT COLUMN: Premium Tablet/Studio Frame with Live Facebook Feed (7 cols) */}
@@ -1832,18 +1962,20 @@ export default function App() {
                                   </div>
                                   <div className="text-left leading-tight">
                                     <div className="flex items-center gap-1.5">
-                                      <span className="font-bold text-xs text-white">PSIS Live Stream</span>
+                                      <span className="font-bold text-xs text-white">
+                                        {lang === 'kh' ? activeFacebookChannel.khmerName : activeFacebookChannel.name}
+                                      </span>
                                       <span className="w-3.5 h-3.5 bg-blue-500 rounded-full flex items-center justify-center text-white text-[8px] font-bold">✓</span>
                                     </div>
                                     <div className="flex items-center gap-1.5 text-[9px] text-brand-gold font-medium">
                                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                                      <span>Direct from Meta Facebook</span>
+                                      <span>{activeFacebookChannel.handle}</span>
                                     </div>
                                   </div>
                                 </div>
 
                                 <a
-                                  href="https://www.facebook.com/psisTKTTPNR3Campus/"
+                                  href={activeFacebookChannel.url}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="bg-white/10 hover:bg-[#1877F2] text-white px-3 py-1 rounded-full text-[11px] font-bold transition flex items-center gap-1.5 shadow-sm border border-white/10"
@@ -1858,7 +1990,8 @@ export default function App() {
                               {/* Facebook Page Plugin Iframe */}
                               <div className="relative w-full bg-white flex justify-center">
                                 <iframe
-                                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FpsisTKTTPNR3Campus%2F&tabs=timeline&width=500&height=820&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
+                                  key={activeFacebookChannel.id}
+                                  src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(activeFacebookChannel.url)}&tabs=timeline&width=500&height=820&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`}
                                   width="100%"
                                   height="820"
                                   style={{ border: 'none', overflow: 'hidden' }}
@@ -1866,7 +1999,7 @@ export default function App() {
                                   frameBorder="0"
                                   allowFullScreen={true}
                                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                                  title="Paññāsāstra International School Facebook Live Feed"
+                                  title={`${activeFacebookChannel.name} Facebook Live Feed`}
                                   className="w-full h-[820px] bg-white"
                                 />
                               </div>
@@ -1879,7 +2012,7 @@ export default function App() {
                                   </svg>
                                   {lang === 'en' ? 'Scroll inside to browse posts' : 'រំកិលចុះក្រោមដើម្បីមើលការផុសបន្ត'}
                                 </span>
-                                <span className="text-[10px] text-slate-400 font-mono">@psisTKTTPNR3Campus</span>
+                                <span className="text-[10px] text-slate-400 font-mono">{activeFacebookChannel.handle}</span>
                               </div>
                             </div>
                           </div>
@@ -1908,42 +2041,46 @@ export default function App() {
                               <div className="space-y-1">
                                 <div className="flex items-center gap-1.5 flex-wrap">
                                   <h3 className="font-serif font-bold text-base md:text-lg text-white">
-                                    Paññāsāstra International School
+                                    {lang === 'kh' ? activeFacebookChannel.khmerName : activeFacebookChannel.name}
                                   </h3>
                                   <span className="inline-flex items-center justify-center w-4 h-4 bg-blue-500 text-white rounded-full text-[10px] shadow-sm font-bold">
                                     ✓
                                   </span>
                                 </div>
                                 <p className="text-xs text-brand-gold font-sans font-medium">
-                                  @psisTKTTPNR3Campus • Official Page
+                                  {activeFacebookChannel.handle} • {activeFacebookChannel.badge}
                                 </p>
                               </div>
                             </div>
 
                             <p className="text-xs text-slate-300 font-sans leading-relaxed mt-4 relative z-10 font-light">
                               {lang === 'en'
-                                ? 'Stay connected with authentic classroom events, STEM competitions, campus ceremonies, and bilingual curriculum updates streamed daily.'
-                                : 'ភ្ជាប់ទំនាក់ទំនងជាមួយសកម្មភាពថ្នាក់រៀនជាក់ស្តែង ការប្រកួត STEM ពិធីបុណ្យប្រពៃណី និងដំណឹងសំខាន់ៗដែលបានផ្សាយផ្ទាល់រៀងរាល់ថ្ងៃ។'}
+                                ? `Stay connected with authentic classroom events, STEM competitions, campus ceremonies, and bilingual curriculum updates streamed directly from ${activeFacebookChannel.name}.`
+                                : `ភ្ជាប់ទំនាក់ទំនងជាមួយសកម្មភាពថ្នាក់រៀនជាក់ស្តែង ការប្រកួត STEM ពិធីបុណ្យប្រពៃណី និងដំណឹងសំខាន់ៗដែលបានផ្សាយផ្ទាល់រៀងរាល់ថ្ងៃពី ${activeFacebookChannel.khmerName}។`}
                             </p>
 
                             {/* Page Statistics Grid */}
                             <div className="grid grid-cols-3 gap-2.5 my-5 pt-4 border-t border-white/10 relative z-10 text-center">
                               <div className="bg-white/5 rounded-xl p-2.5 border border-white/5">
-                                <span className="block font-bold text-base md:text-lg text-brand-gold font-mono">41.7K+</span>
-                                <span className="text-[10px] text-slate-400 uppercase tracking-wider">{lang === 'en' ? 'Followers' : 'អ្នកតាមដាន'}</span>
+                                <span className="block font-bold text-base md:text-lg text-brand-gold font-mono">
+                                  {activeFacebookChannel.followers.replace(' Followers', '')}
+                                </span>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider">{lang === 'en' ? 'Community' : 'អ្នកតាមដាន'}</span>
                               </div>
                               <div className="bg-white/5 rounded-xl p-2.5 border border-white/5">
-                                <span className="block font-bold text-base md:text-lg text-white font-mono">6</span>
-                                <span className="text-[10px] text-slate-400 uppercase tracking-wider">{lang === 'en' ? 'Campuses' : 'សាខា'}</span>
+                                <span className="block font-bold text-base md:text-lg text-white font-mono">
+                                  {activeFacebookChannel.studentsCount}
+                                </span>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider">{lang === 'en' ? 'Students' : 'សិស្សានុសិស្ស'}</span>
                               </div>
                               <div className="bg-white/5 rounded-xl p-2.5 border border-white/5">
-                                <span className="block font-bold text-base md:text-lg text-emerald-400 font-mono">Daily</span>
+                                <span className="block font-bold text-base md:text-lg text-emerald-400 font-mono">Live</span>
                                 <span className="text-[10px] text-slate-400 uppercase tracking-wider">{lang === 'en' ? 'Updates' : 'ផ្សាយថ្មីៗ'}</span>
                               </div>
                             </div>
 
                             <a
-                              href="https://www.facebook.com/psisTKTTPNR3Campus/"
+                              href={activeFacebookChannel.url}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="w-full inline-flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166fe5] text-white text-xs md:text-sm font-bold py-3 rounded-2xl shadow-lg transition transform active:scale-98 relative z-10"
@@ -1951,20 +2088,20 @@ export default function App() {
                               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                               </svg>
-                              <span>{lang === 'en' ? 'Follow on Facebook' : 'ចុច Follow លើ Facebook ផ្លូវការ'}</span>
+                              <span>{lang === 'en' ? `Follow ${activeFacebookChannel.code} on Facebook` : `ចុច Follow ${activeFacebookChannel.code} លើ Facebook`}</span>
                             </a>
                           </div>
 
                           {/* Card 2: Interactive Media Channels (Photos, Videos, Reels) */}
                           <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md space-y-3.5">
                             <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
-                              {lang === 'en' ? 'Media Channels & Galleries' : 'បណ្តាញរូបភាព និងវីដេអូ'}
+                              {lang === 'en' ? 'Media Channels & Direct Links' : 'បណ្តាញរូបភាព វីដេអូ និងសារផ្ទាល់'}
                             </span>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                               {/* Photos Channel */}
                               <a
-                                href="https://www.facebook.com/psisTKTTPNR3Campus/photos"
+                                href={activeFacebookChannel.url.includes('profile.php') ? `${activeFacebookChannel.url}&sk=photos` : `${activeFacebookChannel.url.replace(/\/$/, '')}/photos`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group p-3.5 rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-3"
@@ -1976,13 +2113,13 @@ export default function App() {
                                   <h4 className="font-bold text-xs text-slate-800 group-hover:text-[#1877F2] transition">
                                     {lang === 'en' ? 'Photo Albums' : 'អាល់ប៊ុមរូបថត'}
                                   </h4>
-                                  <p className="text-[10px] text-slate-500">1,200+ Photos</p>
+                                  <p className="text-[10px] text-slate-500">{activeFacebookChannel.code} Gallery</p>
                                 </div>
                               </a>
 
                               {/* Videos Channel */}
                               <a
-                                href="https://www.facebook.com/psisTKTTPNR3Campus/videos"
+                                href={activeFacebookChannel.url.includes('profile.php') ? `${activeFacebookChannel.url}&sk=videos` : `${activeFacebookChannel.url.replace(/\/$/, '')}/videos`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group p-3.5 rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-3"
@@ -1994,13 +2131,13 @@ export default function App() {
                                   <h4 className="font-bold text-xs text-slate-800 group-hover:text-[#1877F2] transition">
                                     {lang === 'en' ? 'School Videos' : 'វីដេអូសកម្មភាព'}
                                   </h4>
-                                  <p className="text-[10px] text-slate-500">STEM & Events</p>
+                                  <p className="text-[10px] text-slate-500">{activeFacebookChannel.code} Events</p>
                                 </div>
                               </a>
 
                               {/* Reels Channel */}
                               <a
-                                href="https://www.facebook.com/psisTKTTPNR3Campus/reels"
+                                href={activeFacebookChannel.url.includes('profile.php') ? `${activeFacebookChannel.url}&sk=reels_tab` : `${activeFacebookChannel.url.replace(/\/$/, '')}/reels`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group p-3.5 rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-3"
@@ -2018,7 +2155,11 @@ export default function App() {
 
                               {/* Messenger Chat */}
                               <a
-                                href="https://m.me/psisTKTTPNR3Campus"
+                                href={
+                                  activeFacebookChannel.handle.startsWith('@')
+                                    ? `https://m.me/${activeFacebookChannel.handle.replace('@', '')}`
+                                    : activeFacebookChannel.url
+                                }
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group p-3.5 rounded-2xl border border-blue-100 hover:border-[#0084FF] bg-[#0084FF]/5 hover:bg-[#0084FF]/10 transition flex items-center gap-3"
@@ -2030,7 +2171,7 @@ export default function App() {
                                   <h4 className="font-bold text-xs text-[#0084FF]">
                                     {lang === 'en' ? 'Live Messenger' : 'ឆាតសួរព័ត៌មាន'}
                                   </h4>
-                                  <p className="text-[10px] text-slate-500">Instant Inquiry</p>
+                                  <p className="text-[10px] text-slate-500">Contact {activeFacebookChannel.code}</p>
                                 </div>
                               </a>
                             </div>

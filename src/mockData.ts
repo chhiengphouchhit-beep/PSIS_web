@@ -18,7 +18,8 @@ export const INITIAL_CAMPUSES: Campus[] = [
     contact: 'tk.info@psis.edu.kh | +855 23 884 991',
     image: '/images/campuses/tk.jpg',
     location: 'Street 315, Sangkat Boeung Kak I, Khan Toul Kork, Phnom Penh',
-    studentsCount: 1450
+    studentsCount: 1450,
+    facebookUrl: 'https://www.facebook.com/psistk/'
   },
   {
     id: 'ttp',
@@ -30,7 +31,8 @@ export const INITIAL_CAMPUSES: Campus[] = [
     contact: 'ttp.info@psis.edu.kh | +855 23 221 688',
     image: '/images/campuses/ttp.jpg',
     location: 'Street 432, Sangkat Toul Tom Poung, Khan Chamkarmon, Phnom Penh',
-    studentsCount: 980
+    studentsCount: 980,
+    facebookUrl: 'https://www.facebook.com/profile.php?id=61573198651766'
   },
   {
     id: 'cap',
@@ -42,7 +44,8 @@ export const INITIAL_CAMPUSES: Campus[] = [
     contact: 'cap.info@psis.edu.kh | +855 23 555 125',
     image: '/images/campuses/cap.jpg',
     location: 'National Road 1, Sangkat Chbar Ampov, Khan Chbar Ampov, Phnom Penh',
-    studentsCount: 720
+    studentsCount: 720,
+    facebookUrl: 'https://www.facebook.com/psiscaplekmuy/'
   },
   {
     id: 'rsk',
@@ -54,7 +57,8 @@ export const INITIAL_CAMPUSES: Campus[] = [
     contact: 'rsk.info@psis.edu.kh | +855 23 998 012',
     image: '/images/campuses/rsk.jpg',
     location: 'National Road 5, Sangkat Russey Keo, Khan Russey Keo, Phnom Penh',
-    studentsCount: 810
+    studentsCount: 810,
+    facebookUrl: 'https://www.facebook.com/psisrusseykeo/'
   },
   {
     id: 'nr3',
@@ -66,7 +70,8 @@ export const INITIAL_CAMPUSES: Campus[] = [
     contact: 'nr3.info@psis.edu.kh | +855 23 777 004',
     image: '/images/campuses/nr3.jpg',
     location: 'National Road 3 (Km 12), Sangkat Chom Chao, Khan Por Senchey, Phnom Penh',
-    studentsCount: 640
+    studentsCount: 640,
+    facebookUrl: 'https://www.facebook.com/PSISNR3Campus/'
   },
   {
     id: 'battambang',
@@ -78,7 +83,8 @@ export const INITIAL_CAMPUSES: Campus[] = [
     contact: 'btb.info@psis.edu.kh | +855 53 952 111',
     image: '/images/campuses/battambang.jpg',
     location: 'Street 3, Sangkat Svay Por, Krong Battambang, Battambang Province',
-    studentsCount: 570
+    studentsCount: 570,
+    facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/'
   },
   {
     id: 'kpt',
@@ -91,7 +97,8 @@ export const INITIAL_CAMPUSES: Campus[] = [
     image: '/images/campuses/kpt.jpg',
     location: 'National Road 6, Krong Stueng Saen, Kampong Thom Province',
     studentsCount: 0,
-    isComingSoon: true
+    isComingSoon: true,
+    facebookUrl: 'https://www.facebook.com/profile.php?id=61593504373140'
   }
 ];
 
@@ -555,6 +562,7 @@ export function getPersistedCampuses(): Campus[] {
         ...c,
         isComingSoon: defaultCampus?.isComingSoon ?? c.isComingSoon,
         image: defaultCampus ? defaultCampus.image : c.image,
+        facebookUrl: defaultCampus?.facebookUrl ?? c.facebookUrl,
       };
     });
     for (const initCampus of INITIAL_CAMPUSES) {
