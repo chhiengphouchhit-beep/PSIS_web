@@ -48,6 +48,7 @@ export interface NewsItem {
   views: number;
   featured?: boolean;
   facebookUrl?: string;
+  videoUrl?: string;
 }
 
 export type ImageAssetCategory =

@@ -307,12 +307,45 @@ const psisVideos = [
   }
 ];
 
+function getEmbedVideoInfo(url: string) {
+  if (!url) return null;
+  const lower = url.toLowerCase();
+  if (lower.includes('youtube.com') || lower.includes('youtu.be')) {
+    let videoId = '';
+    if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1]?.split('?')[0] || '';
+    } else if (url.includes('watch?v=')) {
+      videoId = url.split('watch?v=')[1]?.split('&')[0] || '';
+    } else if (url.includes('embed/')) {
+      videoId = url.split('embed/')[1]?.split('?')[0] || '';
+    }
+    return {
+      type: 'youtube' as const,
+      embedUrl: `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`,
+    };
+  }
+
+  if (lower.includes('facebook.com') || lower.includes('fb.watch')) {
+    return {
+      type: 'facebook' as const,
+      embedUrl: `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=0&width=500&autoplay=1`,
+    };
+  }
+
+  return {
+    type: 'mp4' as const,
+    embedUrl: url,
+  };
+}
+
 function FacebookPost({ item, lang }: { key?: string; item: NewsItem; lang: 'en' | 'kh' }) {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(() => Math.floor(Math.random() * 80) + 45);
   const [sharesCount] = useState(() => Math.floor(Math.random() * 8) + 2);
   const [showComments, setShowComments] = useState(true);
   const [commentInput, setCommentInput] = useState('');
+  const [isPlayingVideo, setIsPlayingVideo] = useState(false);
+  const videoInfo = item.videoUrl ? getEmbedVideoInfo(item.videoUrl) : null;
   const [comments, setComments] = useState<{ id: string; author: string; avatarChar: string; text: string; date: string }[]>([
     {
       id: 'c1',
@@ -419,8 +452,116 @@ function FacebookPost({ item, lang }: { key?: string; item: NewsItem; lang: 'en'
         </p>
       </div>
 
-      {/* Post Media (Image) */}
-      {item.image && (
+      {/* Post Media (Facebook Embedded Video or Image) */}
+      {videoInfo ? (
+        isPlayingVideo ? (
+          <div className="rounded-xl overflow-hidden border border-slate-900 bg-black aspect-video relative flex items-center justify-center shadow-inner group">
+            {videoInfo.type === 'facebook' ? (
+              <iframe
+                src={videoInfo.embedUrl}
+                className="w-full h-full border-0"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                allowFullScreen
+                title={item.title}
+              />
+            ) : videoInfo.type === 'youtube' ? (
+              <iframe
+                src={videoInfo.embedUrl}
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title={item.title}
+              />
+            ) : (
+              <video
+                src={videoInfo.embedUrl}
+                controls
+                autoPlay
+                className="w-full h-full object-contain"
+              />
+            )}
+
+            {/* Floating Top Control Bar */}
+            <div className="absolute top-2.5 right-2.5 flex items-center gap-2 z-20 pointer-events-auto">
+              <a
+                href={item.facebookUrl || item.videoUrl || "https://www.facebook.com/psisTKTTPNR3Campus/"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-black/75 hover:bg-[#1877F2] text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow backdrop-blur-sm flex items-center gap-1 transition"
+                title="Open original on Facebook"
+              >
+                <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                <span>{lang === 'en' ? 'Facebook' : 'លើ Facebook'}</span>
+              </a>
+              <button
+                onClick={() => setIsPlayingVideo(false)}
+                className="bg-black/75 hover:bg-red-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow backdrop-blur-sm flex items-center gap-1 transition cursor-pointer"
+                title="Close Video"
+              >
+                <span>✕</span>
+                <span>{lang === 'en' ? 'Close' : 'បិទ'}</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div 
+            onClick={() => setIsPlayingVideo(true)}
+            className="rounded-xl overflow-hidden border border-slate-200 aspect-video bg-slate-950 flex items-center justify-center relative group cursor-pointer shadow-sm select-none"
+          >
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.currentTarget.src = "/images/news/stem-robotics.jpg";
+              }}
+            />
+            {/* Dark Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40 group-hover:from-black/75 transition-colors"></div>
+
+            {/* Top Video Pill Badge */}
+            <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-black/70 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-white/15 shadow-md">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+              <span>{videoInfo.type === 'facebook' ? 'Facebook Video' : videoInfo.type === 'youtube' ? 'YouTube Video' : 'Video'}</span>
+            </div>
+
+            {/* Central Animated Play Button */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#1877F2]/90 group-hover:bg-[#1877F2] text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300 ring-4 ring-white/30 backdrop-blur-sm">
+                <svg className="w-6 h-6 md:w-7 md:h-7 fill-current translate-x-0.5" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Bottom Bar Hints */}
+            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-[11px] font-medium pointer-events-none">
+              <span className="bg-black/70 backdrop-blur-sm px-2.5 py-1 rounded-lg text-slate-100 flex items-center gap-1.5 border border-white/10 text-[10px] md:text-xs">
+                <svg className="w-3.5 h-3.5 fill-current text-brand-gold" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                {lang === 'en' ? 'Click to Play Video' : 'ចុចដើម្បីចាក់វីដេអូ'}
+              </span>
+
+              <a
+                href={item.facebookUrl || item.videoUrl || "https://www.facebook.com/psisTKTTPNR3Campus/"}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="pointer-events-auto bg-[#1877F2] hover:bg-blue-600 text-white text-[10px] md:text-xs font-bold px-3 py-1 rounded-full shadow flex items-center gap-1 transition"
+              >
+                <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                <span>{lang === 'en' ? 'Watch on Facebook' : 'មើលលើ Facebook'}</span>
+              </a>
+            </div>
+          </div>
+        )
+      ) : item.image ? (
         <div className="rounded-xl overflow-hidden border border-slate-100 max-h-[480px] bg-slate-50 flex items-center justify-center relative group">
           <img
             src={item.image}
@@ -444,7 +585,7 @@ function FacebookPost({ item, lang }: { key?: string; item: NewsItem; lang: 'en'
             <span>{lang === 'en' ? 'View on Facebook' : 'មើលលើ Facebook'}</span>
           </a>
         </div>
-      )}
+      ) : null}
 
       {/* Likes & Comments Summary */}
       <div className="flex justify-between items-center text-[10px] text-slate-500 pt-3 pb-2 border-b border-slate-100 select-none">
@@ -488,17 +629,39 @@ function FacebookPost({ item, lang }: { key?: string; item: NewsItem; lang: 'en'
           <span>{lang === 'en' ? 'Comment' : 'មតិ'}</span>
         </button>
 
-        <a
-          href={item.facebookUrl || "https://www.facebook.com/psisTKTTPNR3Campus/"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-1 py-2 hover:bg-blue-50 text-[#1877F2] font-bold rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer"
-        >
-          <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-          <span>{lang === 'en' ? 'Facebook' : 'មើលលើ FB'}</span>
-        </a>
+        {videoInfo ? (
+          <button
+            onClick={() => setIsPlayingVideo(prev => !prev)}
+            className={`flex-1 py-2 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer transition font-bold ${
+              isPlayingVideo ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'hover:bg-blue-50 text-[#1877F2]'
+            }`}
+          >
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              {isPlayingVideo ? (
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+              ) : (
+                <path d="M8 5v14l11-7z" />
+              )}
+            </svg>
+            <span>
+              {isPlayingVideo
+                ? (lang === 'en' ? 'Pause' : 'ផ្អាក')
+                : (lang === 'en' ? 'Play Video' : 'ចាក់វីដេអូ')}
+            </span>
+          </button>
+        ) : (
+          <a
+            href={item.facebookUrl || "https://www.facebook.com/psisTKTTPNR3Campus/"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 py-2 hover:bg-blue-50 text-[#1877F2] font-bold rounded-lg flex items-center justify-center gap-1.5 transition cursor-pointer"
+          >
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            <span>{lang === 'en' ? 'Facebook' : 'មើលលើ FB'}</span>
+          </a>
+        )}
       </div>
 
       {/* Interactive Mock Comments list */}
@@ -830,6 +993,7 @@ export default function App() {
       content: item.campus ? `Latest update from ${item.campus} campus.` : 'Latest update and announcements from Paññāsāstra International School.',
       image: item.directImageUrl,
       facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/',
+      videoUrl: item.videoUrl || undefined,
     }));
 
   const publicNews = sheetNews.length > 0

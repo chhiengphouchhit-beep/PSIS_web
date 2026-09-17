@@ -13,6 +13,7 @@ export interface ImageLibraryItem {
   priority: number;
   status: string;
   createdAt: string;
+  videoUrl?: string;
 }
 
 const GOOGLE_SHEET_API_URL =
@@ -73,6 +74,13 @@ function normalizeItem(item: RawImageLibraryItem, index: number): ImageLibraryIt
     priority: Number.isFinite(priority) ? priority : index + 1,
     status: valueAsString(item.status) || valueAsString(item.Status),
     createdAt: valueAsString(item.createdAt) || valueAsString(item.CreatedAt) || valueAsString(item['Created At']),
+    videoUrl:
+      valueAsString(item.videoUrl) ||
+      valueAsString(item.video_url) ||
+      valueAsString(item.video) ||
+      valueAsString(item.VideoURL) ||
+      valueAsString(item['Video URL']) ||
+      undefined,
   };
 }
 

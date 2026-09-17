@@ -184,6 +184,19 @@ export const INITIAL_LEADS: Lead[] = [
 
 export const INITIAL_NEWS: NewsItem[] = [
   {
+    id: 'N-video-1',
+    title: 'Official Video: PSIS STEM & Robotics Innovation Showcase',
+    khmerTitle: 'វីដេអូផ្លូវការ៖ សកម្មភាព និងការច្នៃប្រឌិតបច្ចេកវិទ្យា STEM & Robotics របស់សិស្សានុសិស្ស PSIS',
+    category: 'STEM',
+    content: 'ទស្សនាវីដេអូសកម្មភាពជាក់ស្តែងពីទំព័រ Facebook ផ្លូវការ! ការអនុវត្តគម្រោងបច្ចេកវិទ្យា STEM, Coding និង Aero-Robotics របស់ប្អូនៗសិស្សានុសិស្សនៃសាលាអន្តរជាតិ បញ្ញាសាស្ត្រ (PSIS)។\n\nWatch our young innovators demonstrate their algorithmic logic, engineering designs, and automated sorting systems.\n\n#PSIS #FacebookVideo #STEM #Robotics #Innovation #Cambodia #FutureLeaders',
+    date: 'Jun 02, 2026',
+    image: '/images/news/stem-robotics.jpg',
+    videoUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/videos/1169623841484197/',
+    facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/',
+    views: 890,
+    featured: true
+  },
+  {
     id: 'N-1',
     title: 'PSIS Robotics Team Wins Gold at Phnom Penh STEM Championship',
     khmerTitle: 'ក្រុមរ៉ូបូតសាលា PSIS ឈ្នះមេដាយមាសក្នុងព្រឹត្តិការណ៍ជើងឯកបច្ចេកវិទ្យាភ្នំពេញ',
@@ -192,7 +205,7 @@ export const INITIAL_NEWS: NewsItem[] = [
     date: 'May 28, 2026',
     image: '/images/news/stem-robotics.jpg',
     views: 450,
-    featured: true,
+    featured: false,
     facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/'
   },
   {
@@ -241,7 +254,8 @@ export const INITIAL_NEWS: NewsItem[] = [
     image: '/images/student-life/sports.jpg',
     views: 340,
     featured: false,
-    facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/'
+    facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/',
+    videoUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/videos/1169623841484197/'
   }
 ];
 
@@ -504,6 +518,7 @@ export function getPersistedNews(): NewsItem[] {
         content: defaultNews ? defaultNews.content : n.content,
         category: defaultNews ? defaultNews.category : n.category,
         facebookUrl: defaultNews ? defaultNews.facebookUrl : n.facebookUrl || 'https://www.facebook.com/psisTKTTPNR3Campus/',
+        videoUrl: defaultNews ? defaultNews.videoUrl : n.videoUrl,
       };
     });
     // Ensure any new items in INITIAL_NEWS are added
