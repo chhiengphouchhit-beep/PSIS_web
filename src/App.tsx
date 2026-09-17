@@ -905,13 +905,13 @@ function FacebookLiveFrame({
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full bg-white flex justify-center min-h-[500px]">
+    <div ref={containerRef} className="relative w-full bg-white flex justify-center min-h-[460px] sm:min-h-[560px]">
       {inView ? (
         <iframe
           key={activeChannel.id}
-          src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(activeChannel.url)}&tabs=timeline&width=500&height=820&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`}
+          src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(activeChannel.url)}&tabs=timeline&width=500&height=750&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`}
           width="100%"
-          height="820"
+          height="100%"
           style={{ border: 'none', overflow: 'hidden' }}
           scrolling="yes"
           frameBorder="0"
@@ -919,10 +919,10 @@ function FacebookLiveFrame({
           allowFullScreen={true}
           allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
           title={`${activeChannel.name} Facebook Live Feed`}
-          className="w-full h-[820px] bg-white"
+          className="w-full h-[520px] sm:h-[650px] md:h-[760px] bg-white"
         />
       ) : (
-        <div className="w-full h-[500px] flex flex-col items-center justify-center p-8 bg-slate-50 text-slate-400">
+        <div className="w-full h-[460px] sm:h-[560px] flex flex-col items-center justify-center p-6 sm:p-8 bg-slate-50 text-slate-400">
           <div className="w-10 h-10 rounded-full border-2 border-brand-gold/40 border-t-[#051445] animate-spin mb-3" />
           <p className="text-xs font-semibold text-slate-500 font-sans">
             {lang === 'en' ? 'Connecting to Meta Facebook stream...' : 'កំពុងរៀបចំផ្សាយផ្ទាល់ពី Meta Facebook...'}
@@ -1317,47 +1317,47 @@ export default function App() {
                           </span>
                         </div>
 
-                        <div className="space-y-8 max-w-5xl mx-auto md:space-y-10">
-                          <h1 className="font-serif font-bold text-[44px] md:text-[64px] xl:text-[88px] text-white tracking-tight leading-[1.02] capitalize">
+                        <div className="space-y-6 sm:space-y-8 max-w-5xl mx-auto md:space-y-10">
+                          <h1 className="font-serif font-bold text-3xl sm:text-5xl md:text-6xl xl:text-[80px] text-white tracking-tight leading-[1.1] sm:leading-[1.02] capitalize">
                             {locale[lang].heroTitle}
                           </h1>
-                          <p className="text-base md:text-[20px] text-[#E8EEFF] max-w-3xl mx-auto font-sans font-medium leading-relaxed">
+                          <p className="text-sm sm:text-base md:text-[20px] text-[#E8EEFF] max-w-3xl mx-auto font-sans font-medium leading-relaxed px-2">
                             {locale[lang].heroSub}
                           </p>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2 md:pt-4">
+                        <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 pt-2 md:pt-4 w-full max-w-md sm:max-w-none mx-auto">
                           <button
                             onClick={() => setCurrentSection('apply-now')}
-                            className="w-full sm:w-auto bg-brand-gold hover:bg-amber-500 text-brand-dark text-xs uppercase tracking-wider font-nav font-bold px-10 py-5 rounded-lg shadow-2xl hover:shadow-brand-gold/15 transform hover:-translate-y-0.5 transition duration-150 cursor-pointer"
+                            className="w-full sm:w-auto bg-brand-gold hover:bg-amber-500 text-brand-dark text-xs uppercase tracking-wider font-nav font-bold px-8 sm:px-10 py-4 sm:py-5 rounded-xl shadow-2xl hover:shadow-brand-gold/15 transform hover:-translate-y-0.5 transition duration-150 cursor-pointer"
                           >
                             {locale[lang].ctaApply}
                           </button>
                           
                           <button
                             onClick={() => setCurrentSection('campuses')}
-                            className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white text-xs uppercase tracking-wider font-nav font-bold px-10 py-5 rounded-lg border border-white/20 transition cursor-pointer"
+                            className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white text-xs uppercase tracking-wider font-nav font-bold px-8 sm:px-10 py-4 sm:py-5 rounded-xl border border-white/20 transition cursor-pointer"
                           >
                             {locale[lang].ctaExplore}
                           </button>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-6 max-w-5xl mx-auto pt-16 md:pt-20 lg:pt-24 text-center">
-                          <div className="bg-white/[0.08] border border-white/[0.14] backdrop-blur-md p-6 rounded-2xl">
-                            <div className="text-3xl md:text-4.5xl font-black text-[#E6B83E] font-sans">6</div>
-                            <div className="text-[10px] md:text-xs font-bold text-[#E8EEFF] uppercase tracking-wider mt-1">State-of-the-Art Campuses</div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto pt-10 sm:pt-16 md:pt-20 lg:pt-24 text-center">
+                          <div className="bg-white/[0.08] border border-white/[0.14] backdrop-blur-md p-3.5 sm:p-5 md:p-6 rounded-2xl">
+                            <div className="text-2xl sm:text-3xl md:text-4.5xl font-black text-[#E6B83E] font-sans">6</div>
+                            <div className="text-[9px] sm:text-[10px] md:text-xs font-bold text-[#E8EEFF] uppercase tracking-wider mt-1">State-of-the-Art Campuses</div>
                           </div>
-                          <div className="bg-white/[0.08] border border-white/[0.14] backdrop-blur-md p-6 rounded-2xl">
-                            <div className="text-3xl md:text-4.5xl font-black text-[#E6B83E] font-sans">28+</div>
-                            <div className="text-[10px] md:text-xs font-bold text-[#E8EEFF] uppercase tracking-wider mt-1">Years of Academic Mastery</div>
+                          <div className="bg-white/[0.08] border border-white/[0.14] backdrop-blur-md p-3.5 sm:p-5 md:p-6 rounded-2xl">
+                            <div className="text-2xl sm:text-3xl md:text-4.5xl font-black text-[#E6B83E] font-sans">28+</div>
+                            <div className="text-[9px] sm:text-[10px] md:text-xs font-bold text-[#E8EEFF] uppercase tracking-wider mt-1">Years of Academic Mastery</div>
                           </div>
-                          <div className="bg-white/[0.08] border border-white/[0.14] backdrop-blur-md p-6 rounded-2xl">
-                            <div className="text-3xl md:text-4.5xl font-black text-[#E6B83E] font-sans">15,000+</div>
-                            <div className="text-[10px] md:text-xs font-bold text-[#E8EEFF] uppercase tracking-wider mt-1">High-Achieving Alumni</div>
+                          <div className="bg-white/[0.08] border border-white/[0.14] backdrop-blur-md p-3.5 sm:p-5 md:p-6 rounded-2xl">
+                            <div className="text-2xl sm:text-3xl md:text-4.5xl font-black text-[#E6B83E] font-sans">15,000+</div>
+                            <div className="text-[9px] sm:text-[10px] md:text-xs font-bold text-[#E8EEFF] uppercase tracking-wider mt-1">High-Achieving Alumni</div>
                           </div>
-                          <div className="bg-white/[0.08] border border-white/[0.14] backdrop-blur-md p-6 rounded-2xl">
-                            <div className="text-3xl md:text-4.5xl font-black text-[#E6B83E] font-sans">100%</div>
-                            <div className="text-[10px] md:text-xs font-bold text-[#E8EEFF] uppercase tracking-wider mt-1">PUC Pathway Scholarship</div>
+                          <div className="bg-white/[0.08] border border-white/[0.14] backdrop-blur-md p-3.5 sm:p-5 md:p-6 rounded-2xl">
+                            <div className="text-2xl sm:text-3xl md:text-4.5xl font-black text-[#E6B83E] font-sans">100%</div>
+                            <div className="text-[9px] sm:text-[10px] md:text-xs font-bold text-[#E8EEFF] uppercase tracking-wider mt-1">PUC Pathway Scholarship</div>
                           </div>
                         </div>
 
@@ -1993,7 +1993,7 @@ export default function App() {
                           <span>{lang === 'en' ? 'Select Campus Facebook Stream:' : 'ជ្រើសរើសទំព័រ Facebook តាមសាខា៖'}</span>
                         </div>
 
-                        <div className="flex flex-wrap items-center justify-center gap-2 max-w-3xl">
+                        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 max-w-3xl px-1">
                           {FACEBOOK_CAMPUS_CHANNELS.map((channel) => {
                             const isActive = selectedFacebookCampus === channel.id;
                             return (
@@ -2001,22 +2001,22 @@ export default function App() {
                                 key={channel.id}
                                 type="button"
                                 onClick={() => setSelectedFacebookCampus(channel.id)}
-                                className={`px-3.5 py-2 rounded-2xl text-xs md:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer shadow-sm ${
+                                className={`px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs md:text-sm font-bold flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer shadow-sm ${
                                   isActive
                                     ? 'bg-[#051445] text-white shadow-md scale-105 ring-2 ring-[#C5A059]'
                                     : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200/90'
                                 }`}
                               >
                                 <span
-                                  className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-black ${
+                                  className={`px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-mono font-black ${
                                     isActive ? 'bg-[#C5A059] text-[#051445]' : 'bg-slate-100 text-slate-600'
                                   }`}
                                 >
                                   {channel.code}
                                 </span>
-                                <span>{lang === 'kh' ? channel.khmerName : channel.name}</span>
+                                <span className="line-clamp-1">{lang === 'kh' ? channel.khmerName : channel.name}</span>
                                 {channel.id === 'all' && (
-                                  <span className="text-[10px] bg-blue-500/20 text-blue-600 px-1.5 py-0.5 rounded-full font-sans font-medium">
+                                  <span className="text-[9px] sm:text-[10px] bg-blue-500/20 text-blue-600 px-1.5 py-0.5 rounded-full font-sans font-medium">
                                     ★ {lang === 'en' ? 'Main' : 'ទំព័រធំ'}
                                   </span>
                                 )}
@@ -2026,19 +2026,19 @@ export default function App() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
                         
                         {/* LEFT COLUMN: Premium Tablet/Studio Frame with Live Facebook Feed (7 cols) */}
-                        <div className="lg:col-span-7 flex flex-col items-center">
+                        <div className="lg:col-span-7 flex flex-col items-center w-full">
                           {/* Sleek Device Mockup Outer Chassis */}
-                          <div className="w-full max-w-[520px] bg-gradient-to-b from-slate-200 via-slate-100 to-slate-200 p-2.5 sm:p-3.5 rounded-[2.5rem] shadow-2xl border-2 border-slate-300/80 relative">
+                          <div className="w-full max-w-[520px] bg-gradient-to-b from-slate-200 via-slate-100 to-slate-200 p-2 sm:p-3.5 rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl border-2 border-slate-300/80 relative">
                             {/* Ambient subtle glow behind the frame */}
-                            <div className="absolute -inset-1 bg-gradient-to-r from-[#1877F2]/20 via-[#C5A059]/20 to-[#071B5C]/20 rounded-[2.8rem] blur-xl -z-10 opacity-70"></div>
+                            <div className="absolute -inset-1 bg-gradient-to-r from-[#1877F2]/20 via-[#C5A059]/20 to-[#071B5C]/20 rounded-[2.2rem] sm:rounded-[2.8rem] blur-xl -z-10 opacity-70"></div>
                             
                             {/* Inner Screen Bezel */}
-                            <div className="bg-white rounded-[2rem] overflow-hidden border border-slate-200/90 shadow-inner flex flex-col">
+                            <div className="bg-white rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-slate-200/90 shadow-inner flex flex-col">
                               {/* Top Device Status / Brand Bar */}
-                              <div className="bg-[#051445] text-white px-4 py-3 flex items-center justify-between font-sans border-b border-white/10">
+                              <div className="bg-[#051445] text-white px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between font-sans border-b border-white/10">
                                 <div className="flex items-center gap-2.5">
                                   <div className="w-7 h-7 rounded-full bg-white p-0.5 border border-brand-gold shadow-sm shrink-0">
                                     <img src="/images/psis-logo.png" alt="PSIS" className="w-full h-full object-contain" />
@@ -2167,22 +2167,22 @@ export default function App() {
                               {lang === 'en' ? 'Media Channels & Direct Links' : 'បណ្តាញរូបភាព វីដេអូ និងសារផ្ទាល់'}
                             </span>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
                               {/* Photos Channel */}
                               <a
                                 href={activeFacebookChannel.url.includes('profile.php') ? `${activeFacebookChannel.url}&sk=photos` : `${activeFacebookChannel.url.replace(/\/$/, '')}/photos`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group p-3.5 rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-3"
+                                className="group p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-2 sm:gap-3"
                               >
-                                <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+                                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-base sm:text-xl shrink-0 group-hover:scale-110 transition-transform">
                                   📸
                                 </div>
-                                <div className="text-left">
-                                  <h4 className="font-bold text-xs text-slate-800 group-hover:text-[#1877F2] transition">
+                                <div className="text-left min-w-0">
+                                  <h4 className="font-bold text-[11px] sm:text-xs text-slate-800 group-hover:text-[#1877F2] transition truncate">
                                     {lang === 'en' ? 'Photo Albums' : 'អាល់ប៊ុមរូបថត'}
                                   </h4>
-                                  <p className="text-[10px] text-slate-500">{activeFacebookChannel.code} Gallery</p>
+                                  <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">{activeFacebookChannel.code} Gallery</p>
                                 </div>
                               </a>
 
@@ -2191,16 +2191,16 @@ export default function App() {
                                 href={activeFacebookChannel.url.includes('profile.php') ? `${activeFacebookChannel.url}&sk=videos` : `${activeFacebookChannel.url.replace(/\/$/, '')}/videos`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group p-3.5 rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-3"
+                                className="group p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-2 sm:gap-3"
                               >
-                                <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+                                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center text-base sm:text-xl shrink-0 group-hover:scale-110 transition-transform">
                                   🎬
                                 </div>
-                                <div className="text-left">
-                                  <h4 className="font-bold text-xs text-slate-800 group-hover:text-[#1877F2] transition">
+                                <div className="text-left min-w-0">
+                                  <h4 className="font-bold text-[11px] sm:text-xs text-slate-800 group-hover:text-[#1877F2] transition truncate">
                                     {lang === 'en' ? 'School Videos' : 'វីដេអូសកម្មភាព'}
                                   </h4>
-                                  <p className="text-[10px] text-slate-500">{activeFacebookChannel.code} Events</p>
+                                  <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">{activeFacebookChannel.code} Events</p>
                                 </div>
                               </a>
 
@@ -2209,16 +2209,16 @@ export default function App() {
                                 href={activeFacebookChannel.url.includes('profile.php') ? `${activeFacebookChannel.url}&sk=reels_tab` : `${activeFacebookChannel.url.replace(/\/$/, '')}/reels`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group p-3.5 rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-3"
+                                className="group p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-2 sm:gap-3"
                               >
-                                <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+                                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center text-base sm:text-xl shrink-0 group-hover:scale-110 transition-transform">
                                   ⚡
                                 </div>
-                                <div className="text-left">
-                                  <h4 className="font-bold text-xs text-slate-800 group-hover:text-[#1877F2] transition">
+                                <div className="text-left min-w-0">
+                                  <h4 className="font-bold text-[11px] sm:text-xs text-slate-800 group-hover:text-[#1877F2] transition truncate">
                                     {lang === 'en' ? 'Short Reels' : 'វីដេអូខ្លី Reels'}
                                   </h4>
-                                  <p className="text-[10px] text-slate-500">Daily Highlights</p>
+                                  <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Daily Highlights</p>
                                 </div>
                               </a>
 
@@ -2231,16 +2231,16 @@ export default function App() {
                                 }
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group p-3.5 rounded-2xl border border-blue-100 hover:border-[#0084FF] bg-[#0084FF]/5 hover:bg-[#0084FF]/10 transition flex items-center gap-3"
+                                className="group p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-blue-100 hover:border-[#0084FF] bg-[#0084FF]/5 hover:bg-[#0084FF]/10 transition flex items-center gap-2 sm:gap-3"
                               >
-                                <div className="w-10 h-10 rounded-xl bg-[#0084FF] text-white flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform shadow-sm">
+                                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#0084FF] text-white flex items-center justify-center text-base sm:text-lg shrink-0 group-hover:scale-110 transition-transform shadow-sm">
                                   💬
                                 </div>
-                                <div className="text-left">
-                                  <h4 className="font-bold text-xs text-[#0084FF]">
+                                <div className="text-left min-w-0">
+                                  <h4 className="font-bold text-[11px] sm:text-xs text-[#0084FF] truncate">
                                     {lang === 'en' ? 'Live Messenger' : 'ឆាតសួរព័ត៌មាន'}
                                   </h4>
-                                  <p className="text-[10px] text-slate-500">Contact {activeFacebookChannel.code}</p>
+                                  <p className="text-[9px] sm:text-[10px] text-slate-500 truncate">Contact {activeFacebookChannel.code}</p>
                                 </div>
                               </a>
                             </div>
