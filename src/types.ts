@@ -41,12 +41,13 @@ export interface NewsItem {
   id: string;
   title: string;
   khmerTitle?: string;
-  category: NewsCategory;
+  category: NewsCategory | string;
   content: string;
   date: string;
   image: string;
   views: number;
   featured?: boolean;
+  facebookUrl?: string;
 }
 
 export type ImageAssetCategory =

@@ -188,44 +188,60 @@ export const INITIAL_NEWS: NewsItem[] = [
     title: 'PSIS Robotics Team Wins Gold at Phnom Penh STEM Championship',
     khmerTitle: 'ក្រុមរ៉ូបូតសាលា PSIS ឈ្នះមេដាយមាសក្នុងព្រឹត្តិការណ៍ជើងឯកបច្ចេកវិទ្យាភ្នំពេញ',
     category: 'STEM',
-    content: 'Students from TK and RSK Campuses teamed up to construct a smart sorting system using KUBO structures and custom code scripts. The innovative design won first place in state efficiency, confirming the elite status of PSIS technology education.',
+    content: 'អបអរសាទរសិស្សានុសិស្សនៃសាលាអន្តរជាតិ បញ្ញាសាស្ត្រ (PSIS) ដែលបានដណ្តើមបានមេដាយមាស និងពានរង្វាន់ជើងឯកក្នុងការប្រកួត STEM Robotics Championship 2026!\n\nStudents from TK and RSK Campuses teamed up to construct a smart automated sorting system using KUBO structures and custom algorithm logic, confirming PSIS as a leading institution in robotics & technology education.\n\n#PSIS #STEM #Robotics #PhnomPenh #FutureLeaders #TKCampus #RSKCampus',
     date: 'May 28, 2026',
     image: '/images/news/stem-robotics.jpg',
     views: 450,
-    featured: true
+    featured: true,
+    facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/'
   },
   {
     id: 'N-2',
     title: 'PUC-IFL Partners with British Council for Instant TOEFL/IELTS Preparation',
     khmerTitle: 'PUC-IFL សហការជាមួយក្រុមប្រឹក្សាចក្រភពអង់គ្លេសសម្រាប់ការរៀបចំប្រឡង TOEFL/IELTS',
     category: 'PUC-IFL',
-    content: 'Paññāsāstra International School is proud to expand its integration with pre-vetted educational tools, ensuring children acquire top tier mock assessments and native accent trainings during our weekend schedules.',
+    content: 'សាលាអន្តរជាតិ បញ្ញាសាស្ត្រ (PSIS) និងវិទ្យាស្ថានភាសាបរទេស PUC-IFL មានមោទនភាពក្នុងការប្រកាសកិច្ចសហប្រតិបត្តិការជាមួយ British Council ក្នុងការផ្តល់ជូននូវវគ្គបំប៉ន និងការប្រឡងតេស្តសមត្ថភាពភាសាអង់គ្លេសកម្រិតអន្តរជាតិ (TOEFL / IELTS) សម្រាប់សិស្សានុសិស្សគ្រប់កម្រិតថ្នាក់។\n\nDirect pathway to international university admissions and academic excellence.\n\n#PSIS #PUCIFL #BritishCouncil #IELTS #TOEFL #EnglishExcellence',
     date: 'May 25, 2026',
     image: '/images/news/mou-cambridge.jpg',
     views: 310,
-    featured: false
+    featured: false,
+    facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/'
   },
   {
     id: 'N-3',
     title: 'Admissions Open for Academic Year 2026 - 2027: Early Bird Incentives',
     khmerTitle: 'ការចុះឈ្មោះចូលរៀនសម្រាប់ឆ្នាំសិក្សា ២០២៦ - ២០២៧៖ ការផ្តល់ជូនពិសេស Early Bird',
     category: 'Admission',
-    content: 'Explore secure enrollment packages now. Discover discounts of up to 15% on tuition, free digital learning application subscriptions (ELIF, Koobits, Raz Kids), and complimentary campus uniforms.',
+    content: '🔔 សាលាអន្តរជាតិ បញ្ញាសាស្ត្រ (PSIS) សូមជម្រាបជូនដំណឹងដល់មាតាបិតា និងអាណាព្យាបាលសិស្សទាំងអស់មេត្តាជ្រាបថា៖ ការចុះឈ្មោះចូលរៀនសម្រាប់ឆ្នាំសិក្សាថ្មី ២០២៦ - ២០២៧ បានចាប់ផ្តើមបើកទទួលពាក្យហើយ!\n\n✨ ការផ្តល់ជូនពិសេស Early Bird Discount រហូតដល់ ១៥% លើថ្លៃសិក្សា ព្រមទាំងការប្រើប្រាស់កម្មវិធីសិក្សាឌីជីថល (Koobits, Raz-Kids, ELIF) ដោយឥតគិតថ្លៃ និងឯកសណ្ឋានសាលា។\n\n📍 ទំនាក់ទំនងចុះឈ្មោះនៅគ្រប់សាខាទាំង ៦ របស់ PSIS។\n\n#PSIS #Admissions2026 #EarlyBird #BilingualSchool #EnrollmentOpen',
     date: 'May 18, 2026',
     image: '/images/news/admissions-2026.jpg',
     views: 580,
-    featured: true
+    featured: true,
+    facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/'
   },
   {
     id: 'N-4',
     title: 'International Cultural Fair Unites all 6 Campuses in TK Sport Dome',
     khmerTitle: 'ពិព័រណ៍វប្បធម៌អន្តរជាតិរួមបញ្ចូលគ្នានៃសាខាទាំង ៦ នៅទួលគោក',
     category: 'Campus News',
-    content: 'A dazzling showcase of food stalls, national costume pageantry, and traditional Cambodian art dances. Parents gathered to celebrate deep diverse education and global-mindset environments that thrive inside PSIS.',
+    content: 'ទិវាអបអរសាទរពិព័រណ៍វប្បធម៌ប្រពៃណីជាតិ និងអន្តរជាតិ (PSIS Cultural Fair) បានប្រព្រឹត្តទៅយ៉ាងអធិកអធម ដោយមានការចូលរួមពីគណៈគ្រប់គ្រង លោកគ្រូអ្នកគ្រូ អាណាព្យាបាល និងសិស្សានុសិស្សមកពីគ្រប់សាខាទាំង ៦។\n\nA dazzling showcase of cultural heritage, student performances, and traditional art dances celebrating diversity and global mindset at PSIS.\n\n#PSIS #CulturalFair #KhmerCulture #GlobalMindset #TKCampus',
     date: 'May 10, 2026',
     image: '/images/news/cultural-fair.jpg',
     views: 290,
-    featured: false
+    featured: false,
+    facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/'
+  },
+  {
+    id: 'N-5',
+    title: 'PSIS Youth Taekwondo Athletes Excel at Inter-Campus Championship',
+    khmerTitle: 'កីឡាករយុវជនតេក្វាន់ដូ PSIS ទទួលបានជោគជ័យក្នុងការប្រកួតមិត្តភាពអន្តរសាខា',
+    category: 'Activity',
+    content: 'កីឡានាំមកនូវសុខភាព មិត្តភាព និងវិន័យខ្ពស់! កូនសិស្សក្លឹបតេក្វាន់ដូ PSIS បានបង្ហាញនូវស្មារតីអង់អាច ក្លាហាន និងភាពស្ទាត់ជំនាញក្នុងក្បាច់គុនការពារខ្លួន។\n\nSports and martial arts instill discipline, mental resilience, and teamwork in every young leader.\n\n#PSIS #Taekwondo #Sports #Discipline #Health #RSKCampus',
+    date: 'May 02, 2026',
+    image: '/images/student-life/sports.jpg',
+    views: 340,
+    featured: false,
+    facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/'
   }
 ];
 
@@ -487,6 +503,7 @@ export function getPersistedNews(): NewsItem[] {
         image: defaultNews ? defaultNews.image : n.image,
         content: defaultNews ? defaultNews.content : n.content,
         category: defaultNews ? defaultNews.category : n.category,
+        facebookUrl: defaultNews ? defaultNews.facebookUrl : n.facebookUrl || 'https://www.facebook.com/psisTKTTPNR3Campus/',
       };
     });
     // Ensure any new items in INITIAL_NEWS are added
