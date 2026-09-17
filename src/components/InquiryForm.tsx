@@ -6,6 +6,7 @@
 import { useState, FormEvent } from 'react';
 import { getPersistedLeads, savePersistedLeads, INITIAL_CAMPUSES } from '../mockData';
 import { Lead } from '../types';
+import { saveAdmissionAssistantLead } from '../services/googleSheet';
 import { CheckCircle, ShieldCheck, GraduationCap, ChevronRight, Sparkles } from 'lucide-react';
 
 interface InquiryFormProps {
@@ -82,6 +83,17 @@ export default function InquiryForm({ lang, onLeadAdded }: InquiryFormProps) {
 
     const updated = [newLead, ...leads];
     savePersistedLeads(updated);
+
+    // Synchronize to Google Sheet in real-time
+    saveAdmissionAssistantLead({
+      name: `${parentName.trim()} (Student: ${studentName.trim()}, Age: ${studentAge.trim()})`,
+      phone: `${phone.trim()} | Email: ${email.trim()}`,
+      question: `Preferred Campus: ${campus} | Program: ${program} | Notes: ${notes.trim() || 'Website Application Form submission'}`,
+      language: lang,
+      createdAt: new Date().toISOString(),
+    }).catch((err) => {
+      console.warn('Google Sheet lead sync notice:', err);
+    });
     
     setStep(3);
     if (onLeadAdded) {

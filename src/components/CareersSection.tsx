@@ -33,7 +33,9 @@ export default function CareersSection({ lang }: { lang: 'en' | 'kh' }) {
               {lang === 'en' ? 'Advanced Class Tech' : 'បច្ចេកវិទ្យាថ្នាក់រៀនទំនើប'}
             </h4>
             <p className="text-[11px] text-gray-600 leading-relaxed font-sans">
-              All classrooms are embedded with Newline interactive displays, robotics assets (KUBO, Smart World kits), and synchronized digital app interfaces.
+              {lang === 'en'
+                ? 'All classrooms are embedded with Newline interactive displays, robotics assets (KUBO, Smart World kits), and synchronized digital app interfaces.'
+                : 'គ្រប់បន្ទប់រៀនត្រូវបានបំពាក់ដោយផ្ទាំងអេក្រង់ឆ្លាតវៃ Newline សម្ភារៈបង្រៀនរ៉ូបូត KUBO និងកម្មវិធីសិក្សាឌីជីថលទំនើបៗ។'}
             </p>
           </div>
           <div className="bg-gray-50 p-6 rounded-xl border border-gray-200/50 space-y-2">
@@ -41,7 +43,9 @@ export default function CareersSection({ lang }: { lang: 'en' | 'kh' }) {
               {lang === 'en' ? 'Global Accreditations' : 'ការទទួលស្គាល់កម្រិតអន្តរជាតិ'}
             </h4>
             <p className="text-[11px] text-gray-600 leading-relaxed font-sans">
-              We coordinate directly with British Council and PUC-IFL Language Institute to provide official qualification credentials and continuous workshops.
+              {lang === 'en'
+                ? 'We coordinate directly with British Council and PUC-IFL Language Institute to provide official qualification credentials and continuous workshops.'
+                : 'យើងធ្វើការផ្ទាល់ជាមួយ British Council និងវិទ្យាស្ថានភាសាបរទេស PUC-IFL ដើម្បីផ្តល់វិញ្ញាបនបត្រផ្លូវការ និងវគ្គបណ្តុះបណ្តាលគរុកោសល្យបន្តបន្ទាប់។'}
             </p>
           </div>
           <div className="bg-gray-50 p-6 rounded-xl border border-gray-200/50 space-y-2">
@@ -49,7 +53,9 @@ export default function CareersSection({ lang }: { lang: 'en' | 'kh' }) {
               {lang === 'en' ? 'Growth & Mentorship' : 'ឱកាសលូតលាស់ និងការណែនាំ'}
             </h4>
             <p className="text-[11px] text-gray-600 leading-relaxed font-sans">
-              Experience dynamic promotion paths from classroom teachers to senior curriculum planners, subject heads, or school campus directors.
+              {lang === 'en'
+                ? 'Experience dynamic promotion paths from classroom teachers to senior curriculum planners, subject heads, or school campus directors.'
+                : 'ឱកាសឡើងកាន់តំណែងច្បាស់លាស់ពីគ្រូបង្រៀនទៅកាន់អ្នករៀបចំកម្មវិធីសិក្សា ប្រធានផ្នែក និងនាយកសាខាសាលា។'}
             </p>
           </div>
         </div>

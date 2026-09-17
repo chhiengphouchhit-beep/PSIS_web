@@ -1,5 +1,5 @@
 /**
- * Added by ChatGPT: rich campus detail previews for launch demo.
+ * PSIS Campus Detail & Facilities Showcase
  */
 import { motion } from 'motion/react';
 import { MapPin, Phone, Users, CheckCircle2, ImagePlus } from 'lucide-react';
@@ -15,16 +15,17 @@ export default function CampusDetailPages({ campuses, lang }: Props) {
     <section className="py-20 bg-white border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="max-w-3xl mb-12 space-y-4">
-          <span className="inline-block bg-brand-gold/10 text-brand-dark font-nav font-bold text-[10px] tracking-widest uppercase px-3.5 py-1.5 rounded-full">
-            {lang === 'en' ? 'Campus Detail Page Structure' : 'រចនាសម្ព័ន្ធទំព័រសាខា'}
+          <span className="inline-block bg-brand-gold/10 text-brand-dark font-nav font-bold text-[10px] tracking-widest uppercase px-3.5 py-1.5 rounded-full border border-brand-gold/20">
+            {lang === 'en' ? 'Campus Profiles & Facilities' : 'ព័ត៌មានលម្អិតសាខា និងបរិក្ខារសិក្សា'}
           </span>
           <h2 className="font-serif font-bold text-3xl md:text-5xl text-brand-blue tracking-tight leading-tight">
-            {lang === 'en' ? 'Every campus gets a dedicated conversion page.' : 'សាខានីមួយៗមានទំព័រព័ត៌មានផ្ទាល់ខ្លួន។'}
+            {lang === 'en' ? 'Discover Our Campuses & Facilities' : 'ស្វែងយល់ពីទីតាំង និងបរិក្ខារសិក្សានៃសាខានីមួយៗ'}
           </h2>
+          <div className="w-16 h-0.5 bg-brand-gold rounded"></div>
           <p className="text-sm md:text-base text-slate-600 leading-relaxed font-sans">
             {lang === 'en'
-              ? 'Each page is ready for overview, principal message, facilities, contact, map, gallery, and “Apply to this Campus” CTA.'
-              : 'ទំព័រនីមួយៗអាចបង្ហាញព័ត៌មានទូទៅ សារនាយកសាខា សម្ភារៈសិក្សា ទំនាក់ទំនង ផែនទី រូបភាព និងប៊ូតុងចុះឈ្មោះ។'}
+              ? 'Explore modern classrooms, science labs, sport domes, and direct admissions contact details for all 6 PSIS campuses.'
+              : 'ស្វែងយល់ពីបន្ទប់រៀនទំនើប បន្ទប់ពិសោធន៍វិទ្យាសាស្ត្រ ទីលានកីឡា និងលេខទូរស័ព្ទទំនាក់ទំនងការិយាល័យចុះឈ្មោះនៃសាខាទាំង ៦ របស់ PSIS។'}
           </p>
         </div>
 
