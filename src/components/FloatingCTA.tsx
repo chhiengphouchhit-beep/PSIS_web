@@ -19,7 +19,7 @@ export default function FloatingCTA({ lang, setCurrentSection }: Props) {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col gap-2.5 items-end">
+    <div className="fixed bottom-16 sm:bottom-5 right-4 sm:right-5 z-40 flex flex-col gap-2.5 items-end">
       {/* Direct Telegram Chat Button */}
       <button
         onClick={() => handleItemClick('telegram')}

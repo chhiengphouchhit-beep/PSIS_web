@@ -32,6 +32,11 @@ import TestimonialsSection from './components/TestimonialsSection';
 import FloatingCTA from './components/FloatingCTA';
 import AdmissionAssistant from './components/AdmissionAssistant';
 import CampusDetailPages from './components/CampusDetailPages';
+import MobileActionBar from './components/MobileActionBar';
+import FAQSection from './components/FAQSection';
+import TuitionEstimator from './components/TuitionEstimator';
+import AcademicCalendarModal from './components/AcademicCalendarModal';
+import ImageLightboxModal, { LightboxImageItem } from './components/ImageLightboxModal';
 import { ImageLibraryItem, useGoogleSheetCMS } from './services/googleSheet';
 import { getCmsAssets, isSupabaseConfigured } from './lib/supabase';
 
@@ -72,7 +77,7 @@ function cleanMergedAssets(assets: ImageAsset[]): ImageAsset[] {
 
 import { 
   ChevronLeft, ChevronRight,
-  MapPin, Phone, Mail,
+  MapPin, Phone, Mail, Calendar,
 } from 'lucide-react';
 
 type HeroSlide = Pick<ImageLibraryItem, 'id' | 'title' | 'directImageUrl'>;
@@ -946,6 +951,16 @@ export default function App() {
   const [videoImageErrors, setVideoImageErrors] = useState<Record<string, boolean>>({});
   const [newsFeedTab, setNewsFeedTab] = useState<'facebook-live' | 'announcements'>('facebook-live');
   const [selectedFacebookCampus, setSelectedFacebookCampus] = useState('all');
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [lightboxState, setLightboxState] = useState<{
+    isOpen: boolean;
+    images: LightboxImageItem[];
+    currentIndex: number;
+  }>({
+    isOpen: false,
+    images: [],
+    currentIndex: 0,
+  });
   const googleSheetCMS = useGoogleSheetCMS();
 
   const activeFacebookChannel = FACEBOOK_CAMPUS_CHANNELS.find((c) => c.id === selectedFacebookCampus) || FACEBOOK_CAMPUS_CHANNELS[0];
@@ -1261,12 +1276,20 @@ export default function App() {
             </div>
           </div>
           
-          <button
-            onClick={() => setCurrentSection('apply-now')}
-            className="text-[9px] uppercase font-extrabold tracking-widest text-[#051445] border border-[#051445]/40 px-2 py-0.5 rounded hover:bg-[#051445] hover:text-white transition shrink-0 cursor-pointer"
-          >
-            {lang === 'en' ? 'Register Now' : 'ចុះឈ្មោះឥឡូវ'}
-          </button>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <button
+              onClick={() => setIsCalendarOpen(true)}
+              className="text-[9px] uppercase font-extrabold tracking-widest text-[#051445] bg-white/70 hover:bg-[#051445] hover:text-white border border-[#051445]/30 px-2 py-0.5 rounded transition cursor-pointer hidden sm:flex items-center gap-1"
+            >
+              <span>{lang === 'en' ? '📅 Calendar' : '📅 កាលវិភាគ'}</span>
+            </button>
+            <button
+              onClick={() => setCurrentSection('apply-now')}
+              className="text-[9px] uppercase font-extrabold tracking-widest text-[#051445] border border-[#051445]/40 px-2 py-0.5 rounded hover:bg-[#051445] hover:text-white transition shrink-0 cursor-pointer"
+            >
+              {lang === 'en' ? 'Register Now' : 'ចុះឈ្មោះឥឡូវ'}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1339,6 +1362,14 @@ export default function App() {
                             className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white text-xs uppercase tracking-wider font-nav font-bold px-8 sm:px-10 py-4 sm:py-5 rounded-xl border border-white/20 transition cursor-pointer"
                           >
                             {locale[lang].ctaExplore}
+                          </button>
+
+                          <button
+                            onClick={() => setIsCalendarOpen(true)}
+                            className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white text-xs uppercase tracking-wider font-nav font-bold px-6 sm:px-8 py-4 sm:py-5 rounded-xl border border-white/20 transition cursor-pointer flex items-center justify-center gap-2"
+                          >
+                            <Calendar size={15} className="text-brand-gold shrink-0" />
+                            <span>{lang === 'en' ? 'Calendar' : 'កាលវិភាគ'}</span>
                           </button>
                         </div>
 
@@ -1697,7 +1728,25 @@ export default function App() {
                     />
 
                     {/* STUDENT LIFE VISUAL STORYTELLING */}
-                    <StudentLifeSection lang={lang} assets={studentLifeAssets} isLoading={googleSheetCMS.loading && googleSheetCMS.studentLife.length === 0} />
+                    <StudentLifeSection
+                      lang={lang}
+                      assets={studentLifeAssets}
+                      isLoading={googleSheetCMS.loading && googleSheetCMS.studentLife.length === 0}
+                      onImageClick={(_, index) => {
+                        const allImgs: LightboxImageItem[] = [
+                          { url: '/images/student-life/robotics.jpg', title: lang === 'en' ? 'Robotics Lab' : 'ថ្នាក់រ៉ូបូត & STEM', tag: 'Robotics' },
+                          { url: '/images/student-life/leadership.jpg', title: lang === 'en' ? 'Student Leadership' : 'ភាពជាអ្នកដឹកនាំ', tag: 'Leadership' },
+                          { url: '/images/student-life/arts.jpg', title: lang === 'en' ? 'Arts & Culture' : 'សិល្បៈ និងវប្បធម៌', tag: 'Culture' },
+                          { url: '/images/student-life/sports.jpg', title: lang === 'en' ? 'Sports & Teamwork' : 'កីឡា និងក្រុមការងារ', tag: 'Sports' },
+                          { url: '/images/student-life/field-trip.jpg', title: lang === 'en' ? 'Field Trips' : 'ដំណើរទស្សនកិច្ច', tag: 'Excursion' }
+                        ];
+                        setLightboxState({
+                          isOpen: true,
+                          images: allImgs,
+                          currentIndex: index
+                        });
+                      }}
+                    />
 
                     {/* TRUST / TESTIMONIALS */}
                     <TestimonialsSection lang={lang} />
@@ -1721,7 +1770,17 @@ export default function App() {
                                 <div key={idx} className="aspect-video animate-pulse rounded-2xl border border-gray-200 bg-slate-200" />
                               ))
                             ) : galleryImages.map((img, idx) => (
-                              <div key={idx} className="group relative rounded-2xl overflow-hidden aspect-video border border-gray-200">
+                              <div
+                                key={idx}
+                                onClick={() => {
+                                  setLightboxState({
+                                    isOpen: true,
+                                    images: galleryImages.map((g) => ({ url: g.url, title: g.tag, tag: g.tag })),
+                                    currentIndex: idx,
+                                  });
+                                }}
+                                className="group relative rounded-2xl overflow-hidden aspect-video border border-gray-200 cursor-pointer"
+                              >
                                 <img 
                                   src={img.url} 
                                   alt={img.tag} 
@@ -1754,8 +1813,16 @@ export default function App() {
 
                 {/* 3. ACADEMICS VIEW */}
                 {currentSection === 'academics' && (
-                  <div id="academics" className="animate-fade-in">
+                  <div id="academics" className="animate-fade-in space-y-12">
                     <PublicAcademic lang={lang} programImages={academicProgramImages} />
+                    <TuitionEstimator
+                      lang={lang}
+                      onApplyClick={() => {
+                        setCurrentSection('apply-now');
+                        const form = document.getElementById('apply-now');
+                        form?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    />
                   </div>
                 )}
 
@@ -2302,6 +2369,23 @@ export default function App() {
                 </div>
               </section>
 
+              {/* TUITION & SCHOLARSHIP ESTIMATOR */}
+              <div id="tuition-estimator" className="bg-[#f8fafc]">
+                <TuitionEstimator
+                  lang={lang}
+                  onApplyClick={() => {
+                    setCurrentSection('apply-now');
+                    const form = document.getElementById('apply-now');
+                    form?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                />
+              </div>
+
+              {/* FAQ SECTION */}
+              <div id="faq">
+                <FAQSection lang={lang} />
+              </div>
+
               {/* FOOTER */}
               <Footer
                 lang={lang}
@@ -2312,6 +2396,33 @@ export default function App() {
       </main>
 
       <AdmissionAssistant onLeadSaved={syncCounts} />
+
+      {/* MOBILE ACTION BAR (Sticky HUD on mobile/tablet) */}
+      <MobileActionBar
+        lang={lang}
+        onApplyClick={() => {
+          setCurrentSection('apply-now');
+          const form = document.getElementById('apply-now');
+          form?.scrollIntoView({ behavior: 'smooth' });
+        }}
+      />
+
+      {/* ACADEMIC CALENDAR & PROSPECTUS MODAL */}
+      <AcademicCalendarModal
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+        lang={lang}
+      />
+
+      {/* FULLSCREEN IMAGE LIGHTBOX MODAL */}
+      <ImageLightboxModal
+        isOpen={lightboxState.isOpen}
+        images={lightboxState.images}
+        currentIndex={lightboxState.currentIndex}
+        onClose={() => setLightboxState((prev) => ({ ...prev, isOpen: false }))}
+        onNavigate={(index) => setLightboxState((prev) => ({ ...prev, currentIndex: index }))}
+        lang={lang}
+      />
 
     </div>
   );

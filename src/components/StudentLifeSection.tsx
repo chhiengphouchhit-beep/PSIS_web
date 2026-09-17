@@ -5,6 +5,7 @@ interface Props {
   lang: 'en' | 'kh';
   assets?: { id: string; title: string; url: string }[];
   isLoading?: boolean;
+  onImageClick?: (item: { url: string; title: string; tag?: string }, index: number) => void;
 }
 
 const moments = [
@@ -103,7 +104,12 @@ export default function StudentLifeSection({ lang, assets = [], isLoading = fals
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.45, delay: index * 0.05 }}
-                className={`group relative overflow-hidden rounded-[2rem] border border-white/20 shadow-2xl ${item.span}`}
+                className={`group relative overflow-hidden rounded-[2rem] border border-white/20 shadow-2xl ${item.span} cursor-pointer`}
+                onClick={() => onImageClick?.({
+                  url: item.image,
+                  title: lang === 'en' ? item.title : item.kh,
+                  tag: lang === 'en' ? 'Student Life' : 'ជីវិតសិស្ស'
+                }, index)}
               >
                 <img
                   src={item.image}
