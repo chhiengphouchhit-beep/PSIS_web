@@ -1812,125 +1812,249 @@ export default function App() {
 
                   {/* TAB 1: 100% REAL LIVE FACEBOOK FEED DIRECT FROM META */}
                   {newsFeedTab === 'facebook-live' && (
-                    <div className="max-w-xl mx-auto flex flex-col items-center">
-                      {/* Official Facebook Page Connect Banner */}
-                      <div className="w-full max-w-[500px] mb-6 bg-white border border-slate-200/80 rounded-2xl p-4 md:p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="flex items-center gap-3.5 w-full sm:w-auto">
-                          <div className="relative shrink-0">
-                            <img
-                              src="/images/psis-logo.png"
-                              alt="PSIS Official Logo"
-                              className="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover border-2 border-brand-gold shadow-sm bg-white p-0.5"
-                              onError={(e) => {
-                                e.currentTarget.src = "/apple-touch-icon.png";
-                              }}
-                            />
-                            <span className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-[#1877F2] rounded-full flex items-center justify-center text-white text-[9px] font-bold border-2 border-white shadow-sm" title="Facebook Page">
-                              f
-                            </span>
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <h3 className="font-bold text-sm md:text-base text-[#051445]">
-                                Paññāsāstra International School
-                              </h3>
-                              <span className="inline-flex items-center justify-center w-4 h-4 bg-[#1877F2] text-white rounded-full text-[10px] shadow-sm font-bold" title="Verified School Page">
-                                ✓
-                              </span>
+                    <div className="max-w-6xl mx-auto">
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        
+                        {/* LEFT COLUMN: Premium Tablet/Studio Frame with Live Facebook Feed (7 cols) */}
+                        <div className="lg:col-span-7 flex flex-col items-center">
+                          {/* Sleek Device Mockup Outer Chassis */}
+                          <div className="w-full max-w-[520px] bg-gradient-to-b from-slate-200 via-slate-100 to-slate-200 p-2.5 sm:p-3.5 rounded-[2.5rem] shadow-2xl border-2 border-slate-300/80 relative">
+                            {/* Ambient subtle glow behind the frame */}
+                            <div className="absolute -inset-1 bg-gradient-to-r from-[#1877F2]/20 via-[#C5A059]/20 to-[#071B5C]/20 rounded-[2.8rem] blur-xl -z-10 opacity-70"></div>
+                            
+                            {/* Inner Screen Bezel */}
+                            <div className="bg-white rounded-[2rem] overflow-hidden border border-slate-200/90 shadow-inner flex flex-col">
+                              {/* Top Device Status / Brand Bar */}
+                              <div className="bg-[#051445] text-white px-4 py-3 flex items-center justify-between font-sans border-b border-white/10">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="w-7 h-7 rounded-full bg-white p-0.5 border border-brand-gold shadow-sm shrink-0">
+                                    <img src="/images/psis-logo.png" alt="PSIS" className="w-full h-full object-contain" />
+                                  </div>
+                                  <div className="text-left leading-tight">
+                                    <div className="flex items-center gap-1.5">
+                                      <span className="font-bold text-xs text-white">PSIS Live Stream</span>
+                                      <span className="w-3.5 h-3.5 bg-blue-500 rounded-full flex items-center justify-center text-white text-[8px] font-bold">✓</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5 text-[9px] text-brand-gold font-medium">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                      <span>Direct from Meta Facebook</span>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <a
+                                  href="https://www.facebook.com/psisTKTTPNR3Campus/"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="bg-white/10 hover:bg-[#1877F2] text-white px-3 py-1 rounded-full text-[11px] font-bold transition flex items-center gap-1.5 shadow-sm border border-white/10"
+                                >
+                                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                  </svg>
+                                  <span>{lang === 'en' ? 'Open App' : 'បើកលើ App'}</span>
+                                </a>
+                              </div>
+
+                              {/* Facebook Page Plugin Iframe */}
+                              <div className="relative w-full bg-white flex justify-center">
+                                <iframe
+                                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FpsisTKTTPNR3Campus%2F&tabs=timeline&width=500&height=820&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
+                                  width="100%"
+                                  height="820"
+                                  style={{ border: 'none', overflow: 'hidden' }}
+                                  scrolling="yes"
+                                  frameBorder="0"
+                                  allowFullScreen={true}
+                                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                                  title="Paññāsāstra International School Facebook Live Feed"
+                                  className="w-full h-[820px] bg-white"
+                                />
+                              </div>
+
+                              {/* Bottom bezel bar with scroll hint */}
+                              <div className="bg-slate-100/90 border-t border-slate-200 px-4 py-2 flex items-center justify-between text-[11px] text-slate-500 font-sans select-none">
+                                <span className="flex items-center gap-1.5 text-slate-600">
+                                  <svg className="w-3.5 h-3.5 text-[#1877F2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                  </svg>
+                                  {lang === 'en' ? 'Scroll inside to browse posts' : 'រំកិលចុះក្រោមដើម្បីមើលការផុសបន្ត'}
+                                </span>
+                                <span className="text-[10px] text-slate-400 font-mono">@psisTKTTPNR3Campus</span>
+                              </div>
                             </div>
-                            <p className="text-[11px] md:text-xs text-slate-500 font-sans mt-0.5 flex items-center gap-2 flex-wrap">
-                              <span className="font-medium text-[#1877F2]">@psisTKTTPNR3Campus</span>
-                              <span>•</span>
-                              <span>41,750+ {lang === 'en' ? 'Followers' : 'អ្នកតាមដាន'}</span>
+                          </div>
+                        </div>
+
+                        {/* RIGHT COLUMN: Executive Social Hub Cards & Quick Access (5 cols) */}
+                        <div className="lg:col-span-5 space-y-5 text-left">
+                          {/* Card 1: Official Verified PSIS Profile Badge */}
+                          <div className="bg-gradient-to-br from-[#071B5C] to-[#030A24] text-white p-6 rounded-3xl border border-white/10 shadow-xl relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-40 h-40 bg-brand-gold/10 rounded-full blur-2xl pointer-events-none"></div>
+                            
+                            <div className="flex items-start gap-4 relative z-10">
+                              <div className="relative shrink-0">
+                                <img
+                                  src="/images/psis-logo.png"
+                                  alt="PSIS Crest"
+                                  className="w-16 h-16 rounded-2xl object-cover border-2 border-brand-gold shadow-lg bg-white p-1"
+                                  onError={(e) => {
+                                    e.currentTarget.src = "/apple-touch-icon.png";
+                                  }}
+                                />
+                                <span className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#1877F2] rounded-full flex items-center justify-center text-white text-[10px] font-bold border-2 border-[#071B5C] shadow">
+                                  f
+                                </span>
+                              </div>
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  <h3 className="font-serif font-bold text-base md:text-lg text-white">
+                                    Paññāsāstra International School
+                                  </h3>
+                                  <span className="inline-flex items-center justify-center w-4 h-4 bg-blue-500 text-white rounded-full text-[10px] shadow-sm font-bold">
+                                    ✓
+                                  </span>
+                                </div>
+                                <p className="text-xs text-brand-gold font-sans font-medium">
+                                  @psisTKTTPNR3Campus • Official Page
+                                </p>
+                              </div>
+                            </div>
+
+                            <p className="text-xs text-slate-300 font-sans leading-relaxed mt-4 relative z-10 font-light">
+                              {lang === 'en'
+                                ? 'Stay connected with authentic classroom events, STEM competitions, campus ceremonies, and bilingual curriculum updates streamed daily.'
+                                : 'ភ្ជាប់ទំនាក់ទំនងជាមួយសកម្មភាពថ្នាក់រៀនជាក់ស្តែង ការប្រកួត STEM ពិធីបុណ្យប្រពៃណី និងដំណឹងសំខាន់ៗដែលបានផ្សាយផ្ទាល់រៀងរាល់ថ្ងៃ។'}
                             </p>
+
+                            {/* Page Statistics Grid */}
+                            <div className="grid grid-cols-3 gap-2.5 my-5 pt-4 border-t border-white/10 relative z-10 text-center">
+                              <div className="bg-white/5 rounded-xl p-2.5 border border-white/5">
+                                <span className="block font-bold text-base md:text-lg text-brand-gold font-mono">41.7K+</span>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider">{lang === 'en' ? 'Followers' : 'អ្នកតាមដាន'}</span>
+                              </div>
+                              <div className="bg-white/5 rounded-xl p-2.5 border border-white/5">
+                                <span className="block font-bold text-base md:text-lg text-white font-mono">6</span>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider">{lang === 'en' ? 'Campuses' : 'សាខា'}</span>
+                              </div>
+                              <div className="bg-white/5 rounded-xl p-2.5 border border-white/5">
+                                <span className="block font-bold text-base md:text-lg text-emerald-400 font-mono">Daily</span>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider">{lang === 'en' ? 'Updates' : 'ផ្សាយថ្មីៗ'}</span>
+                              </div>
+                            </div>
+
+                            <a
+                              href="https://www.facebook.com/psisTKTTPNR3Campus/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full inline-flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166fe5] text-white text-xs md:text-sm font-bold py-3 rounded-2xl shadow-lg transition transform active:scale-98 relative z-10"
+                            >
+                              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                              </svg>
+                              <span>{lang === 'en' ? 'Follow on Facebook' : 'ចុច Follow លើ Facebook ផ្លូវការ'}</span>
+                            </a>
+                          </div>
+
+                          {/* Card 2: Interactive Media Channels (Photos, Videos, Reels) */}
+                          <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md space-y-3.5">
+                            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
+                              {lang === 'en' ? 'Media Channels & Galleries' : 'បណ្តាញរូបភាព និងវីដេអូ'}
+                            </span>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                              {/* Photos Channel */}
+                              <a
+                                href="https://www.facebook.com/psisTKTTPNR3Campus/photos"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group p-3.5 rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-3"
+                              >
+                                <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+                                  📸
+                                </div>
+                                <div className="text-left">
+                                  <h4 className="font-bold text-xs text-slate-800 group-hover:text-[#1877F2] transition">
+                                    {lang === 'en' ? 'Photo Albums' : 'អាល់ប៊ុមរូបថត'}
+                                  </h4>
+                                  <p className="text-[10px] text-slate-500">1,200+ Photos</p>
+                                </div>
+                              </a>
+
+                              {/* Videos Channel */}
+                              <a
+                                href="https://www.facebook.com/psisTKTTPNR3Campus/videos"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group p-3.5 rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-3"
+                              >
+                                <div className="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+                                  🎬
+                                </div>
+                                <div className="text-left">
+                                  <h4 className="font-bold text-xs text-slate-800 group-hover:text-[#1877F2] transition">
+                                    {lang === 'en' ? 'School Videos' : 'វីដេអូសកម្មភាព'}
+                                  </h4>
+                                  <p className="text-[10px] text-slate-500">STEM & Events</p>
+                                </div>
+                              </a>
+
+                              {/* Reels Channel */}
+                              <a
+                                href="https://www.facebook.com/psisTKTTPNR3Campus/reels"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group p-3.5 rounded-2xl border border-slate-100 hover:border-[#1877F2]/40 bg-slate-50/70 hover:bg-blue-50/40 transition flex items-center gap-3"
+                              >
+                                <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 transition-transform">
+                                  ⚡
+                                </div>
+                                <div className="text-left">
+                                  <h4 className="font-bold text-xs text-slate-800 group-hover:text-[#1877F2] transition">
+                                    {lang === 'en' ? 'Short Reels' : 'វីដេអូខ្លី Reels'}
+                                  </h4>
+                                  <p className="text-[10px] text-slate-500">Daily Highlights</p>
+                                </div>
+                              </a>
+
+                              {/* Messenger Chat */}
+                              <a
+                                href="https://m.me/psisTKTTPNR3Campus"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group p-3.5 rounded-2xl border border-blue-100 hover:border-[#0084FF] bg-[#0084FF]/5 hover:bg-[#0084FF]/10 transition flex items-center gap-3"
+                              >
+                                <div className="w-10 h-10 rounded-xl bg-[#0084FF] text-white flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform shadow-sm">
+                                  💬
+                                </div>
+                                <div className="text-left">
+                                  <h4 className="font-bold text-xs text-[#0084FF]">
+                                    {lang === 'en' ? 'Live Messenger' : 'ឆាតសួរព័ត៌មាន'}
+                                  </h4>
+                                  <p className="text-[10px] text-slate-500">Instant Inquiry</p>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+
+                          {/* Card 3: Switch to Articles and Announcements */}
+                          <div className="bg-gradient-to-r from-yellow-50 to-amber-50/50 rounded-3xl p-5 border border-amber-200/60 flex items-center justify-between gap-4">
+                            <div className="text-left">
+                              <h4 className="font-serif font-bold text-xs md:text-sm text-yellow-950">
+                                {lang === 'en' ? 'Prefer Reading School Circulars?' : 'ចង់អានសេចក្តីប្រកាសលម្អិត?'}
+                              </h4>
+                              <p className="text-[11px] text-yellow-800/80 font-sans mt-0.5">
+                                {lang === 'en' ? 'View structured admission notices & calendar alerts' : 'មើលសេចក្តីជូនដំណឹង និងប្រតិទិនការសិក្សា'}
+                              </p>
+                            </div>
+                            <button
+                              onClick={() => setNewsFeedTab('announcements')}
+                              className="shrink-0 bg-[#051445] hover:bg-brand-blue text-brand-gold font-bold text-xs px-4 py-2.5 rounded-xl shadow transition cursor-pointer"
+                            >
+                              {lang === 'en' ? 'View Articles' : 'មើលសេចក្តីប្រកាស'}
+                            </button>
                           </div>
                         </div>
 
-                        <a
-                          href="https://www.facebook.com/psisTKTTPNR3Campus/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166fe5] text-white text-xs md:text-sm font-bold px-4 py-2.5 rounded-xl shadow transition transform active:scale-95"
-                        >
-                          <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                          </svg>
-                          <span>{lang === 'en' ? 'Follow Page' : 'តាមដាន Page'}</span>
-                        </a>
-                      </div>
-
-                      {/* Genuine Meta Facebook Page Plugin (Live Iframe) */}
-                      <div className="w-full max-w-[500px] bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden relative">
-                        <div className="bg-[#1877F2] text-white px-4 py-2.5 flex items-center justify-between text-xs font-bold font-sans">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span>{lang === 'en' ? 'FACEBOOK LIVE FEED' : 'ផ្សាយផ្ទាល់ពី FACEBOOK'}</span>
-                          </div>
-                          <a
-                            href="https://www.facebook.com/psisTKTTPNR3Campus/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-white/20 hover:bg-white/30 text-white px-2.5 py-1 rounded-full text-[10px] transition flex items-center gap-1"
-                          >
-                            <span>facebook.com</span>
-                            <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
-                              <path d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                          </a>
-                        </div>
-
-                        <iframe
-                          src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FpsisTKTTPNR3Campus%2F&tabs=timeline&width=500&height=820&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
-                          width="100%"
-                          height="820"
-                          style={{ border: 'none', overflow: 'hidden' }}
-                          scrolling="yes"
-                          frameBorder="0"
-                          allowFullScreen={true}
-                          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                          title="Paññāsāstra International School Facebook Live Stream"
-                          className="w-full h-[820px] bg-white"
-                        />
-                      </div>
-
-                      {/* Facebook Direct Shortcuts */}
-                      <div className="w-full max-w-[500px] grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-5">
-                        <a
-                          href="https://www.facebook.com/psisTKTTPNR3Campus/photos"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#1877F2] p-3 rounded-2xl text-center transition shadow-sm font-bold text-xs flex flex-col items-center gap-1.5"
-                        >
-                          <span className="text-xl">📸</span>
-                          <span>{lang === 'en' ? 'Photos' : 'រូបថត Facebook'}</span>
-                        </a>
-                        <a
-                          href="https://www.facebook.com/psisTKTTPNR3Campus/videos"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#1877F2] p-3 rounded-2xl text-center transition shadow-sm font-bold text-xs flex flex-col items-center gap-1.5"
-                        >
-                          <span className="text-xl">🎬</span>
-                          <span>{lang === 'en' ? 'Videos' : 'វីដេអូ Facebook'}</span>
-                        </a>
-                        <a
-                          href="https://www.facebook.com/psisTKTTPNR3Campus/reels"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-[#1877F2] p-3 rounded-2xl text-center transition shadow-sm font-bold text-xs flex flex-col items-center gap-1.5"
-                        >
-                          <span className="text-xl">⚡</span>
-                          <span>{lang === 'en' ? 'Reels' : 'វីដេអូខ្លី Reels'}</span>
-                        </a>
-                        <a
-                          href="https://m.me/psisTKTTPNR3Campus"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-[#0084FF] hover:bg-[#0070da] text-white p-3 rounded-2xl text-center transition shadow-sm font-bold text-xs flex flex-col items-center gap-1.5"
-                        >
-                          <span className="text-xl">💬</span>
-                          <span>{lang === 'en' ? 'Messenger' : 'ឆាត Messenger'}</span>
-                        </a>
                       </div>
                     </div>
                   )}
