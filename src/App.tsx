@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   getPersistedNews, getPersistedCampuses,
@@ -600,6 +600,8 @@ function FacebookPost({ item, lang }: { key?: string; item: NewsItem; lang: 'en'
             <img
               src={item.image}
               alt={item.title}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
               referrerPolicy="no-referrer"
               onError={(e) => {
@@ -653,6 +655,8 @@ function FacebookPost({ item, lang }: { key?: string; item: NewsItem; lang: 'en'
           <img
             src={item.image}
             alt={item.title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover transition duration-300 group-hover:scale-[1.01]"
             referrerPolicy="no-referrer"
             onError={(e) => {
@@ -798,6 +802,138 @@ function FacebookPost({ item, lang }: { key?: string; item: NewsItem; lang: 'en'
   );
 }
 
+const isHealthyImageUrl = (url?: string | null): boolean => {
+  if (!url || typeof url !== 'string') return false;
+  const trimmed = url.trim();
+  if (!trimmed) return false;
+  if (trimmed.includes('supabase.co') || trimmed.includes('unsplash.com')) {
+    return false;
+  }
+  return true;
+};
+
+function AboutShowcaseCard({ lang }: { lang: 'en' | 'kh' }) {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="lg:col-span-4 min-h-[380px] relative rounded-3xl overflow-hidden shadow-2xl border-2 border-brand-gold/30 hover:border-brand-gold/70 hover:shadow-brand-gold/10 transition-all duration-500 group flex flex-col justify-between p-6 bg-slate-950">
+      {/* Slide Scene Fade Transitions */}
+      {[
+        '/images/campuses/tk.jpg',
+        '/images/student-life/robotics.jpg',
+        '/images/hero/hero-bg.jpg',
+      ].map((slideUrl, idx) => (
+        <img
+          key={slideUrl}
+          src={slideUrl}
+          alt="Campus Showcase"
+          loading="lazy"
+          decoding="async"
+          className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${
+            activeSlide === idx ? 'opacity-40 scale-105' : 'opacity-0 scale-100'
+          }`}
+        />
+      ))}
+
+      {/* Black gradient mask */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-slate-950/40 z-[1]"></div>
+
+      {/* Top Bar with active indicators */}
+      <div className="relative z-10 flex justify-between items-center w-full">
+        <span className="inline-block bg-brand-gold text-brand-dark text-[8px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider shadow-md font-sans">
+          {lang === 'en' ? 'Campus Life Showcase' : 'ទិដ្ឋភាពសាលាទំនើប'}
+        </span>
+
+        {/* Glowing slideshow dots */}
+        <div className="flex gap-1">
+          {[0, 1, 2].map((dotIdx) => (
+            <span
+              key={dotIdx}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                activeSlide === dotIdx ? 'bg-brand-gold w-3 shadow-sm shadow-brand-gold' : 'bg-white/20'
+              }`}
+            ></span>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom Content banner */}
+      <div className="relative z-10 space-y-1.5 mt-auto">
+        <h3 className="text-white font-serif font-bold text-base md:text-lg tracking-wide group-hover:text-brand-gold transition-colors duration-300">
+          {lang === 'en' ? 'Modern Learning Environment' : 'បរិយាកាសសិក្សាទំនើប'}
+        </h3>
+        <p className="text-[10px] text-slate-300 leading-normal font-sans font-light">
+          {lang === 'en'
+            ? 'Equipped with cutting-edge science labs, high-tech robotics studios, and spacious libraries.'
+            : 'បំពាក់ដោយមន្ទីរពិសោធន៍វិទ្យាសាស្ត្រទំនើប ស្ទូឌីយ៉ូរ៉ូបូត និងបណ្ណាល័យធំទូលាយ។'}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function FacebookLiveFrame({
+  activeChannel,
+  lang,
+}: {
+  activeChannel: (typeof FACEBOOK_CAMPUS_CHANNELS)[0];
+  lang: 'en' | 'kh';
+}) {
+  const [inView, setInView] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '300px' }
+    );
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative w-full bg-white flex justify-center min-h-[500px]">
+      {inView ? (
+        <iframe
+          key={activeChannel.id}
+          src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(activeChannel.url)}&tabs=timeline&width=500&height=820&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`}
+          width="100%"
+          height="820"
+          style={{ border: 'none', overflow: 'hidden' }}
+          scrolling="yes"
+          frameBorder="0"
+          loading="lazy"
+          allowFullScreen={true}
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          title={`${activeChannel.name} Facebook Live Feed`}
+          className="w-full h-[820px] bg-white"
+        />
+      ) : (
+        <div className="w-full h-[500px] flex flex-col items-center justify-center p-8 bg-slate-50 text-slate-400">
+          <div className="w-10 h-10 rounded-full border-2 border-brand-gold/40 border-t-[#051445] animate-spin mb-3" />
+          <p className="text-xs font-semibold text-slate-500 font-sans">
+            {lang === 'en' ? 'Connecting to Meta Facebook stream...' : 'កំពុងរៀបចំផ្សាយផ្ទាល់ពី Meta Facebook...'}
+          </p>
+          <span className="text-[10px] text-slate-400 font-mono mt-1">{activeChannel.handle}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function App() {
   const [lang, setLang] = useState<'en' | 'kh'>('en');
   const [currentSection, setCurrentSection] = useState('home');
@@ -808,19 +944,11 @@ export default function App() {
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [videoImageErrors, setVideoImageErrors] = useState<Record<string, boolean>>({});
-  const [activeAboutSlide, setActiveAboutSlide] = useState(0);
   const [newsFeedTab, setNewsFeedTab] = useState<'facebook-live' | 'announcements'>('facebook-live');
   const [selectedFacebookCampus, setSelectedFacebookCampus] = useState('all');
   const googleSheetCMS = useGoogleSheetCMS();
 
   const activeFacebookChannel = FACEBOOK_CAMPUS_CHANNELS.find((c) => c.id === selectedFacebookCampus) || FACEBOOK_CAMPUS_CHANNELS[0];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveAboutSlide((prev) => (prev + 1) % 3);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
 
   // Load and sync records count
   const syncCounts = () => {
@@ -925,171 +1053,180 @@ export default function App() {
   };
 
   const fallbackHeroImage = '/images/hero/hero-bg.jpg';
-  const cmsImageAssets = googleSheetCMS.allImages.map(itemToImageAsset);
-  const combinedImageAssets = cmsImageAssets.length > 0
-    ? sortImageAssetsByPriority(cleanMergedAssets([...cmsImageAssets, ...imageAssets]))
-    : sortImageAssetsByPriority(cleanMergedAssets(imageAssets));
-  const isHealthyImageUrl = (url?: string | null): boolean => {
-    if (!url || typeof url !== 'string') return false;
-    const trimmed = url.trim();
-    if (!trimmed) return false;
-    if (trimmed.includes('supabase.co') || trimmed.includes('unsplash.com')) {
-      return false;
-    }
-    return true;
-  };
+  
+  const combinedImageAssets = useMemo(() => {
+    const cmsImageAssets = googleSheetCMS.allImages.map(itemToImageAsset);
+    return cmsImageAssets.length > 0
+      ? sortImageAssetsByPriority(cleanMergedAssets([...cmsImageAssets, ...imageAssets]))
+      : sortImageAssetsByPriority(cleanMergedAssets(imageAssets));
+  }, [googleSheetCMS.allImages, imageAssets]);
 
   const findCmsImage = (category: ImageAsset['category'], matcher?: (asset: ImageAsset) => boolean) =>
     combinedImageAssets.find((asset) => asset.category === category && isHealthyImageUrl(asset.url) && (!matcher || matcher(asset)))?.url;
 
-  const headerLogoUrl = findCmsImage('Header Logo');
+  const headerLogoUrl = useMemo(() => findCmsImage('Header Logo'), [combinedImageAssets]);
 
-  const campusesWithCmsImages = allCampuses.map((campus, index) => {
-    const defaultCampus = INITIAL_CAMPUSES.find((c) => c.id === campus.id);
-    const defaultImage = defaultCampus?.image || `/images/campuses/${campus.id}.jpg`;
-    const cmsImage = findCmsImage('Campus Image', (asset) => {
-      if (campusAssetMatchesCampus(asset, campus) || campusTitleMatchesCampus(asset, campus)) {
-        return true;
-      }
-      return asset.campus === '' && asset.priority === index + 1;
+  const campusesWithCmsImages = useMemo(() => {
+    return allCampuses.map((campus, index) => {
+      const defaultCampus = INITIAL_CAMPUSES.find((c) => c.id === campus.id);
+      const defaultImage = defaultCampus?.image || `/images/campuses/${campus.id}.jpg`;
+      const cmsImage = findCmsImage('Campus Image', (asset) => {
+        if (campusAssetMatchesCampus(asset, campus) || campusTitleMatchesCampus(asset, campus)) {
+          return true;
+        }
+        return asset.campus === '' && asset.priority === index + 1;
+      });
+      return {
+        ...campus,
+        image: isHealthyImageUrl(cmsImage) ? cmsImage! : (isHealthyImageUrl(campus.image) ? campus.image : defaultImage),
+      };
     });
-    return {
-      ...campus,
-      image: isHealthyImageUrl(cmsImage) ? cmsImage! : (isHealthyImageUrl(campus.image) ? campus.image : defaultImage),
-    };
-  });
+  }, [allCampuses, combinedImageAssets]);
 
-  const academicProgramImages = Object.fromEntries(
-    ACADEMIC_PROGRAMS.map((program, index) => {
-      const cmsImage = findCmsImage('Academic Program', (asset) => asset.campus === program.id || asset.title.includes(program.name) || asset.priority === index + 1);
-      return [
-        program.id,
-        isHealthyImageUrl(cmsImage) ? cmsImage! : program.image,
-      ];
-    })
-  );
+  const academicProgramImages = useMemo(() => {
+    return Object.fromEntries(
+      ACADEMIC_PROGRAMS.map((program, index) => {
+        const cmsImage = findCmsImage('Academic Program', (asset) => asset.campus === program.id || asset.title.includes(program.name) || asset.priority === index + 1);
+        return [
+          program.id,
+          isHealthyImageUrl(cmsImage) ? cmsImage! : program.image,
+        ];
+      })
+    );
+  }, [combinedImageAssets]);
 
-  const stemResourceImages = Object.fromEntries(
-    STEM_RESOURCES.map((kit, index) => {
-      const cmsImage = findCmsImage('STEM Resource', (asset) => asset.campus === kit.id || asset.title.includes(kit.name) || asset.priority === index + 1);
-      return [
-        kit.id,
-        isHealthyImageUrl(cmsImage) ? cmsImage! : kit.image,
-      ];
-    })
-  );
+  const stemResourceImages = useMemo(() => {
+    return Object.fromEntries(
+      STEM_RESOURCES.map((kit, index) => {
+        const cmsImage = findCmsImage('STEM Resource', (asset) => asset.campus === kit.id || asset.title.includes(kit.name) || asset.priority === index + 1);
+        return [
+          kit.id,
+          isHealthyImageUrl(cmsImage) ? cmsImage! : kit.image,
+        ];
+      })
+    );
+  }, [combinedImageAssets]);
 
-  const heroSlides: HeroSlide[] = googleSheetCMS.heroBanners.filter((banner) => isHealthyImageUrl(banner.directImageUrl));
+  const heroSlides: HeroSlide[] = useMemo(() => {
+    return googleSheetCMS.heroBanners.filter((banner) => isHealthyImageUrl(banner.directImageUrl));
+  }, [googleSheetCMS.heroBanners]);
 
-  const fallbackGalleryImages = [
-    { url: '/images/student-life/robotics.jpg', tag: 'Robotic Class' },
-    { url: '/images/campuses/tk.jpg', tag: 'TK Science Lab' },
-    { url: '/images/programs/primary.jpg', tag: 'Digital Suite Session' },
-    { url: '/images/student-life/leadership.jpg', tag: 'Graduation Ceremony' },
-    { url: '/images/student-life/sports.jpg', tag: 'International Sports Meet' },
-    { url: '/images/campuses/ttp.jpg', tag: 'TTP Interactive Board Study' }
-  ];
+  const galleryImages = useMemo(() => {
+    const fallbackGalleryImages = [
+      { url: '/images/student-life/robotics.jpg', tag: 'Robotic Class' },
+      { url: '/images/campuses/tk.jpg', tag: 'TK Science Lab' },
+      { url: '/images/programs/primary.jpg', tag: 'Digital Suite Session' },
+      { url: '/images/student-life/leadership.jpg', tag: 'Graduation Ceremony' },
+      { url: '/images/student-life/sports.jpg', tag: 'International Sports Meet' },
+      { url: '/images/campuses/ttp.jpg', tag: 'TTP Interactive Board Study' }
+    ];
 
-  const libraryGalleryImages = sortImageAssetsByPriority(combinedImageAssets.filter((asset) => asset.category === 'Campus Gallery' && isHealthyImageUrl(asset.url)))
-    .map((asset) => ({ url: asset.url, tag: asset.campus ? `${asset.title} - ${asset.campus}` : asset.title }));
+    const libraryGalleryImages = sortImageAssetsByPriority(combinedImageAssets.filter((asset) => asset.category === 'Campus Gallery' && isHealthyImageUrl(asset.url)))
+      .map((asset) => ({ url: asset.url, tag: asset.campus ? `${asset.title} - ${asset.campus}` : asset.title }));
 
-  const sheetGalleryImages: EditableGalleryImage[] = googleSheetCMS.campusGallery
-    .filter((item) => isHealthyImageUrl(item.directImageUrl))
-    .map((item) => ({
-      id: `sheet-gallery-${item.id}`,
-      title: item.title,
-      url: item.directImageUrl,
-      tag: item.campus ? `${item.title} - ${item.campus}` : item.title,
+    const sheetGalleryImages: EditableGalleryImage[] = googleSheetCMS.campusGallery
+      .filter((item) => isHealthyImageUrl(item.directImageUrl))
+      .map((item) => ({
+        id: `sheet-gallery-${item.id}`,
+        title: item.title,
+        url: item.directImageUrl,
+        tag: item.campus ? `${item.title} - ${item.campus}` : item.title,
+        category: 'Campus Gallery',
+        campus: item.campus,
+        sheetId: item.id,
+      }));
+
+    const editableFallbackGalleryImages: EditableGalleryImage[] = fallbackGalleryImages.map((item, index) => ({
+      id: `fallback-gallery-${index}`,
+      title: item.tag,
+      url: item.url,
+      tag: item.tag,
       category: 'Campus Gallery',
-      campus: item.campus,
-      sheetId: item.id,
+      campus: '',
     }));
 
-  const editableFallbackGalleryImages: EditableGalleryImage[] = fallbackGalleryImages.map((item, index) => ({
-    id: `fallback-gallery-${index}`,
-    title: item.tag,
-    url: item.url,
-    tag: item.tag,
-    category: 'Campus Gallery',
-    campus: '',
-  }));
-
-  const editableLibraryGalleryImages: EditableGalleryImage[] = libraryGalleryImages.map((item, index) => ({
-    id: `library-gallery-${index}`,
-    title: item.tag,
-    url: item.url,
-    tag: item.tag,
-    category: 'Campus Gallery',
-    campus: '',
-  }));
-
-  const galleryImages = sheetGalleryImages.length > 0
-    ? sheetGalleryImages
-    : editableLibraryGalleryImages.length > 0
-      ? editableLibraryGalleryImages
-      : editableFallbackGalleryImages;
-
-  const validPartnerSheet = googleSheetCMS.partnerLogos
-    .filter((item) => isHealthyImageUrl(item.directImageUrl))
-    .map((item) => ({
-      id: String(item.id),
-      title: item.title,
-      url: item.directImageUrl,
-      originalUrl: item.imageUrl,
-      category: 'Partner Logo' as const,
-      campus: item.campus,
-      priority: item.priority,
-      status: item.status,
-      createdAt: '',
-      storageProvider: 'external-url' as const,
+    const editableLibraryGalleryImages: EditableGalleryImage[] = libraryGalleryImages.map((item, index) => ({
+      id: `library-gallery-${index}`,
+      title: item.tag,
+      url: item.url,
+      tag: item.tag,
+      category: 'Campus Gallery',
+      campus: '',
     }));
 
-  const partnerLogoAssets = validPartnerSheet.length > 0
-    ? validPartnerSheet
-    : sortImageAssetsByPriority(combinedImageAssets.filter((asset) => isHealthyImageUrl(asset.url) && (asset.category === 'Partner Logo' || asset.category === 'Partner Logos' || asset.category === 'AYLA Logo' || asset.category === 'AYLA Logos')));
+    return sheetGalleryImages.length > 0
+      ? sheetGalleryImages
+      : editableLibraryGalleryImages.length > 0
+        ? editableLibraryGalleryImages
+        : editableFallbackGalleryImages;
+  }, [combinedImageAssets, googleSheetCMS.campusGallery]);
 
-  const validStudentLifeSheet = googleSheetCMS.studentLife
-    .filter((item) => isHealthyImageUrl(item.directImageUrl))
-    .map((item) => ({
-      id: String(item.id),
-      title: item.title,
-      url: item.directImageUrl,
-    }));
+  const partnerLogoAssets = useMemo(() => {
+    const validPartnerSheet = googleSheetCMS.partnerLogos
+      .filter((item) => isHealthyImageUrl(item.directImageUrl))
+      .map((item) => ({
+        id: String(item.id),
+        title: item.title,
+        url: item.directImageUrl,
+        originalUrl: item.imageUrl,
+        category: 'Partner Logo' as const,
+        campus: item.campus,
+        priority: item.priority,
+        status: item.status,
+        createdAt: '',
+        storageProvider: 'external-url' as const,
+      }));
 
-  const studentLifeAssets = validStudentLifeSheet.length > 0
-    ? validStudentLifeSheet
-    : sortImageAssetsByPriority(combinedImageAssets.filter((asset) => isHealthyImageUrl(asset.url) && asset.category === 'Student Life')).map((asset) => ({
-      id: asset.id,
-      title: asset.title,
-      url: asset.url,
-    }));
+    return validPartnerSheet.length > 0
+      ? validPartnerSheet
+      : sortImageAssetsByPriority(combinedImageAssets.filter((asset) => isHealthyImageUrl(asset.url) && (asset.category === 'Partner Logo' || asset.category === 'Partner Logos' || asset.category === 'AYLA Logo' || asset.category === 'AYLA Logos')));
+  }, [combinedImageAssets, googleSheetCMS.partnerLogos]);
 
-  const sheetNews = googleSheetCMS.news
-    .filter((item) => {
-      if (!isHealthyImageUrl(item.directImageUrl)) return false;
-      // Filter out dummy/test rows and inaccessible Google Drive private links
-      if (item.title === 'News Cover 1' || item.directImageUrl?.includes('1O103rUio86PJkvdUtVsNBCRokVMTayv0')) {
-        return false;
-      }
-      return true;
-    })
-    .map((item) => ({
-      id: `sheet-${item.id}`,
-      sheetId: item.id,
-      title: item.title,
-      khmerTitle: item.title,
-      category: item.campus ? `${item.campus} News` : 'PSIS News',
-      campus: item.campus,
-      date: item.campus ? `Campus ${item.campus}` : 'PSIS Official Broadcast',
-      content: item.campus ? `Latest update from ${item.campus} campus.` : 'Latest update and announcements from Paññāsāstra International School.',
-      image: item.directImageUrl,
-      facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/',
-      videoUrl: item.videoUrl || undefined,
-    }));
+  const studentLifeAssets = useMemo(() => {
+    const validStudentLifeSheet = googleSheetCMS.studentLife
+      .filter((item) => isHealthyImageUrl(item.directImageUrl))
+      .map((item) => ({
+        id: String(item.id),
+        title: item.title,
+        url: item.directImageUrl,
+      }));
 
-  const publicNews = sheetNews.length > 0
-    ? [...sheetNews, ...allNews.filter((n) => !sheetNews.some((s) => s.title === n.title))]
-    : allNews;
+    return validStudentLifeSheet.length > 0
+      ? validStudentLifeSheet
+      : sortImageAssetsByPriority(combinedImageAssets.filter((asset) => isHealthyImageUrl(asset.url) && asset.category === 'Student Life')).map((asset) => ({
+        id: asset.id,
+        title: asset.title,
+        url: asset.url,
+      }));
+  }, [combinedImageAssets, googleSheetCMS.studentLife]);
+
+  const publicNews = useMemo(() => {
+    const sheetNews = googleSheetCMS.news
+      .filter((item) => {
+        if (!isHealthyImageUrl(item.directImageUrl)) return false;
+        if (item.title === 'News Cover 1' || item.directImageUrl?.includes('1O103rUio86PJkvdUtVsNBCRokVMTayv0')) {
+          return false;
+        }
+        return true;
+      })
+      .map((item) => ({
+        id: `sheet-${item.id}`,
+        sheetId: item.id,
+        title: item.title,
+        khmerTitle: item.title,
+        category: item.campus ? `${item.campus} News` : 'PSIS News',
+        campus: item.campus,
+        date: item.campus ? `Campus ${item.campus}` : 'PSIS Official Broadcast',
+        content: item.campus ? `Latest update from ${item.campus} campus.` : 'Latest update and announcements from Paññāsāstra International School.',
+        image: item.directImageUrl,
+        facebookUrl: 'https://www.facebook.com/psisTKTTPNR3Campus/',
+        videoUrl: item.videoUrl || undefined,
+      }));
+
+    return sheetNews.length > 0
+      ? [...sheetNews, ...allNews.filter((n) => !sheetNews.some((s) => s.title === n.title))]
+      : allNews;
+  }, [allNews, googleSheetCMS.news]);
 
   return (
     <div className="min-h-screen flex flex-col font-sans select-none bg-[#fafbfc]">
@@ -1241,16 +1378,11 @@ export default function App() {
                       </div>
                     </section>                    {/* ABOUT PSIS & CAMBODIA HERITAGE CONTINUITY */}
                     <section id="about" className="py-24 bg-[#030718] text-white border-t border-slate-900 relative overflow-hidden select-none">
-                      {/* Ambient background video loop */}
-                      {/* Ambient background video loop from YouTube */}
-                      <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-[1] opacity-[0.28]">
-                        <iframe
-                          src="https://www.youtube.com/embed/mNG-D2fu8hY?autoplay=1&mute=1&loop=1&playlist=mNG-D2fu8hY&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1"
-                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[180%] min-w-full min-h-full object-cover scale-[1.4]"
-                          frameBorder="0"
-                          allow="autoplay; encrypted-media"
-                          allowFullScreen
-                        ></iframe>
+                      {/* Ambient lightweight high-tech futuristic gradient mesh (0% CPU, 0 MB video RAM) */}
+                      <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-[1] opacity-60">
+                        <div className="absolute -top-40 -left-40 w-[550px] h-[550px] bg-gradient-to-br from-[#1a3cad]/25 to-transparent rounded-full blur-[100px]" />
+                        <div className="absolute -bottom-40 -right-40 w-[550px] h-[550px] bg-gradient-to-tl from-[#C5A059]/15 to-transparent rounded-full blur-[100px]" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-blue-950/30 via-indigo-950/20 to-amber-950/15 rounded-full blur-[120px]" />
                       </div>
                       <div className="absolute inset-0 bg-[#030718]/70 z-[2]"></div>
 
@@ -1287,59 +1419,10 @@ export default function App() {
                             </div>
                           </div>
 
-                          {/* Column 2: Fading Slideshow Campus Card (Highly Futuristic!) */}
-                          <div className="lg:col-span-4 min-h-[380px] relative rounded-3xl overflow-hidden shadow-2xl border-2 border-brand-gold/30 hover:border-brand-gold/70 hover:shadow-brand-gold/10 transition-all duration-500 group flex flex-col justify-between p-6 bg-slate-950">
-                            
-                            {/* Slide Scene Fade Transitions */}
-                            {[
-                              '/images/campuses/tk.jpg',
-                              '/images/student-life/robotics.jpg',
-                              '/images/hero/hero-bg.jpg'
-                            ].map((slideUrl, idx) => (
-                              <img
-                                key={slideUrl}
-                                src={slideUrl}
-                                alt="Campus Showcase"
-                                className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${
-                                  activeAboutSlide === idx ? 'opacity-40 scale-105' : 'opacity-0 scale-100'
-                                }`}
-                              />
-                            ))}
+                          {/* Column 2: Fading Slideshow Campus Card (Isolated Component, No App Re-renders) */}
+                          <AboutShowcaseCard lang={lang} />
 
-                            {/* Black gradient mask */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-slate-950/40 z-[1]"></div>
 
-                            {/* Top Bar with active indicators */}
-                            <div className="relative z-10 flex justify-between items-center w-full">
-                              <span className="inline-block bg-brand-gold text-brand-dark text-[8px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider shadow-md font-sans">
-                                {lang === 'en' ? 'Campus Life Showcase' : 'ទិដ្ឋភាពសាលាទំនើប'}
-                              </span>
-                              
-                              {/* Glowing slideshow dots */}
-                              <div className="flex gap-1">
-                                {[0, 1, 2].map((dotIdx) => (
-                                  <span 
-                                    key={dotIdx} 
-                                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                                      activeAboutSlide === dotIdx ? 'bg-brand-gold w-3 shadow-sm shadow-brand-gold' : 'bg-white/20'
-                                    }`}
-                                  ></span>
-                                ))}
-                              </div>
-                            </div>
-
-                            {/* Bottom Content banner */}
-                            <div className="relative z-10 space-y-1.5 mt-auto">
-                              <h3 className="text-white font-serif font-bold text-base md:text-lg tracking-wide group-hover:text-brand-gold transition-colors duration-300">
-                                {lang === 'en' ? 'Modern Learning Environment' : 'បរិយាកាសសិក្សាទំនើប'}
-                              </h3>
-                              <p className="text-[10px] text-slate-300 leading-normal font-sans font-light">
-                                {lang === 'en' 
-                                  ? 'Equipped with cutting-edge science labs, high-tech robotics studios, and spacious libraries.' 
-                                  : 'បំពាក់ដោយមន្ទីរពិសោធន៍វិទ្យាសាស្ត្រទំនើប ស្ទូឌីយ៉ូរ៉ូបូត និងបណ្ណាល័យធំទូលាយ។'}
-                              </p>
-                            </div>
-                          </div>
 
                           {/* Column 3: High-Tech Pathway Card */}
                           <div className="lg:col-span-4 bg-gradient-to-b from-[#051445]/60 to-[#0c2269]/60 backdrop-blur-xl text-white rounded-3xl p-6 md:p-8 border-2 border-[#C5A059]/30 space-y-6 relative overflow-hidden shadow-2xl min-h-[380px] flex flex-col justify-between hover:border-[#C5A059]/60 hover:-translate-y-1.5 transition-all duration-300 group">
@@ -1987,22 +2070,8 @@ export default function App() {
                                 </a>
                               </div>
 
-                              {/* Facebook Page Plugin Iframe */}
-                              <div className="relative w-full bg-white flex justify-center">
-                                <iframe
-                                  key={activeFacebookChannel.id}
-                                  src={`https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(activeFacebookChannel.url)}&tabs=timeline&width=500&height=820&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true`}
-                                  width="100%"
-                                  height="820"
-                                  style={{ border: 'none', overflow: 'hidden' }}
-                                  scrolling="yes"
-                                  frameBorder="0"
-                                  allowFullScreen={true}
-                                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                                  title={`${activeFacebookChannel.name} Facebook Live Feed`}
-                                  className="w-full h-[820px] bg-white"
-                                />
-                              </div>
+                              {/* Facebook Page Plugin Iframe (Lazy-mounted via IntersectionObserver to save RAM & CPU) */}
+                              <FacebookLiveFrame activeChannel={activeFacebookChannel} lang={lang} />
 
                               {/* Bottom bezel bar with scroll hint */}
                               <div className="bg-slate-100/90 border-t border-slate-200 px-4 py-2 flex items-center justify-between text-[11px] text-slate-500 font-sans select-none">
